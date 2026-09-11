@@ -70,7 +70,13 @@
 | K | Context V3 | Context budget management, relevance scoring, priority-based inclusion |
 | M | Optimization | Multi-target optimization, constraint enforcement, audit trail |
 | N | Observability | Structured logging, decision tracing |
-| O | Policy V3 | Immutable governance, security regression, prompt injection, tool authorization |
+|| O | Policy V3 | Immutable governance, security regression, prompt injection, tool authorization |
+|| P | Experience V3.1 | Structured experience extraction, quality scoring, evidence pipeline |
+|| R | Retrieval V3.1 | Multi-factor retrieval, confidence calibration, historical usefulness, explainability |
+|| S | Strategy V3.1 | Strategy generation from experiences, policy/capability/evidence validation |
+|| T | Learning→Decision | Decision context, strategy-influenced selection, impact tracking |
+|| U | Adaptive Explore | Adaptive rate (2-20%), purposeful candidate selection, result learning |
+|| V | Evaluation V3.1 | Learning Gain, Generalization Gain, Failure Avoidance, Decision Influence |
 
 ## Key Design Decisions
 

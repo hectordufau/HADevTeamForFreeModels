@@ -97,6 +97,32 @@ New specialist agents can be added by creating a `PROFILE.yaml` with their capab
 - Nous Portal account (free)
 - `hermes setup --portal` configured
 
+## V3.1 Learning Optimization & Decision Intelligence
+
+V3.1 improves how the harness converts accumulated experience into better engineering decisions. Built on V3.0's foundational learning modules, it adds:
+
+- **Experience Extraction 2.0** — Structured experience representation with task context, strategy, outcome, failures, evidence links, and quality scoring
+- **Memory Retrieval 2.0** — Multi-factor retrieval (similarity, usefulness, applicability, confidence, evidence quality, recency) with historical usefulness tracking and confidence calibration
+- **Learned Strategy Layer** — Strategy generation from accumulated experiences, validation against policy/capabilities/evidence
+- **Learning→Decision Coupling** — Standardized decision context, strategy-influenced model/agent/workflow selection with impact tracking
+- **Adaptive Exploration** — Exploration rate adapts to confidence (2-20%), purposeful candidate selection maximizing information gain
+- **Learning Evaluation** — Learning Gain, Generalization Gain, Failure Avoidance, Decision Influence, and Learning Efficiency metrics
+
+### Architecture (V3.1 Additions)
+
+```
+Experience Extraction 2.0 → Memory Retrieval 2.0 → Learned Strategy → Decision Coupling
+         ↓                         ↓                        ↓                  ↓
+    Quality Scoring         Confidence Calibration     Validation        Impact Tracking
+```
+
+### Documentation
+
+| Document | Purpose |
+|---|---|
+| [`docs/V3.1/PRE_IMPLEMENTATION_AUDIT.md`](./docs/V3.1/PRE_IMPLEMENTATION_AUDIT.md) | Pre-implementation audit of V3.0 codebase |
+| [`docs/V3.1/VALIDATION_REPORT.md`](./docs/V3.1/VALIDATION_REPORT.md) | V3.1 validation results and release gates |
+
 ## License
 
 MIT

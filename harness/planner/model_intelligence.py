@@ -1,7 +1,10 @@
-# harness/planner/model_intelligence.py — Model Intelligence V3 (Phase F)
+# harness/planner/model_intelligence.py — Model Intelligence V3 (Phase F) + V3.1 Adaptive Exploration
 """
 Model specialization profiles, adaptive model policy V3, exploration vs exploitation,
 model experiment tracking, and free model invariant enforcement.
+
+V3.1 Enhancement: Adaptive exploration rate based on confidence, purposeful candidate
+selection, and exploration result learning.
 """
 
 from typing import Any, Dict, List, Optional, Tuple
@@ -10,6 +13,7 @@ from datetime import datetime
 import json
 import os
 import random
+import math
 
 
 class ModelIntelligenceError(Exception):
@@ -92,8 +96,79 @@ class ModelProfileStore:
         return profiles
 
 
+class ExplorationResultLearner:
+    """
+    V3.1: Learns from exploration results to improve future exploration.
+
+    Tracks which exploration choices yielded useful data and which didn't,
+    adjusting the exploration strategy over time.
+    """
+
+    def __init__(self, storage_dir: str = ""):
+        self.storage_dir = storage_dir or os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "..", "artifacts", "exploration_results"
+        )
+        os.makedirs(self.storage_dir, exist_ok=True)
+        self._results: List[Dict[str, Any]] = []
+        self._load()
+
+    def record(self, model_id: str, capability: str,
+               result_score: float, exploration_choice: str):
+        """Record an exploration result."""
+        entry = {
+            "experiment_id": f"explore_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}",
+            "model_id": model_id,
+            "capability": capability,
+            "result_score": result_score,
+            "exploration_choice": exploration_choice,
+            "timestamp": datetime.utcnow().isoformat(),
+        }
+        self._results.append(entry)
+        self._save()
+
+    def get_best_exploration_for(self, capability: str) -> Optional[str]:
+        """Get the best previously-explored model for a capability."""
+        candidates = [
+            r for r in self._results
+            if r.get("capability") == capability and r.get("result_score", 0) > 0.5
+        ]
+        if not candidates:
+            return None
+        return max(candidates, key=lambda r: r["result_score"]).get("model_id")
+
+    def get_exploration_quality(self, capability: str) -> float:
+        """Get the average result score for exploration in a capability area."""
+        scores = [
+            r["result_score"] for r in self._results
+            if r.get("capability") == capability
+        ]
+        if not scores:
+            return 0.5  # neutral
+        return sum(scores) / len(scores)
+
+    def _load(self):
+        """Load exploration results from disk."""
+        for fname in os.listdir(self.storage_dir):
+            if fname.endswith(".json"):
+                with open(os.path.join(self.storage_dir, fname)) as f:
+                    self._results.append(json.load(f))
+
+    def _save(self):
+        """Save exploration results to disk."""
+        for entry in self._results:
+            path = os.path.join(self.storage_dir, f"{entry['experiment_id']}.json")
+            with open(path, "w") as f:
+                json.dump(entry, f, indent=2)
+
+
 class AdaptiveModelPolicyV3:
     """V3 adaptive model selection with exploration/exploitation tradeoff.
+
+    V3.1 Enhancement:
+    - Adaptive exploration rate based on confidence in current best model
+    - Purposeful candidate selection (maximizing information gain + potential improvement)
+    - Exploration result learning
 
     Features:
     - 90/10 exploration vs exploitation split
@@ -101,19 +176,23 @@ class AdaptiveModelPolicyV3:
     - Fallback to V2 behavior for unknown capabilities
     """
 
-    EXPLORATION_RATE = 0.10  # 10% exploration
+    EXPLORATION_RATE = 0.10  # base 10% exploration
 
     def __init__(self, catalog: Any, performance_registry_v3: Any,
-                 fallback_router: Any, profile_store: Optional[ModelProfileStore] = None):
+                 fallback_router: Any, profile_store: Optional[ModelProfileStore] = None,
+                 exploration_learner: Optional[ExplorationResultLearner] = None):
         self.catalog = catalog
         self.perf_registry = performance_registry_v3
         self.fallback_router = fallback_router
         self.profile_store = profile_store or ModelProfileStore()
+        self.exploration_learner = exploration_learner or ExplorationResultLearner()
 
     def select(self, required_capabilities: List[str],
                role: str = "", task_id: str = "",
                force_exploit: bool = False) -> Any:
         """Select a model using adaptive policy V3.
+
+        V3.1: Uses adaptive exploration rate based on confidence.
 
         Args:
             required_capabilities: Capabilities needed.
@@ -124,24 +203,104 @@ class AdaptiveModelPolicyV3:
         Returns:
             A ModelSelection (or similar) with the chosen model.
         """
-        # Exploration: 10% of the time, try a random free model
-        if not force_exploit and random.random() < self.EXPLORATION_RATE:
+        # Compute adaptive exploration rate
+        adaptive_rate = self._compute_exploration_rate(required_capabilities)
+
+        # Exploration: adaptively choose rate
+        if not force_exploit and random.random() < adaptive_rate:
             return self._explore(required_capabilities, role, task_id)
 
         # Exploitation: use best known model
         return self._exploit(required_capabilities, role, task_id)
 
+    def _compute_exploration_rate(self, caps: List[str]) -> float:
+        """
+        V3.1: Compute adaptive exploration rate based on confidence.
+
+        Lower rate when confidence is high (exploit known strong models).
+        Higher rate when confidence is low (need to discover better options).
+        """
+        if not caps:
+            return self.EXPLORATION_RATE  # default
+
+        # Get confidence in best model for each capability
+        confidences = []
+        for cap in caps:
+            if self.perf_registry:
+                models = self.perf_registry.rank_models(cap)
+                if models:
+                    confidences.append(models[0].confidence_score())
+                else:
+                    confidences.append(0.0)  # no data -> high exploration
+            else:
+                confidences.append(0.5)
+
+        avg_confidence = sum(confidences) / max(len(confidences), 1)
+
+        # Map: no data (0.0) -> 20% exploration, high confidence (1.0) -> 2% exploration
+        rate = 0.20 - avg_confidence * 0.18
+        return max(0.02, min(0.20, rate))
+
     def _explore(self, caps: List[str], role: str, task_id: str) -> Any:
-        """Explore: select a random free model for data collection."""
+        """
+        V3.1: Purposeful exploration — maximize information gain + improvement potential.
+
+        Instead of purely random exploration, favor models that:
+        1. Have limited data (high information gain potential)
+        2. Show promise in related capabilities
+        """
         free_models = self.catalog.list_free() if self.catalog else []
         if not free_models:
             return self.fallback_router.select(caps, role=role)
 
-        # Pick a random free model
-        model = random.choice(free_models)
+        # Score each candidate model for exploration
+        candidates = []
+        for model in free_models:
+            score = 0.0
 
-        # Create a simple ModelSelection-like result
-        return self._make_selection(model.model_id, role, caps, is_exploration=True)
+            # Information gain: prefer models with less data
+            for cap in caps:
+                count = self.perf_registry.get_sample_count(model.model_id, cap) if self.perf_registry else 0
+                info_gain = max(0, 5 - count) / 5.0  # 0 data -> 1.0, 5+ data -> 0.0
+                score += info_gain * 0.5
+
+                # Potential improvement: check if related model did well
+                best = self.exploration_learner.get_best_exploration_for(cap)
+                if best and best != model.model_id:
+                    score += 0.2  # room for improvement
+
+                # Previous exploration result
+                prev_quality = self.exploration_learner.get_exploration_quality(cap)
+                if prev_quality > 0.3:
+                    score += prev_quality * 0.3
+
+            candidates.append((model, score))
+
+        # Sort by score, pick from top candidates probabilistically
+        candidates.sort(key=lambda x: x[1], reverse=True)
+
+        # Weighted random selection from top 3 (or fewer)
+        top_n = min(3, len(candidates))
+        if top_n == 0:
+            return self.fallback_router.select(caps, role=role)
+
+        weights = [max(0.1, 1.0 - i * 0.3) for i in range(top_n)]
+        total = sum(weights)
+        weights = [w / total for w in weights]
+
+        chosen_idx = random.choices(range(top_n), weights=weights)[0]
+        chosen_model = candidates[chosen_idx][0]
+
+        # Record the exploration choice
+        for cap in caps:
+            self.exploration_learner.record(
+                model_id=chosen_model.model_id,
+                capability=cap,
+                result_score=0.0,  # will be updated when result comes in
+                exploration_choice="purposeful",
+            )
+
+        return self._make_selection(chosen_model.model_id, role, caps, is_exploration=True)
 
     def _exploit(self, caps: List[str], role: str, task_id: str) -> Any:
         """Exploit: use best known model from performance registry."""
