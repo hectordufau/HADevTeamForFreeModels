@@ -2,7 +2,7 @@
 """Task Analyzer, Workflow Planner, Validator, Execution Graph, and adaptive replanning."""
 
 from .task_analyzer import TaskAnalyzer, TaskAnalyzerError, CapabilityRequirements, MANDATORY_CAPABILITIES
-from .workflow_planner import WorkflowPlanner, WorkflowPlannerError, WorkflowNode, ExecutionWorkflow, DEFAULT_AGENT_FOR_CAPABILITY
+from .workflow_planner import WorkflowPlanner, WorkflowPlannerError, WorkflowNode, ExecutionWorkflow
 from .workflow_validator import WorkflowValidator, WorkflowValidatorError, ValidationResult
 from .exec_graph import ExecutionGraph, ExecutionGraphError, NodeExecutionResult
 from .workspace import WorkspaceManager, WorkspaceManagerError, Conflict
@@ -13,7 +13,6 @@ from .replanner import Replanner, ReplannerError, ReplanReport
 __all__ = [
     "TaskAnalyzer", "TaskAnalyzerError", "CapabilityRequirements", "MANDATORY_CAPABILITIES",
     "WorkflowPlanner", "WorkflowPlannerError", "WorkflowNode", "ExecutionWorkflow",
-    "DEFAULT_AGENT_FOR_CAPABILITY",
     "WorkflowValidator", "WorkflowValidatorError", "ValidationResult",
     "ExecutionGraph", "ExecutionGraphError", "NodeExecutionResult",
     "WorkspaceManager", "WorkspaceManagerError", "Conflict",

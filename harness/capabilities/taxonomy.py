@@ -21,13 +21,13 @@ class CapabilityTaxonomy:
         # Internal lookup maps
         self._children: Dict[str, List[str]] = {}  # parent -> children
         self._parents: Dict[str, List[str]] = {}   # child -> parents
+        self._dependencies: Dict[str, List[str]] = {}  # capability -> dependencies
         self._all_capabilities: Set[str] = set()
 
         if taxonomy_path is None:
-            taxonomy_path = os.path.join(
-                os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                "config", "capability_taxonomy.yaml"
-            )
+            # Walk up from harness/capabilities/ -> config/
+            base = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            taxonomy_path = os.path.join(base, "config", "capability_taxonomy.yaml")
 
         if os.path.exists(taxonomy_path):
             self.load(taxonomy_path)
@@ -48,6 +48,14 @@ class CapabilityTaxonomy:
 
         self._tree = data
         self._build_index(self._tree.get("engineering", {}))
+
+        # Load declarative capability dependencies
+        deps = data.get("capability_dependencies", {})
+        if isinstance(deps, dict):
+            self._dependencies = {
+                cap: list(dep_list) if isinstance(dep_list, list) else []
+                for cap, dep_list in deps.items()
+            }
 
     def _build_index(self, subtree: dict, parent_path: Optional[str] = None):
         """Recursively build parent/child index from tree."""
@@ -110,3 +118,11 @@ class CapabilityTaxonomy:
     def capability_exists(self, capability: str) -> bool:
         """Check if a capability is defined in the taxonomy."""
         return capability in self._all_capabilities
+
+    def get_dependencies(self, capability: str) -> List[str]:
+        """Get the declared dependencies of a capability (from capabilility_dependencies config)."""
+        return list(self._dependencies.get(capability, []))
+
+    def has_dependencies_declared(self, capability: str) -> bool:
+        """Check if a capability has dependency declarations in config."""
+        return capability in self._dependencies

@@ -133,6 +133,13 @@ class CapabilityGraph:
         if result:
             self._nodes[node_id].result = result
 
+    def get_dependencies(self, capability: str) -> List[str]:
+        """Get dependency capability IDs for a given capability from the graph structure."""
+        node = self._nodes.get(capability)
+        if node:
+            return list(node.dependencies)
+        return []
+
     def get_all_nodes(self) -> List[CapabilityNode]:
         """Return all nodes."""
         return list(self._nodes.values())

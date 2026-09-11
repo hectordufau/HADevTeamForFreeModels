@@ -55,3 +55,33 @@ agent_capability_mapping:
   verification: engineering.quality.testing
   evaluation: engineering.quality
   planning: engineering.architecture.system_design
+
+# V2.2.1 — Declarative capability dependencies (authoritative, consumed by CapabilityGraph)
+# Planner reads these from the graph, never from hard-coded rules.
+capability_dependencies:
+  api_design: []
+  system_design: []
+  domain_modeling: []
+  integration_design: []
+  backend_development: [api_design, system_design]
+  api_implementation: [api_design]
+  database_schema: [api_design]
+  frontend_development: [api_design, system_design]
+  ui_implementation: [api_design]
+  refactoring: []
+  testing: [backend_development, api_implementation]
+  unit_testing: [backend_development]
+  integration_testing: [backend_development, api_implementation]
+  e2e_testing: [testing]
+  security_analysis: [backend_development, api_implementation]
+  vulnerability_assessment: [backend_development]
+  profiling: [backend_development]
+  optimization: [profiling]
+  technical_writing: [backend_development, api_implementation]
+  api_documentation: [api_implementation]
+  ci_cd: [testing]
+  deployment: [ci_cd]
+  code_review: [testing, security_analysis]
+  verification: [backend_development, api_implementation]
+  evaluation: [testing, security_analysis]
+  review: [testing, security_analysis]

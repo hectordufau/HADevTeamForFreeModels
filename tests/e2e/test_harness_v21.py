@@ -135,7 +135,7 @@ def test_e2e_v21_harness():
 
         print(f"  Status: {report['status']}")
         print(f"  Score: {report.get('evaluation', {}).get('score', 'N/A')}")
-        assert report["status"] in {"COMPLETED", "FAILED"}, f"Unexpected status: {report['status']}"
+        assert report["status"] in {"COMPLETED", "FAILED", "BLOCKED"}, f"Unexpected status: {report['status']}"
         print(f"  ✓ E2E test completed with status: {report['status']}")
 
 

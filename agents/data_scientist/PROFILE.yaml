@@ -1,0 +1,18 @@
+name: FreeDataScientist
+
+capabilities:
+  - data_visualization
+  - statistical_analysis
+  - machine_learning_engineering
+
+skills:
+  - data_analysis
+  - visualization
+  - statistics
+
+tools:
+  - filesystem
+  - terminal
+
+autonomy:
+  level: 3

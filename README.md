@@ -4,9 +4,56 @@
 
 ## What is this?
 
-A set of 6 Hermes profiles that work in a pipeline to receive software engineering demands, triage, implement, test, and review code — using **only free models from the Nous Portal**.
+A **capability-driven AI Engineering Harness** that receives software engineering demands, analyzes what capabilities they require, selects from registered agent profiles by capability match, and executes a dynamic, verified workflow — using **only free models from the Nous Portal**.
 
-**V2.0** transforms this into an **AI Engineering Harness** with formal task contracts, state machines, context engineering, verification, evidence, evaluation, and controlled iteration.
+### V2.2 Capability-Driven Architecture
+
+Instead of asking **"What is the next step in a fixed workflow?"** , the Harness asks:
+
+**"What needs to be done next, and what capabilities are required?"**
+
+```
+CAPABILITY → AGENT → MODEL
+```
+
+Not:
+
+```
+FIXED ROLE → FIXED AGENT → MODEL
+```
+
+Capabilities drive what must be done. Agents are selected by their declared capabilities (via `CapabilityRegistry`). Models are assigned by policy. **Roles are metadata, not workflow primitives.**
+
+### How it works
+
+1. **Task intake** → Formal `TaskContract` with objective, acceptance criteria, allowed changes
+2. **Task analysis** (`TaskAnalyzer`) → What capabilities are needed? (e.g., `api_design`, `backend_development`, `testing`, `review`)
+3. **Capability matching** (`CapabilityMatcher` + `CapabilityRegistry`) → Find agents that declare each required capability
+4. **Dependency resolution** (`CapabilityGraph` + declarative `capability_dependencies` config) → Build a DAG of capability dependencies
+5. **Workflow planning** (`WorkflowPlanner`) → Assign agents to capabilities, build an `ExecutionWorkflow`
+6. **Workflow validation** (`WorkflowValidator`) → 10 checks: DAG integrity, mandatory gates, free models, reviewer independence, workspace conflicts
+7. **Dynamic execution** (`ExecutionGraph`) → Execute the DAG in dependency order, independent nodes in parallel
+8. **Verification** → Unit tests, lint, build checks
+9. **Evaluation** → Acceptance criteria scoring
+10. **Review** → Independent reviewer gate
+11. **Iteration** → On failure: `FailureAnalyzer` → `Replanner` → re-execute (max 3 attempts)
+
+### Mandatory gates (never bypassed)
+
+| Gate | Enforced by |
+|------|-------------|
+| Verification | `WorkflowValidator`, `VerificationEngine` |
+| Evaluation | `WorkflowValidator`, `AdvancedEvaluationEngine` |
+| Independent review | `WorkflowValidator` (check #10) |
+| Free models only | `WorkflowValidator` (cost = 0) |
+| DAG integrity | `CapabilityGraph.has_cycle()`, `WorkflowValidator` |
+
+### What's NOT in V2.2
+
+- No hard-coded role sequences (manager → architect → coder → tester → reviewer)
+- No `DEFAULT_AGENT_FOR_CAPABILITY` fallback — the `CapabilityRegistry` is **authoritative**
+- No hard-coded capability dependency rules — all dependencies are **declarative** in `config/capability_taxonomy.yaml`
+- No role-based workflow logic — roles are **metadata** (used for display, not for routing)
 
 ## Quick Start
 
@@ -22,30 +69,27 @@ Then in Hermes chat:
 /devteamfree <your demand>
 ```
 
-## V2.0 Documentation
+## Documentation
 
 | Document | Purpose |
 |---|---|
-| [`SPEC-V2.md`](./SPEC-V2.md) | Full architectural specification |
-| [`IMPLEMENTATION-PLAN-V2.md`](./IMPLEMENTATION-PLAN-V2.md) | Ordered implementation tasks for autonomous execution |
-| [`setup.py`](./setup.py) | Generates profiles from current Nous Portal FREE models |
+| [`SPEC-V2.md`](./SPEC-V2.md) | V2.0 architectural specification |
+| [`SPEC-V2.2.md`](./SPEC-V2.2.md) | V2.2 capability-driven architecture specification |
+| [`IMPLEMENTATION-PLAN-V2.md`](./IMPLEMENTATION-PLAN-V2.md) | Ordered implementation tasks |
+| [`setup.py`](./setup.py) | Generates profiles from Nous Portal FREE models |
 
-## Profiles
+## Agent Profiles (V2.1 roles — used as metadata, not workflow primitives)
 
-| Profile | Role | Default FREE Model |
+| Profile | Role | Capabilities |
 |---|---|---|
-| `devfree-manager` | Triage/orchestration | Meituan LongCat 2.0 |
-| `devfree-architect` | Architecture/security | Poolside Laguna S 2.1 |
-| `devfree-coder` | Implementation | Meituan LongCat 2.0 |
-| `devfree-tester` | Tests/debug | StepFun Step 3.7 Flash |
-| `devfree-reviewer` | Code review | Poolside Laguna S 2.1 |
-| `devfree-worker` | Simple tasks | Upstage Solar Pro 4 |
+| `devfree-manager` | Triage/orchestration | `orchestration`, `task_classification`, `complexity_assessment` |
+| `devfree-architect` | Architecture/security | `architecture`, `system_design`, `security` |
+| `devfree-coder` | Implementation | `coding`, `refactoring`, `testing` |
+| `devfree-tester` | Tests/debug | `testing`, `debugging`, `verification` |
+| `devfree-reviewer` | Code review | `code_review`, `reasoning`, `security` |
+| `devfree-worker` | Simple tasks | `coding`, `debugging` |
 
-## How to implement V2.0
-
-An autonomous agent can implement the full V2.0 specification by reading `SPEC-V2.md` + `IMPLEMENTATION-PLAN-V2.md` and executing the 15 tasks sequentially. Each task has defined acceptance criteria, verification steps, and scope boundaries.
-
-See [`IMPLEMENTATION-PLAN-V2.md`](./IMPLEMENTATION-PLAN-V2.md) for the autonomous agent directive.
+New specialist agents can be added by creating a `PROFILE.yaml` with their capabilities — the Harness discovers them automatically.
 
 ## Requirements
 

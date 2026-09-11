@@ -83,32 +83,6 @@ class ExecutionWorkflow:
                    max_iterations=data.get("max_iterations", 3))
 
 
-# Mapping from taxonomy capabilities to agent roles
-# Used when the CapabilityRegistry doesn't have an agent for a capability
-DEFAULT_AGENT_FOR_CAPABILITY = {
-    "api_design": "architect",
-    "system_design": "architect",
-    "domain_modeling": "architect",
-    "integration_design": "architect",
-    "backend_development": "coder",
-    "api_implementation": "coder",
-    "database_schema": "coder",
-    "frontend_development": "coder",
-    "ui_implementation": "coder",
-    "refactoring": "coder",
-    "testing": "tester",
-    "unit_testing": "tester",
-    "integration_testing": "tester",
-    "e2e_testing": "tester",
-    "security_analysis": "reviewer",
-    "vulnerability_assessment": "reviewer",
-    "code_review": "reviewer",
-    "verification": "tester",
-    "evaluation": "reviewer",
-    "review": "reviewer",
-}
-
-
 class WorkflowPlanner:
     """Builds an ExecutionWorkflow DAG from capability requirements."""
 
@@ -175,7 +149,10 @@ class WorkflowPlanner:
         # Add optional capabilities that can be covered
         for cap in optional_caps:
             if cap not in node_map:
-                agent = self._find_agent_for_capability(cap)
+                try:
+                    agent = self._find_agent_for_capability(cap)
+                except WorkflowPlannerError:
+                    continue  # skip optional caps with no agent
                 if agent:
                     model_id = self._select_model(cap, agent, task)
                     deps = self._compute_dependencies(cap, required_caps)
@@ -207,19 +184,28 @@ class WorkflowPlanner:
         return self.plan(requirements, task=task)
 
     def _find_agent_for_capability(self, capability: str) -> str:
-        """Find the best agent for a capability."""
-        # Try CapabilityRegistry first
-        if self.registry:
-            agents = self.registry.find_agents_for(capability)
-            if agents:
-                return agents[0]
-            # Try with taxonomy
-            best_agent, score = self.registry.find_best_agent([capability], self.taxonomy)
-            if best_agent and score > 0:
-                return best_agent
+        """Find the best agent for a capability via CapabilityRegistry (authoritative source)."""
+        if not self.registry:
+            raise WorkflowPlannerError(
+                f"Cannot plan: no CapabilityRegistry configured for capability '{capability}'"
+            )
 
-        # Fall back to default mapping
-        return DEFAULT_AGENT_FOR_CAPABILITY.get(capability, "coder")
+        # Exact match first
+        agents = self.registry.find_agents_for(capability)
+        if agents:
+            return agents[0]
+
+        # Try hierarchical match via taxonomy
+        best_agent, score = self.registry.find_best_agent([capability], self.taxonomy)
+        if best_agent and score > 0:
+            return best_agent
+
+        # No agent found — explicit failure, no role fallback
+        raise WorkflowPlannerError(
+            f"No agent found for capability '{capability}'. "
+            f"The CapabilityRegistry is the authoritative source for agent-capability mappings. "
+            f"NEEDS_HUMAN: Register an agent that declares this capability."
+        )
 
     def _select_model(self, capability: str, agent: str,
                       task: Any = None) -> str:
@@ -242,53 +228,15 @@ class WorkflowPlanner:
 
     def _compute_dependencies(self, capability: str,
                                required_caps: List[str]) -> List[str]:
-        """Compute dependency ordering between capabilities."""
-        # Architecture comes first
-        if capability in ("system_design", "api_design", "domain_modeling",
-                          "integration_design"):
-            return []
+        """Compute dependency ordering between capabilities from declarative config (taxonomy)."""
+        # Get declared dependencies from taxonomy config
+        if self.taxonomy:
+            declared_deps = self.taxonomy.get_dependencies(capability)
+            if declared_deps:
+                # Filter to only those present in required caps
+                return [d for d in declared_deps if d in required_caps]
 
-        # Implementation depends on architecture
-        if capability in ("backend_development", "api_implementation",
-                          "database_schema", "frontend_development",
-                          "ui_implementation", "refactoring"):
-            arch_caps = [c for c in required_caps if c in (
-                "system_design", "api_design", "domain_modeling",
-                "integration_design"
-            )]
-            return arch_caps
-
-        # Testing depends on implementation
-        if capability in ("testing", "unit_testing", "integration_testing",
-                          "e2e_testing"):
-            impl_caps = [c for c in required_caps if c in (
-                "backend_development", "api_implementation",
-                "database_schema", "frontend_development",
-                "ui_implementation", "refactoring"
-            )]
-            return impl_caps
-
-        # Security analysis depends on implementation
-        if capability in ("security_analysis", "vulnerability_assessment"):
-            impl_caps = [c for c in required_caps if c in (
-                "backend_development", "api_implementation",
-                "frontend_development", "ui_implementation"
-            )]
-            return impl_caps
-
-        # Review depends on testing and security
-        if capability in ("code_review", "review", "evaluation"):
-            return [c for c in required_caps if c in (
-                "testing", "unit_testing", "integration_testing",
-                "security_analysis"
-            )]
-
-        # Verification depends on implementation
-        if capability == "verification":
-            return [c for c in required_caps if c in (
-                "backend_development", "api_implementation",
-            )]
-
+        # No declarative deps found — capability has no dependencies
         return []
 
     def _determine_branching(self, capability: str,
