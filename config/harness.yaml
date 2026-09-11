@@ -31,3 +31,22 @@ human_approval:
     - deployment
     - destructive_operations
     - security_override
+
+# V2.1 — Advanced features
+evaluation:
+  hard_minimums:
+    correctness: 0.90
+    security: 0.90
+  enabled: true
+
+model_routing:
+  adaptive: true
+  min_records_for_history: 3
+
+memory:
+  persistent: true
+  adr_automation: true
+
+registry:
+  model_performance: true
+  db_path: artifacts/model_performance.db

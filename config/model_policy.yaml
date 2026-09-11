@@ -1,0 +1,38 @@
+# config/model_policy.yaml — Capability-based model policies (V2.1)
+policies:
+  architect:
+    capabilities:
+      - reasoning
+      - architecture
+      - code_analysis
+
+  coder:
+    capabilities:
+      - coding
+      - debugging
+      - code_generation
+
+  tester:
+    capabilities:
+      - testing
+      - debugging
+      - reasoning
+
+  reviewer:
+    capabilities:
+      - code_review
+      - reasoning
+      - security
+
+  manager:
+    capabilities:
+      - reasoning
+      - orchestration
+      - task_classification
+
+fallback:
+  enabled: true
+  strategy: next_best_candidate
+
+provider: nous
+cost_maximum: 0
