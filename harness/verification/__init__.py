@@ -63,6 +63,18 @@ class AcceptanceVerifier(Verifier):
                            output="Not yet implemented — requires acceptance test runner")
 
 
+class IntegrationTestVerifier(Verifier):
+    def verify(self, task: Any, workspace: str) -> CheckResult:
+        return CheckResult(name="integration_tests", status="skipped",
+                           output="Not yet implemented — requires integration test runner")
+
+
+class SecurityVerifier(Verifier):
+    def verify(self, task: Any, workspace: str) -> CheckResult:
+        return CheckResult(name="security", status="skipped",
+                           output="Not yet implemented — requires security scanner integration")
+
+
 class VerificationEngine:
     """Orchestrates verification checks."""
 

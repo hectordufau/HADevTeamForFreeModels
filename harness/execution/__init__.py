@@ -24,7 +24,7 @@ class ExecutionResult:
 
 
 class AgentExecutor:
-    """Executes an agent within controlled boundaries."""
+    """Executes an agent within controlled boundaries, with autonomy and tool policy enforcement."""
 
     def __init__(self, autonomy_policy: Optional[dict] = None):
         self.autonomy_policy = autonomy_policy or {}
@@ -35,6 +35,7 @@ class AgentExecutor:
         model_id: str,
         task_contract: Any,
         context_pack: Any,
+        tool_name: str = "",
     ) -> ExecutionResult:
         """
         Execute an agent with the given context and model.
@@ -58,6 +59,16 @@ class AgentExecutor:
             result.status = "failed"
             result.error = f"Effective autonomy too low: {effective_autonomy}"
             return result
+
+        # Check tool policy if tool_name provided
+        if tool_name:
+            from harness.policy import ToolPolicy
+            tool_policy = ToolPolicy()
+            tool_result = tool_policy.check(tool_name, effective_autonomy)
+            if not tool_result.allowed:
+                result.status = "failed"
+                result.error = f"Tool policy violation: {tool_result.violations[0]['reason']}"
+                return result
 
         # In a full implementation, this would invoke Hermes Agent with:
         #  - model_id as the selected model

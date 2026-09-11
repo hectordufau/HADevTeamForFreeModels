@@ -40,14 +40,31 @@ class EvidenceCollector:
     def __init__(self, storage_dir: str = "artifacts/evidence"):
         self.storage_dir = storage_dir
 
-    def collect(self, execution_result: Any, task_id: str) -> Evidence:
-        """Build an Evidence record from an execution result."""
+    def collect(self, execution_result: Any, task_id: str, workspace: str = ".") -> Evidence:
+        """Build an Evidence record from an execution result, including git diff."""
+        # Attempt git diff collection
+        git_diff = ""
+        git_diff_available = False
+        try:
+            import subprocess
+            result = subprocess.run(
+                ["git", "diff", "--stat"],
+                capture_output=True, text=True, timeout=5, cwd=workspace,
+            )
+            if result.returncode == 0 and result.stdout.strip():
+                git_diff = result.stdout.strip()
+                git_diff_available = True
+        except Exception:
+            pass
+
         evidence = Evidence(
             task_id=task_id,
             changed_files=execution_result.changes if hasattr(execution_result, "changes") else [],
             execution_metadata={
                 "status": execution_result.status if hasattr(execution_result, "status") else "unknown",
                 "claims": execution_result.claims if hasattr(execution_result, "claims") else [],
+                "git_diff_available": git_diff_available,
+                "git_diff": git_diff,
             },
         )
         return evidence

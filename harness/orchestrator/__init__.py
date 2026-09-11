@@ -175,7 +175,7 @@ class Orchestrator:
             iteration += 1
 
         # --- Review phase ---
-        if state.current_state not in {"FAILED", "CANCELLED", "NEEDS_HUMAN", "COMPLETED"}:
+        if state.current_state not in {"FAILED", "CANCELLED", "NEEDS_HUMAN", "COMPLETED", "BLOCKED"}:
             state.transition("REVIEWING")
             self._save_state(task_id)
 
