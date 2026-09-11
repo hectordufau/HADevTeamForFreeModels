@@ -1,0 +1,20 @@
+name: FreeCoder
+
+capabilities:
+  - coding
+  - debugging
+  - refactoring
+  - testing
+
+skills:
+  - programming
+  - git
+  - build_systems
+
+tools:
+  - filesystem
+  - terminal
+  - git
+
+autonomy:
+  level: 3

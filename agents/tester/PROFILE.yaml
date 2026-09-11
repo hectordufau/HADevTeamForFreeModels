@@ -1,0 +1,19 @@
+name: FreeTester
+
+capabilities:
+  - testing
+  - debugging
+  - bug_reproduction
+  - verification
+
+skills:
+  - test_writing
+  - ci_cd
+
+tools:
+  - filesystem
+  - terminal
+  - git
+
+autonomy:
+  level: 3

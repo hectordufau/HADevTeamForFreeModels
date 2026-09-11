@@ -1,0 +1,33 @@
+# Task-001: Repository Baseline and V2 Foundation
+# config/harness.yaml — main V2 Harness configuration
+
+version: "2.0"
+
+harness:
+  name: HADevTeamForFreeModels
+  mode: software-engineering
+
+models:
+  provider: nous
+  cost:
+    maximum: 0
+
+execution:
+  max_iterations: 3
+  require_task_contract: true
+  require_verification: true
+  require_evidence: true
+  require_evaluation: true
+
+autonomy:
+  default_level: 2
+
+workspace:
+  isolated: true
+
+human_approval:
+  required_for:
+    - production
+    - deployment
+    - destructive_operations
+    - security_override

@@ -1,0 +1,18 @@
+apiVersion: harness/v1
+kind: Task
+
+metadata:
+  id: ""
+  title: ""
+
+spec:
+  objective: ""
+  requirements: []
+  constraints: []
+  acceptance_criteria: []
+  allowed_changes: []
+  forbidden_changes: []
+  verification:
+    required: []
+  autonomy:
+    maximum: 3

@@ -1,0 +1,19 @@
+name: FreeReviewer
+
+capabilities:
+  - code_review
+  - reasoning
+  - security
+  - architecture
+
+skills:
+  - code_review
+  - security_audit
+  - quality_assurance
+
+tools:
+  - filesystem
+  - terminal
+
+autonomy:
+  level: 3

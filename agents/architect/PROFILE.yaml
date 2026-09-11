@@ -1,0 +1,20 @@
+name: FreeArchitect
+
+capabilities:
+  - reasoning
+  - architecture
+  - code_analysis
+  - security
+  - design_patterns
+
+skills:
+  - system_design
+  - security_review
+  - technical_writing
+
+tools:
+  - filesystem
+  - terminal
+
+autonomy:
+  level: 2
