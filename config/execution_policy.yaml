@@ -1,0 +1,30 @@
+# config/execution_policy.yaml — Execution policies for V2.1
+# Controls iteration limits, required checks, and retry strategies.
+
+max_iterations: 3
+
+require_task_contract: true
+require_verification: true
+require_evidence: true
+require_evaluation: true
+
+retry:
+  max_retries: 3
+  strategy: exponential_backoff
+  backoff_base_seconds: 2
+
+failure_handling:
+  TEST_FAILURE: retry
+  BUILD_FAILURE: retry
+  SECURITY_FAILURE: block
+  SCOPE_VIOLATION: block
+  ARCHITECTURE_FAILURE: architect_review
+  MODEL_FAILURE: fallback_model
+  AGENT_FAILURE: retry
+  TOOL_FAILURE: retry
+  HARNESS_FAILURE: escalate
+
+timeout:
+  default_seconds: 300
+  test_timeout_seconds: 120
+  build_timeout_seconds: 300

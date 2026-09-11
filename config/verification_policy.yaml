@@ -1,0 +1,33 @@
+# config/verification_policy.yaml — Verification policies for V2.1
+# Defines which checks are required and their thresholds.
+
+required_checks:
+  - unit_tests
+  - build
+  - lint
+
+optional_checks:
+  - integration_tests
+  - security_scan
+  - coverage
+
+thresholds:
+  unit_tests:
+    min_pass_rate: 1.0  # 100% must pass
+  build:
+    exit_code: 0
+  lint:
+    max_warnings: 10
+  coverage:
+    min_percent: 80
+
+security:
+  required: true
+  min_score: 0.90
+  block_on_failure: true
+
+evidence:
+  collect_commands: true
+  collect_exit_codes: true
+  collect_output: true
+  collect_git_diff: true
