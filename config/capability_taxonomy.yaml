@@ -1,0 +1,57 @@
+# config/capability_taxonomy.yaml — Capability hierarchy for V2.2
+engineering:
+  architecture:
+    system_design: {}
+    api_design: {}
+    integration_design: {}
+    domain_modeling: {}
+
+  implementation:
+    backend:
+      backend_development: {}
+      api_implementation: {}
+      database_schema: {}
+    frontend:
+      frontend_development: {}
+      ui_implementation: {}
+    refactoring: {}
+
+  quality:
+    testing:
+      unit_testing: {}
+      integration_testing: {}
+      e2e_testing: {}
+    security:
+      security_analysis: {}
+      vulnerability_assessment: {}
+    performance:
+      profiling: {}
+      optimization: {}
+
+  delivery:
+    documentation:
+      technical_writing: {}
+      api_documentation: {}
+    release:
+      ci_cd: {}
+      deployment: {}
+
+# V2.1 agent capability mappings -> taxonomy alignment
+# These are the capabilities used by existing agents
+agent_capability_mapping:
+  coding: engineering.implementation.refactoring
+  debugging: engineering.implementation
+  reasoning: engineering.architecture
+  architecture: engineering.architecture.system_design
+  code_analysis: engineering.architecture
+  testing: engineering.quality.testing
+  bug_reproduction: engineering.quality.testing
+  code_review: engineering.architecture
+  security: engineering.quality.security
+  design_patterns: engineering.architecture
+  orchestration: engineering.delivery
+  task_classification: engineering.architecture
+  complexity_assessment: engineering.architecture
+  verification: engineering.quality.testing
+  evaluation: engineering.quality
+  planning: engineering.architecture.system_design

@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 .env
 artifacts/model_performance.db
+artifacts/executions/
+tasks/active/

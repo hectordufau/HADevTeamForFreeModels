@@ -1,15 +1,16 @@
-# harness/orchestrator/__init__.py — Orchestrator and End-to-End Harness (V2.1)
+# harness/orchestrator/__init__.py — Orchestrator and End-to-End Harness (V2.2)
 """
 The Orchestrator is the central coordination component.
 Controls the complete task lifecycle from intake to delivery.
-Integrates: WorkflowEngine, PolicyEngine, AdaptiveModelRouter,
-AdvancedEvaluation, MemoryManager, PerformanceRegistry.
+V2.2: uses capability-driven planner pipeline when enabled.
+V2.1 fallback via config flag `use_v21_workflow`.
 """
 
 from typing import Any, Dict, List, Optional
 from datetime import datetime
 import os
 import yaml
+import asyncio
 
 
 class OrchestratorError(Exception):
@@ -17,7 +18,7 @@ class OrchestratorError(Exception):
 
 
 class Orchestrator:
-    """Coordinates the complete task lifecycle with all V2.1 integrations."""
+    """Coordinates the complete task lifecycle with all V2.1/V2.2 integrations."""
 
     def __init__(
         self,
@@ -38,6 +39,17 @@ class Orchestrator:
         memory_manager: Optional[Any] = None,
         performance_registry: Optional[Any] = None,
         adaptive_router: Optional[Any] = None,
+        # V2.2 additions
+        capability_registry: Optional[Any] = None,
+        capability_taxonomy: Optional[Any] = None,
+        task_analyzer: Optional[Any] = None,
+        workflow_planner: Optional[Any] = None,
+        workflow_validator: Optional[Any] = None,
+        execution_graph: Optional[Any] = None,
+        failure_analyzer: Optional[Any] = None,
+        replanner: Optional[Any] = None,
+        branch_resolver: Optional[Any] = None,
+        workspace_manager: Optional[Any] = None,
     ):
         self.config = config
         self.state = state_manager
@@ -56,16 +68,25 @@ class Orchestrator:
         self.memory = memory_manager
         self.registry = performance_registry
         self.adaptive_router = adaptive_router
+        # V2.2
+        self.cap_registry = capability_registry
+        self.cap_taxonomy = capability_taxonomy
+        self.task_analyzer = task_analyzer
+        self.workflow_planner = workflow_planner
+        self.workflow_validator = workflow_validator
+        self.execution_graph = execution_graph
+        self.failure_analyzer = failure_analyzer
+        self.replanner = replanner
+        self.branch_resolver = branch_resolver
+        self.workspace_manager = workspace_manager
         self._artifacts_dir = "artifacts/executions"
 
     def run(self, task_id: str, workflow_name: str = "default") -> Dict[str, Any]:
         """
         Execute a complete task lifecycle.
 
-        Uses WorkflowEngine if available, otherwise falls back to
-        the hard-coded pipeline. Integrates PolicyEngine checks,
-        AdaptiveModelRouter, AdvancedEvaluation, Memory, and
-        PerformanceRegistry throughout the lifecycle.
+        Uses V2.2 capability-driven pipeline if all components are configured,
+        otherwise falls back to V2.1 WorkflowEngine or hard-coded steps.
 
         Returns the final execution record with complete artifacts.
         """
@@ -83,41 +104,272 @@ class Orchestrator:
         else:
             memory_context = []
 
-        # --- If WorkflowEngine is available, use it ---
-        if self.workflow:
-            wf_path = os.path.join("config", "workflow_definitions", f"{workflow_name}.yaml")
-            if os.path.exists(wf_path):
-                workflow = self.workflow.load_definition(wf_path)
-                self._save_artifact(task_id, "workflow.yaml",
-                                    {"name": workflow.name, "steps": [s.role for s in workflow.steps]})
-                wf_result = self.workflow.execute(workflow, task)
+        # Determine which pipeline to use
+        use_v22 = self._should_use_v22()
+        use_v21_workflow = self._should_use_v21_workflow()
 
-                # Record performance data
-                if self.registry:
-                    for step_result in wf_result["steps"]:
-                        self.registry.record(
-                            self.registry._record_type(
-                                task_id=task_id,
-                                model_id=step_result.get("model", "unknown"),
-                                role=step_result["step"],
-                                success=step_result["status"] == "completed",
-                                score=1.0 if step_result["status"] == "completed" else 0.0,
-                                iterations=1,
-                                latency_ms=0.0,
-                                capabilities_used=[],
-                            )
-                        )
+        if use_v22:
+            return self._run_v22_pipeline(task_id, task, state, memory_context)
+        elif use_v21_workflow:
+            return self._run_v21_workflow_pipeline(task_id, task, state, memory_context)
+        else:
+            return self._run_v21_hardcoded_pipeline(task_id, task, state, memory_context)
 
-                final_state = "COMPLETED" if wf_result["status"] == "completed" else "FAILED"
-                state.transition(final_state)
+    def _should_use_v22(self) -> bool:
+        """Check if V2.2 pipeline should be used (all components present)."""
+        return all([
+            self.cap_registry,
+            self.task_analyzer,
+            self.workflow_planner,
+            self.workflow_validator,
+            self.execution_graph is not None or True,  # optional in pipeline
+            not self.config.get("use_v21_workflow", False),
+        ])
+
+    def _should_use_v21_workflow(self) -> bool:
+        """Check if V2.1 WorkflowEngine should be used."""
+        wf_enabled = self.config.get("use_v21_workflow", False)
+        if isinstance(wf_enabled, str):
+            wf_enabled = wf_enabled.lower() == "true"
+        return bool(wf_enabled and self.workflow)
+
+    def _run_v22_pipeline(self, task_id: str, task: Any, state: Any,
+                          memory_context: List[Any]) -> Dict[str, Any]:
+        """Execute the V2.2 capability-driven pipeline."""
+        # State is already ANALYZING (set in run())
+        # transition to PLANNING is the next step
+        self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+
+        # Step 1: Analyze task -> capability requirements
+        try:
+            requirements = self.task_analyzer.analyze(task)
+        except Exception as e:
+            state.transition("FAILED")
+            self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+            return {"task_id": task_id, "status": "FAILED", "error": f"Task analysis failed: {e}"}
+
+        self._save_artifact(task_id, "capability_requirements.yaml", {
+            "required": requirements.required,
+            "optional": requirements.optional,
+            "constraints": requirements.constraints,
+            "agent_preferences": requirements.agent_preferences,
+        })
+
+        # Step 2: Plan workflow from requirements
+        state.transition("PLANNED")
+        self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+
+        try:
+            workflow = self.workflow_planner.plan(requirements, task=task)
+        except Exception as e:
+            state.transition("FAILED")
+            self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+            return {"task_id": task_id, "status": "FAILED", "error": f"Workflow planning failed: {e}"}
+
+        self._save_artifact(task_id, "workflow_plan.yaml", workflow.to_dict())
+
+        # Step 3: Validate workflow (stays in PLANNED state)
+        self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+
+        try:
+            validation = self.workflow_validator.validate(workflow, task=task)
+        except Exception as e:
+            state.transition("FAILED")
+            self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+            return {"task_id": task_id, "status": "FAILED", "error": f"Workflow validation failed: {e}"}
+
+        self._save_artifact(task_id, "workflow_validation.yaml", {
+            "valid": validation.valid,
+            "issues": [{"code": i.code, "message": i.message, "node_id": i.node_id}
+                      for i in validation.issues],
+        })
+
+        if not validation.valid:
+            state.transition("BLOCKED")
+            self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+            return {"task_id": task_id, "status": "BLOCKED",
+                    "error": f"Workflow validation failed: {[i.code for i in validation.issues]}"}
+
+        # Step 4: Build capability graph from workflow
+        cap_graph = self._build_capability_graph(workflow)
+        self._save_artifact(task_id, "capability_graph.yaml", cap_graph.to_dict())
+
+        # Step 5: Execute workflow via ExecutionGraph
+        state.transition("IMPLEMENTING")
+        self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+        self._current_task = task  # Make task available to ExecutionGraph
+
+        max_attempts = self.config.get("execution", {}).get("max_iterations", 3)
+        attempt = 0
+        final_result = None
+
+        while attempt < max_attempts:
+            attempt += 1
+
+            try:
+                # Instantiate ExecutionGraph with the workflow and orchestrator
+                graph = self.execution_graph(workflow, self) if isinstance(self.execution_graph, type) else self.execution_graph
+                exec_result = asyncio.run(graph.execute())
+            except Exception as e:
+                state.transition("FAILED")
                 self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+                return {"task_id": task_id, "status": "FAILED", "error": f"Execution failed: {e}"}
 
-                report = self._build_report(task_id, state, None, None)
-                self._save_artifact(task_id, "final_report.yaml", report)
-                return report
+            self._save_artifact(task_id, "execution_graph.yaml", exec_result)
 
-        # --- Fallback: hard-coded pipeline (with V2.1 integrations) ---
+            # Check if execution succeeded
+            if exec_result["status"] == "completed":
+                final_result = exec_result
+                break
 
+            # Check if we have failure analysis and replanning
+            if not self.failure_analyzer or not self.replanner:
+                final_result = exec_result
+                break
+
+            # Analyze failures
+            # Use a try-except to handle state machine transitions gracefully
+            try:
+                state.transition("VERIFYING")
+            except Exception:
+                pass  # State machine doesn't support this transition
+            self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+
+            failure_reports = []
+            for fnid in exec_result["failed_nodes"]:
+                fn = workflow.get_node(fnid)
+                if fn:
+                    node_result_data = exec_result.get("node_results", {}).get(fnid, {})
+                    report = self.failure_analyzer.analyze(
+                        fn,
+                        {"status": "failed", "error": node_result_data.get("error", "unknown")},
+                    )
+                    failure_reports.append(report)
+
+            if failure_reports:
+                self._save_artifact(task_id, "failure_analysis.yaml", {
+                    "reports": [
+                        {
+                            "node_id": r.node_id,
+                            "capability": r.capability,
+                            "category": r.category,
+                            "message": r.message,
+                            "missing_capabilities": r.missing_capabilities,
+                            "recommendations": r.recommendations,
+                        }
+                        for r in failure_reports
+                    ]
+                })
+
+            # Replan
+            try:
+                state.transition("ITERATING")
+            except Exception:
+                pass
+            self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+
+            try:
+                completed_nodes = exec_result.get("completed_nodes", [])
+                failed_node = failure_reports[0].node_id if failure_reports else ""
+                report = failure_reports[0] if failure_reports else None
+
+                if report:
+                    new_workflow = self.replanner.replan(
+                        task, workflow, completed_nodes, failed_node, report
+                    )
+
+                    # Save replan report
+                    r = self.replanner.generate_replan_report(
+                        workflow, new_workflow,
+                        f"Failure recovery from {report.category}: {report.message}"
+                    )
+                    self._save_artifact(task_id, "workflow_replan.yaml", r)
+
+                    # Use the new workflow going forward
+                    workflow = new_workflow
+                else:
+                    final_result = exec_result
+                    break
+
+            except Exception as e:
+                final_result = exec_result
+                break
+
+        if final_result is None:
+            final_result = exec_result
+
+        # --- Final state ---
+        final_status = "COMPLETED" if final_result["status"] == "completed" else "FAILED"
+        try:
+            state.transition(final_status)
+        except Exception:
+            # State may not be a valid transition, just set the state directly
+            state.current_state = final_status
+
+        self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+
+        # Build report
+        report = self._build_report(task_id, state, None, None)
+        report["execution"] = final_result
+        self._save_artifact(task_id, "final_report.yaml", report)
+
+        return report
+
+    def _build_capability_graph(self, workflow: Any):
+        """Build a CapabilityGraph from an ExecutionWorkflow."""
+        from harness.capabilities.graph import CapabilityGraph, CapabilityNode
+
+        cg = CapabilityGraph()
+        for node in workflow.nodes:
+            cg.add_node(CapabilityNode(
+                id=node.id,
+                capability=node.capability,
+                dependencies=list(node.depends_on),
+                status="pending",
+            ))
+        return cg
+
+    def _run_v21_workflow_pipeline(self, task_id: str, task: Any, state: Any,
+                                   memory_context: List[Any],
+                                   workflow_name: str = "default") -> Dict[str, Any]:
+        """Execute V2.1 WorkflowEngine pipeline (unchanged)."""
+        wf_path = os.path.join("config", "workflow_definitions", f"{workflow_name}.yaml")
+        if os.path.exists(wf_path):
+            workflow = self.workflow.load_definition(wf_path)
+            self._save_artifact(task_id, "workflow.yaml",
+                                {"name": workflow.name, "steps": [s.role for s in workflow.steps]})
+            wf_result = self.workflow.execute(workflow, task)
+
+            # Record performance data
+            if self.registry:
+                for step_result in wf_result["steps"]:
+                    self.registry.record(
+                        self.registry._record_type(
+                            task_id=task_id,
+                            model_id=step_result.get("model", "unknown"),
+                            role=step_result["step"],
+                            success=step_result["status"] == "completed",
+                            score=1.0 if step_result["status"] == "completed" else 0.0,
+                            iterations=1,
+                            latency_ms=0.0,
+                            capabilities_used=[],
+                        )
+                    )
+
+            final_state = "COMPLETED" if wf_result["status"] == "completed" else "FAILED"
+            state.transition(final_state)
+            self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
+
+            report = self._build_report(task_id, state, None, None)
+            self._save_artifact(task_id, "final_report.yaml", report)
+            return report
+
+        # Fall through to hard-coded if no workflow definition found
+        return self._run_v21_hardcoded_pipeline(task_id, task, state, memory_context)
+
+    def _run_v21_hardcoded_pipeline(self, task_id: str, task: Any, state: Any,
+                                    memory_context: List[Any]) -> Dict[str, Any]:
+        """Execute the original V2.1 hard-coded pipeline (preserved for regression)."""
         # Policy check before manager execution
         if self.policy:
             policy_result = self.policy.evaluate_all(
@@ -181,11 +433,10 @@ class Orchestrator:
                              "acceptance": [{"criterion": a.criterion, "status": a.status}
                                            for a in eval_result.acceptance]})
 
-        # --- Iteration loop (corrected: attempt counting) ---
+        # --- Iteration loop ---
         max_attempts = self.config.get("execution", {}).get("max_iterations", 3)
         attempt = 1
         while not eval_result.is_passed() and attempt < max_attempts:
-            # Check hard minimums: security failures block iteration
             has_security_failure = any(
                 "security" in a.criterion.lower() and a.status == "failed"
                 for a in eval_result.acceptance
@@ -221,7 +472,7 @@ class Orchestrator:
             evidence_record = self.evidence.collect(coder_result, task_id)
             eval_result = self.evaluator.evaluate(task, verif_result, evidence_record)
 
-        # --- Review phase (reviewer ACTUALLY executes) ---
+        # --- Review phase ---
         if state.current_state not in {"FAILED", "CANCELLED", "NEEDS_HUMAN", "COMPLETED", "BLOCKED"}:
             state.transition("REVIEWING")
             self._save_artifact(task_id, "state.yaml", self._state_to_dict(state))
@@ -231,7 +482,6 @@ class Orchestrator:
                 task_id, ["code_review", "reasoning", "security"], "reviewer"
             )
 
-            # Reviewer receives full context
             reviewer_context = self.context.build_context(
                 task_contract=task, agent_role="reviewer",
                 agent_soul=reviewer_agent.soul_content,
@@ -244,7 +494,6 @@ class Orchestrator:
                 f"Evaluation decision: {eval_result.decision}",
             ]
 
-            # Reviewer EXECUTES
             reviewer_result = self.executor.execute(
                 reviewer_agent, reviewer_selection.model_id, task, reviewer_context,
                 tool_name="filesystem_read"

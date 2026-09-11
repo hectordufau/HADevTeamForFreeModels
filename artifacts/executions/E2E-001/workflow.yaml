@@ -1,7 +1,0 @@
-name: default
-steps:
-- manager
-- architect
-- coder
-- tester
-- reviewer
