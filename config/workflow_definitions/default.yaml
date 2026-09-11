@@ -1,0 +1,56 @@
+name: default
+description: "Standard DevTeamFree pipeline: Manager -> Architect -> Coder -> Tester -> Reviewer"
+max_iterations: 3
+
+steps:
+  - role: manager
+    capabilities:
+      - reasoning
+      - orchestration
+      - task_classification
+    model_policy: manager
+    on_pass: next
+    on_fail: block
+
+  - role: architect
+    capabilities:
+      - reasoning
+      - architecture
+      - code_analysis
+    model_policy: architect
+    on_pass: next
+    on_fail: block
+
+  - role: coder
+    capabilities:
+      - coding
+      - debugging
+      - code_generation
+    model_policy: coder
+    tools:
+      - filesystem
+      - terminal
+      - git
+    on_pass: next
+    on_fail: feedback
+
+  - role: tester
+    capabilities:
+      - testing
+      - debugging
+      - reasoning
+    model_policy: tester
+    tools:
+      - filesystem
+      - terminal
+    on_pass: next
+    on_fail: feedback
+
+  - role: reviewer
+    capabilities:
+      - code_review
+      - reasoning
+      - security
+    model_policy: reviewer
+    on_pass: complete
+    on_fail: block
