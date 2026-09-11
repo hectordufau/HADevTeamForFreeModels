@@ -1,0 +1,9 @@
+{
+  "learned_scenario": "BM-P001",
+  "generalized_scenario": "BM-P002",
+  "baseline_score": 0.65,
+  "learning_score": 0.8287,
+  "generalization_gain": 0.1787,
+  "generalization_gain_pct": 17.87,
+  "generalizes": true
+}

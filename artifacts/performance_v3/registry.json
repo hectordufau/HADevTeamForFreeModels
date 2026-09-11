@@ -1,0 +1,2196 @@
+{
+  "default:free:api_design": [
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "api_design",
+      "success": true,
+      "score": 0.7722768037899193,
+      "latency_ms": 5586.730724564187,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.275741"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "api_design",
+      "success": true,
+      "score": 0.9646510854393462,
+      "latency_ms": 3735.938054435026,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.277418"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "api_design",
+      "success": true,
+      "score": 0.8157799297660777,
+      "latency_ms": 2711.7346034076677,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.278572"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "api_design",
+      "success": true,
+      "score": 0.9482715661222698,
+      "latency_ms": 6645.636721177678,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.280825"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "api_design",
+      "success": false,
+      "score": 0.3664978057931704,
+      "latency_ms": 3278.394802562917,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.282918"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "api_design",
+      "success": true,
+      "score": 0.7544005687064181,
+      "latency_ms": 1777.3239342285685,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.543604"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "api_design",
+      "success": true,
+      "score": 0.814839558205837,
+      "latency_ms": 1763.385019460916,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.562190"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "api_design",
+      "success": true,
+      "score": 0.8266439477380823,
+      "latency_ms": 6261.774843757124,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.579818"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "api_design",
+      "success": true,
+      "score": 0.8943185349334981,
+      "latency_ms": 3227.909472693481,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.603507"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "api_design",
+      "success": true,
+      "score": 0.9551680908887847,
+      "latency_ms": 3018.6877313216037,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.623646"
+    }
+  ],
+  "default:free:backend_development": [
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "backend_development",
+      "success": true,
+      "score": 0.7722768037899193,
+      "latency_ms": 5586.730724564187,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.275957"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "backend_development",
+      "success": true,
+      "score": 0.9646510854393462,
+      "latency_ms": 3735.938054435026,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.277528"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "backend_development",
+      "success": true,
+      "score": 0.8157799297660777,
+      "latency_ms": 2711.7346034076677,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.278713"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "backend_development",
+      "success": true,
+      "score": 0.9482715661222698,
+      "latency_ms": 6645.636721177678,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.281217"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "backend_development",
+      "success": false,
+      "score": 0.3664978057931704,
+      "latency_ms": 3278.394802562917,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.283239"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "backend_development",
+      "success": true,
+      "score": 0.7544005687064181,
+      "latency_ms": 1777.3239342285685,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.545033"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "backend_development",
+      "success": true,
+      "score": 0.814839558205837,
+      "latency_ms": 1763.385019460916,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.563848"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "backend_development",
+      "success": true,
+      "score": 0.8266439477380823,
+      "latency_ms": 6261.774843757124,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.581968"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "backend_development",
+      "success": true,
+      "score": 0.8943185349334981,
+      "latency_ms": 3227.909472693481,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.606590"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "backend_development",
+      "success": true,
+      "score": 0.9551680908887847,
+      "latency_ms": 3018.6877313216037,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.626112"
+    }
+  ],
+  "default:free:testing": [
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.7722768037899193,
+      "latency_ms": 5586.730724564187,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.276155"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.9646510854393462,
+      "latency_ms": 3735.938054435026,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.277653"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.8157799297660777,
+      "latency_ms": 2711.7346034076677,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.278855"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.9482715661222698,
+      "latency_ms": 6645.636721177678,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.281408"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": false,
+      "score": 0.3664978057931704,
+      "latency_ms": 3278.394802562917,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.283577"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.875228023838714,
+      "latency_ms": 2207.8520177421683,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.306182"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": false,
+      "score": 0.39062823276396325,
+      "latency_ms": 2366.067532059869,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.309259"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.7881449325560757,
+      "latency_ms": 7752.600567014945,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.313204"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.8049077965800795,
+      "latency_ms": 6260.544914482329,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.318510"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.8429419979520443,
+      "latency_ms": 3473.255043742583,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.322316"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.8520736899971808,
+      "latency_ms": 6689.41862671037,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.327089"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.8023868895982564,
+      "latency_ms": 3550.823476000834,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.332716"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.7827778110908794,
+      "latency_ms": 4122.0179192485475,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.341387"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.9595287696612249,
+      "latency_ms": 7688.79902954435,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.347354"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": false,
+      "score": 0.2966412858110032,
+      "latency_ms": 1964.876091242663,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.358380"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.8188947659619654,
+      "latency_ms": 5282.623150446799,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.364078"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.7334166453001913,
+      "latency_ms": 4069.7825258730527,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.371043"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.7689606063147152,
+      "latency_ms": 3359.7808417419733,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.376100"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": false,
+      "score": 0.3163274895904473,
+      "latency_ms": 3316.7578734195317,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.380225"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.8992914992540522,
+      "latency_ms": 4958.193066180978,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.386057"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": false,
+      "score": 0.27856852470433996,
+      "latency_ms": 3850.8467342383547,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.423259"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.9749073259793275,
+      "latency_ms": 5952.022768177427,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.430631"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.9963973436502036,
+      "latency_ms": 4521.9507128090645,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.439243"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": false,
+      "score": 0.37797600808491877,
+      "latency_ms": 2167.6855213238123,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.446330"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.7442172408749681,
+      "latency_ms": 4913.731210253727,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.455772"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.7436722432383409,
+      "latency_ms": 3571.7485452822443,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.499931"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.849795897695117,
+      "latency_ms": 4774.577817817232,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.510208"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": false,
+      "score": 0.36842748451700846,
+      "latency_ms": 5356.42777417658,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.519894"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": false,
+      "score": 0.3991470560336706,
+      "latency_ms": 5492.008645399366,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.528605"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.8357001851413433,
+      "latency_ms": 3132.80271517222,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.538702"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.7544005687064181,
+      "latency_ms": 1777.3239342285685,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.552113"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.814839558205837,
+      "latency_ms": 1763.385019460916,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.569907"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.8266439477380823,
+      "latency_ms": 6261.774843757124,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.588782"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.8943185349334981,
+      "latency_ms": 3227.909472693481,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.612992"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "testing",
+      "success": true,
+      "score": 0.9551680908887847,
+      "latency_ms": 3018.6877313216037,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.632696"
+    }
+  ],
+  "default:free:review": [
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.7722768037899193,
+      "latency_ms": 5586.730724564187,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.276404"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.9646510854393462,
+      "latency_ms": 3735.938054435026,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.277792"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8157799297660777,
+      "latency_ms": 2711.7346034076677,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.278997"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.9482715661222698,
+      "latency_ms": 6645.636721177678,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.281640"
+    },
+    {
+      "task_id": "BM-P001",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": false,
+      "score": 0.3664978057931704,
+      "latency_ms": 3278.394802562917,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.283858"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.7389556865394569,
+      "latency_ms": 6249.510742962506,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.286325"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8554642183770029,
+      "latency_ms": 6217.083563974327,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.289413"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8901666585857357,
+      "latency_ms": 4350.873663836267,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.293779"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": false,
+      "score": 0.3134398758513607,
+      "latency_ms": 6437.857019681507,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.297580"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8652595906652443,
+      "latency_ms": 4281.666234038685,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.301941"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.875228023838714,
+      "latency_ms": 2207.8520177421683,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.306732"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": false,
+      "score": 0.39062823276396325,
+      "latency_ms": 2366.067532059869,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.309909"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.7881449325560757,
+      "latency_ms": 7752.600567014945,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.313712"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8049077965800795,
+      "latency_ms": 6260.544914482329,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.319248"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8429419979520443,
+      "latency_ms": 3473.255043742583,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.323087"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8520736899971808,
+      "latency_ms": 6689.41862671037,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.327730"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8023868895982564,
+      "latency_ms": 3550.823476000834,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.333568"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.7827778110908794,
+      "latency_ms": 4122.0179192485475,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.342572"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.9595287696612249,
+      "latency_ms": 7688.79902954435,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.348921"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": false,
+      "score": 0.2966412858110032,
+      "latency_ms": 1964.876091242663,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.359990"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.9637611220553606,
+      "latency_ms": 6422.42710199502,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.393407"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.7468093751750118,
+      "latency_ms": 2922.564107582469,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.398507"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8417246301742856,
+      "latency_ms": 6164.757246812729,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.405935"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": false,
+      "score": 0.3578104741968254,
+      "latency_ms": 5460.946203963236,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.411910"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": false,
+      "score": 0.3852742395726679,
+      "latency_ms": 4970.377200627224,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.417511"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": false,
+      "score": 0.27856852470433996,
+      "latency_ms": 3850.8467342383547,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.424398"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.9749073259793275,
+      "latency_ms": 5952.022768177427,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.432142"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.9963973436502036,
+      "latency_ms": 4521.9507128090645,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.440710"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": false,
+      "score": 0.37797600808491877,
+      "latency_ms": 2167.6855213238123,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.448132"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.7442172408749681,
+      "latency_ms": 4913.731210253727,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.457416"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.7190793555387212,
+      "latency_ms": 4008.1937215743774,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.464988"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.9694155557806929,
+      "latency_ms": 7172.025957772288,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.473189"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.787562687867696,
+      "latency_ms": 2699.0257594403,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.479257"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.7812475722313996,
+      "latency_ms": 3414.132155628977,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.485955"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": false,
+      "score": 0.3153529824209057,
+      "latency_ms": 7021.307792629187,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.493080"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.7436722432383409,
+      "latency_ms": 3571.7485452822443,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.501889"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.849795897695117,
+      "latency_ms": 4774.577817817232,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.512073"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": false,
+      "score": 0.36842748451700846,
+      "latency_ms": 5356.42777417658,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.521816"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": false,
+      "score": 0.3991470560336706,
+      "latency_ms": 5492.008645399366,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.530307"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8357001851413433,
+      "latency_ms": 3132.80271517222,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.540531"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.7544005687064181,
+      "latency_ms": 1777.3239342285685,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.557517"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.814839558205837,
+      "latency_ms": 1763.385019460916,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.576011"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8266439477380823,
+      "latency_ms": 6261.774843757124,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.597122"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.8943185349334981,
+      "latency_ms": 3227.909472693481,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.618559"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "review",
+      "success": true,
+      "score": 0.9551680908887847,
+      "latency_ms": 3018.6877313216037,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.639795"
+    }
+  ],
+  "default:free:database_schema": [
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "database_schema",
+      "success": true,
+      "score": 0.7389556865394569,
+      "latency_ms": 6249.510742962506,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.285504"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "database_schema",
+      "success": true,
+      "score": 0.8554642183770029,
+      "latency_ms": 6217.083563974327,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.288381"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "database_schema",
+      "success": true,
+      "score": 0.8901666585857357,
+      "latency_ms": 4350.873663836267,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.290652"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "database_schema",
+      "success": false,
+      "score": 0.3134398758513607,
+      "latency_ms": 6437.857019681507,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.295213"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "database_schema",
+      "success": true,
+      "score": 0.8652595906652443,
+      "latency_ms": 4281.666234038685,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.300397"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "database_schema",
+      "success": true,
+      "score": 0.7544005687064181,
+      "latency_ms": 1777.3239342285685,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.549635"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "database_schema",
+      "success": true,
+      "score": 0.814839558205837,
+      "latency_ms": 1763.385019460916,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.567393"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "database_schema",
+      "success": true,
+      "score": 0.8266439477380823,
+      "latency_ms": 6261.774843757124,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.586169"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "database_schema",
+      "success": true,
+      "score": 0.8943185349334981,
+      "latency_ms": 3227.909472693481,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.611206"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "database_schema",
+      "success": true,
+      "score": 0.9551680908887847,
+      "latency_ms": 3018.6877313216037,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.630379"
+    }
+  ],
+  "default:free:domain_modeling": [
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "domain_modeling",
+      "success": true,
+      "score": 0.7389556865394569,
+      "latency_ms": 6249.510742962506,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.285763"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "domain_modeling",
+      "success": true,
+      "score": 0.8554642183770029,
+      "latency_ms": 6217.083563974327,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.288826"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "domain_modeling",
+      "success": true,
+      "score": 0.8901666585857357,
+      "latency_ms": 4350.873663836267,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.291740"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "domain_modeling",
+      "success": false,
+      "score": 0.3134398758513607,
+      "latency_ms": 6437.857019681507,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.295941"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "domain_modeling",
+      "success": true,
+      "score": 0.8652595906652443,
+      "latency_ms": 4281.666234038685,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.301107"
+    }
+  ],
+  "default:free:api_implementation": [
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "api_implementation",
+      "success": true,
+      "score": 0.7389556865394569,
+      "latency_ms": 6249.510742962506,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.286034"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "api_implementation",
+      "success": true,
+      "score": 0.8554642183770029,
+      "latency_ms": 6217.083563974327,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.289136"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "api_implementation",
+      "success": true,
+      "score": 0.8901666585857357,
+      "latency_ms": 4350.873663836267,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.292965"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "api_implementation",
+      "success": false,
+      "score": 0.3134398758513607,
+      "latency_ms": 6437.857019681507,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.296704"
+    },
+    {
+      "task_id": "BM-P002",
+      "model_id": "default:free",
+      "capability": "api_implementation",
+      "success": true,
+      "score": 0.8652595906652443,
+      "latency_ms": 4281.666234038685,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.301531"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "api_implementation",
+      "success": true,
+      "score": 0.9637611220553606,
+      "latency_ms": 6422.42710199502,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.391176"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "api_implementation",
+      "success": true,
+      "score": 0.7468093751750118,
+      "latency_ms": 2922.564107582469,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.396190"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "api_implementation",
+      "success": true,
+      "score": 0.8417246301742856,
+      "latency_ms": 6164.757246812729,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.403423"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "api_implementation",
+      "success": false,
+      "score": 0.3578104741968254,
+      "latency_ms": 5460.946203963236,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.409301"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "api_implementation",
+      "success": false,
+      "score": 0.3852742395726679,
+      "latency_ms": 4970.377200627224,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.414874"
+    }
+  ],
+  "default:free:frontend_development": [
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "frontend_development",
+      "success": true,
+      "score": 0.875228023838714,
+      "latency_ms": 2207.8520177421683,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.304916"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "frontend_development",
+      "success": false,
+      "score": 0.39062823276396325,
+      "latency_ms": 2366.067532059869,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.308265"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "frontend_development",
+      "success": true,
+      "score": 0.7881449325560757,
+      "latency_ms": 7752.600567014945,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.312249"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "frontend_development",
+      "success": true,
+      "score": 0.8049077965800795,
+      "latency_ms": 6260.544914482329,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.316862"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "frontend_development",
+      "success": true,
+      "score": 0.8429419979520443,
+      "latency_ms": 3473.255043742583,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.320686"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "frontend_development",
+      "success": true,
+      "score": 0.7544005687064181,
+      "latency_ms": 1777.3239342285685,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.547024"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "frontend_development",
+      "success": true,
+      "score": 0.814839558205837,
+      "latency_ms": 1763.385019460916,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.565441"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "frontend_development",
+      "success": true,
+      "score": 0.8266439477380823,
+      "latency_ms": 6261.774843757124,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.584123"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "frontend_development",
+      "success": true,
+      "score": 0.8943185349334981,
+      "latency_ms": 3227.909472693481,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.609000"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "frontend_development",
+      "success": true,
+      "score": 0.9551680908887847,
+      "latency_ms": 3018.6877313216037,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.628173"
+    }
+  ],
+  "default:free:ui_implementation": [
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "ui_implementation",
+      "success": true,
+      "score": 0.875228023838714,
+      "latency_ms": 2207.8520177421683,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.305586"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "ui_implementation",
+      "success": false,
+      "score": 0.39062823276396325,
+      "latency_ms": 2366.067532059869,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.308753"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "ui_implementation",
+      "success": true,
+      "score": 0.7881449325560757,
+      "latency_ms": 7752.600567014945,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.312765"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "ui_implementation",
+      "success": true,
+      "score": 0.8049077965800795,
+      "latency_ms": 6260.544914482329,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.317657"
+    },
+    {
+      "task_id": "BM-P003",
+      "model_id": "default:free",
+      "capability": "ui_implementation",
+      "success": true,
+      "score": 0.8429419979520443,
+      "latency_ms": 3473.255043742583,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.321528"
+    }
+  ],
+  "default:free:security_analysis": [
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "security_analysis",
+      "success": true,
+      "score": 0.8520736899971808,
+      "latency_ms": 6689.41862671037,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.324810"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "security_analysis",
+      "success": true,
+      "score": 0.8023868895982564,
+      "latency_ms": 3550.823476000834,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.330252"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "security_analysis",
+      "success": true,
+      "score": 0.7827778110908794,
+      "latency_ms": 4122.0179192485475,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.337126"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "security_analysis",
+      "success": true,
+      "score": 0.9595287696612249,
+      "latency_ms": 7688.79902954435,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.344368"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "security_analysis",
+      "success": false,
+      "score": 0.2966412858110032,
+      "latency_ms": 1964.876091242663,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.353547"
+    }
+  ],
+  "default:free:vulnerability_assessment": [
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "vulnerability_assessment",
+      "success": true,
+      "score": 0.8520736899971808,
+      "latency_ms": 6689.41862671037,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.325347"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "vulnerability_assessment",
+      "success": true,
+      "score": 0.8023868895982564,
+      "latency_ms": 3550.823476000834,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.331241"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "vulnerability_assessment",
+      "success": true,
+      "score": 0.7827778110908794,
+      "latency_ms": 4122.0179192485475,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.338433"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "vulnerability_assessment",
+      "success": true,
+      "score": 0.9595287696612249,
+      "latency_ms": 7688.79902954435,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.345318"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "vulnerability_assessment",
+      "success": false,
+      "score": 0.2966412858110032,
+      "latency_ms": 1964.876091242663,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.355500"
+    }
+  ],
+  "default:free:refactoring": [
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "refactoring",
+      "success": true,
+      "score": 0.8520736899971808,
+      "latency_ms": 6689.41862671037,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.326241"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "refactoring",
+      "success": true,
+      "score": 0.8023868895982564,
+      "latency_ms": 3550.823476000834,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.332016"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "refactoring",
+      "success": true,
+      "score": 0.7827778110908794,
+      "latency_ms": 4122.0179192485475,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.339713"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "refactoring",
+      "success": true,
+      "score": 0.9595287696612249,
+      "latency_ms": 7688.79902954435,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.346198"
+    },
+    {
+      "task_id": "BM-P004",
+      "model_id": "default:free",
+      "capability": "refactoring",
+      "success": false,
+      "score": 0.2966412858110032,
+      "latency_ms": 1964.876091242663,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.357105"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "refactoring",
+      "success": true,
+      "score": 0.8188947659619654,
+      "latency_ms": 5282.623150446799,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.363281"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "refactoring",
+      "success": true,
+      "score": 0.7334166453001913,
+      "latency_ms": 4069.7825258730527,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.369316"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "refactoring",
+      "success": true,
+      "score": 0.7689606063147152,
+      "latency_ms": 3359.7808417419733,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.374976"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "refactoring",
+      "success": false,
+      "score": 0.3163274895904473,
+      "latency_ms": 3316.7578734195317,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.378948"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "refactoring",
+      "success": true,
+      "score": 0.8992914992540522,
+      "latency_ms": 4958.193066180978,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.384165"
+    }
+  ],
+  "default:free:code_review": [
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "code_review",
+      "success": true,
+      "score": 0.8188947659619654,
+      "latency_ms": 5282.623150446799,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.364835"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "code_review",
+      "success": true,
+      "score": 0.7334166453001913,
+      "latency_ms": 4069.7825258730527,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.371953"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "code_review",
+      "success": true,
+      "score": 0.7689606063147152,
+      "latency_ms": 3359.7808417419733,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.377122"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "code_review",
+      "success": false,
+      "score": 0.3163274895904473,
+      "latency_ms": 3316.7578734195317,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.381345"
+    },
+    {
+      "task_id": "BM-P005",
+      "model_id": "default:free",
+      "capability": "code_review",
+      "success": true,
+      "score": 0.8992914992540522,
+      "latency_ms": 4958.193066180978,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.387761"
+    }
+  ],
+  "default:free:integration_design": [
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "integration_design",
+      "success": true,
+      "score": 0.9637611220553606,
+      "latency_ms": 6422.42710199502,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.389774"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "integration_design",
+      "success": true,
+      "score": 0.7468093751750118,
+      "latency_ms": 2922.564107582469,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.395132"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "integration_design",
+      "success": true,
+      "score": 0.8417246301742856,
+      "latency_ms": 6164.757246812729,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.402119"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "integration_design",
+      "success": false,
+      "score": 0.3578104741968254,
+      "latency_ms": 5460.946203963236,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.408162"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "integration_design",
+      "success": false,
+      "score": 0.3852742395726679,
+      "latency_ms": 4970.377200627224,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.413747"
+    }
+  ],
+  "default:free:integration_testing": [
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "integration_testing",
+      "success": true,
+      "score": 0.9637611220553606,
+      "latency_ms": 6422.42710199502,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.392419"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "integration_testing",
+      "success": true,
+      "score": 0.7468093751750118,
+      "latency_ms": 2922.564107582469,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.397379"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "integration_testing",
+      "success": true,
+      "score": 0.8417246301742856,
+      "latency_ms": 6164.757246812729,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.404734"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "integration_testing",
+      "success": false,
+      "score": 0.3578104741968254,
+      "latency_ms": 5460.946203963236,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.410615"
+    },
+    {
+      "task_id": "BM-P006",
+      "model_id": "default:free",
+      "capability": "integration_testing",
+      "success": false,
+      "score": 0.3852742395726679,
+      "latency_ms": 4970.377200627224,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.416020"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "integration_testing",
+      "success": true,
+      "score": 0.7544005687064181,
+      "latency_ms": 1777.3239342285685,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.553985"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "integration_testing",
+      "success": true,
+      "score": 0.814839558205837,
+      "latency_ms": 1763.385019460916,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.572073"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "integration_testing",
+      "success": true,
+      "score": 0.8266439477380823,
+      "latency_ms": 6261.774843757124,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.591261"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "integration_testing",
+      "success": true,
+      "score": 0.8943185349334981,
+      "latency_ms": 3227.909472693481,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.614693"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "integration_testing",
+      "success": true,
+      "score": 0.9551680908887847,
+      "latency_ms": 3018.6877313216037,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.634979"
+    }
+  ],
+  "default:free:profiling": [
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "profiling",
+      "success": false,
+      "score": 0.27856852470433996,
+      "latency_ms": 3850.8467342383547,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.420644"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "profiling",
+      "success": true,
+      "score": 0.9749073259793275,
+      "latency_ms": 5952.022768177427,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.427728"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "profiling",
+      "success": true,
+      "score": 0.9963973436502036,
+      "latency_ms": 4521.9507128090645,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.436280"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "profiling",
+      "success": false,
+      "score": 0.37797600808491877,
+      "latency_ms": 2167.6855213238123,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.443553"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "profiling",
+      "success": true,
+      "score": 0.7442172408749681,
+      "latency_ms": 4913.731210253727,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.452885"
+    }
+  ],
+  "default:free:optimization": [
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "optimization",
+      "success": false,
+      "score": 0.27856852470433996,
+      "latency_ms": 3850.8467342383547,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.421967"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "optimization",
+      "success": true,
+      "score": 0.9749073259793275,
+      "latency_ms": 5952.022768177427,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.429146"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "optimization",
+      "success": true,
+      "score": 0.9963973436502036,
+      "latency_ms": 4521.9507128090645,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.438080"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "optimization",
+      "success": false,
+      "score": 0.37797600808491877,
+      "latency_ms": 2167.6855213238123,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.444789"
+    },
+    {
+      "task_id": "BM-P007",
+      "model_id": "default:free",
+      "capability": "optimization",
+      "success": true,
+      "score": 0.7442172408749681,
+      "latency_ms": 4913.731210253727,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.454366"
+    }
+  ],
+  "default:free:technical_writing": [
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "technical_writing",
+      "success": true,
+      "score": 0.7190793555387212,
+      "latency_ms": 4008.1937215743774,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.461572"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "technical_writing",
+      "success": true,
+      "score": 0.9694155557806929,
+      "latency_ms": 7172.025957772288,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.469093"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "technical_writing",
+      "success": true,
+      "score": 0.787562687867696,
+      "latency_ms": 2699.0257594403,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.475801"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "technical_writing",
+      "success": true,
+      "score": 0.7812475722313996,
+      "latency_ms": 3414.132155628977,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.482751"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "technical_writing",
+      "success": false,
+      "score": 0.3153529824209057,
+      "latency_ms": 7021.307792629187,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.489278"
+    }
+  ],
+  "default:free:api_documentation": [
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "api_documentation",
+      "success": true,
+      "score": 0.7190793555387212,
+      "latency_ms": 4008.1937215743774,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.463182"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "api_documentation",
+      "success": true,
+      "score": 0.9694155557806929,
+      "latency_ms": 7172.025957772288,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.471205"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "api_documentation",
+      "success": true,
+      "score": 0.787562687867696,
+      "latency_ms": 2699.0257594403,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.477441"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "api_documentation",
+      "success": true,
+      "score": 0.7812475722313996,
+      "latency_ms": 3414.132155628977,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.484469"
+    },
+    {
+      "task_id": "BM-P008",
+      "model_id": "default:free",
+      "capability": "api_documentation",
+      "success": false,
+      "score": 0.3153529824209057,
+      "latency_ms": 7021.307792629187,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.491082"
+    }
+  ],
+  "default:free:ci_cd": [
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "ci_cd",
+      "success": true,
+      "score": 0.7436722432383409,
+      "latency_ms": 3571.7485452822443,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.495596"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "ci_cd",
+      "success": true,
+      "score": 0.849795897695117,
+      "latency_ms": 4774.577817817232,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.506232"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "ci_cd",
+      "success": false,
+      "score": 0.36842748451700846,
+      "latency_ms": 5356.42777417658,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.515147"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "ci_cd",
+      "success": false,
+      "score": 0.3991470560336706,
+      "latency_ms": 5492.008645399366,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.524936"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "ci_cd",
+      "success": true,
+      "score": 0.8357001851413433,
+      "latency_ms": 3132.80271517222,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.534739"
+    }
+  ],
+  "default:free:deployment": [
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "deployment",
+      "success": true,
+      "score": 0.7436722432383409,
+      "latency_ms": 3571.7485452822443,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.497413"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "deployment",
+      "success": true,
+      "score": 0.849795897695117,
+      "latency_ms": 4774.577817817232,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.508430"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "deployment",
+      "success": false,
+      "score": 0.36842748451700846,
+      "latency_ms": 5356.42777417658,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.517748"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "deployment",
+      "success": false,
+      "score": 0.3991470560336706,
+      "latency_ms": 5492.008645399366,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.526493"
+    },
+    {
+      "task_id": "BM-P009",
+      "model_id": "default:free",
+      "capability": "deployment",
+      "success": true,
+      "score": 0.8357001851413433,
+      "latency_ms": 3132.80271517222,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.536621"
+    }
+  ],
+  "default:free:e2e_testing": [
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "e2e_testing",
+      "success": true,
+      "score": 0.7544005687064181,
+      "latency_ms": 1777.3239342285685,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.555733"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "e2e_testing",
+      "success": true,
+      "score": 0.814839558205837,
+      "latency_ms": 1763.385019460916,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.574125"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "e2e_testing",
+      "success": true,
+      "score": 0.8266439477380823,
+      "latency_ms": 6261.774843757124,
+      "iterations": 2,
+      "timestamp": "2026-09-11T20:06:56.594063"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "e2e_testing",
+      "success": true,
+      "score": 0.8943185349334981,
+      "latency_ms": 3227.909472693481,
+      "iterations": 3,
+      "timestamp": "2026-09-11T20:06:56.616641"
+    },
+    {
+      "task_id": "BM-P010",
+      "model_id": "default:free",
+      "capability": "e2e_testing",
+      "success": true,
+      "score": 0.9551680908887847,
+      "latency_ms": 3018.6877313216037,
+      "iterations": 1,
+      "timestamp": "2026-09-11T20:06:56.637538"
+    }
+  ]
+}

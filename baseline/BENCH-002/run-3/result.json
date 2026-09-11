@@ -1,0 +1,56 @@
+{
+  "phase": "baseline",
+  "validation_run": "V3.0-VALIDATION-20260911T200656Z",
+  "scenario_id": "BM-P002",
+  "scenario_name": "Database Schema Design",
+  "run_index": 3,
+  "seed": 103,
+  "status": "FAILED",
+  "duration_seconds": 4.466,
+  "timestamp": "2026-09-11T20:06:56.256316",
+  "scoring": {
+    "overall": 0.3578,
+    "correctness": 0.8205,
+    "architecture": 0.5645,
+    "security": 0.7234,
+    "maintainability": 0.6808,
+    "efficiency": 0.5366
+  },
+  "iterations": 2,
+  "replanned": false,
+  "learning_applied": false,
+  "learning_patterns_used": 0,
+  "capabilities_used": [
+    "database_schema",
+    "domain_modeling",
+    "api_implementation",
+    "review"
+  ],
+  "agents_used": {
+    "coder": 1,
+    "reviewer": 1
+  },
+  "models_used": {
+    "default:free": 1
+  },
+  "target_project": "/home/hector/workspace/dockerfabricwizard",
+  "project_info": {
+    "path": "/home/hector/workspace/dockerfabricwizard",
+    "exists": true,
+    "language": "Python",
+    "files_count": 41,
+    "test_files": [],
+    "has_requirements": true,
+    "has_readme": true
+  },
+  "scenario_details": {
+    "scenario_id": "BM-P002",
+    "name": "Database Schema Design",
+    "description": "Design and implement a database schema with relationships",
+    "task_objective": "Design a database schema for an e-commerce platform with users, products, orders, and payments tables with proper relationships and indexes",
+    "target_project": "/home/hector/workspace/dockerfabricwizard",
+    "project_language": "Python",
+    "project_files": 41,
+    "project_test_files": []
+  }
+}

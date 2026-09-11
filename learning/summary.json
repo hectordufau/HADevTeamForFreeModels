@@ -1,0 +1,116 @@
+{
+  "validation_run": "V3.0-VALIDATION-20260911T200656Z",
+  "phase": "learning",
+  "date": "2026-09-11T20:06:56.643255",
+  "target_project": "/home/hector/workspace/dockerfabricwizard",
+  "total_executions": 50,
+  "success_count": 38,
+  "failure_count": 12,
+  "success_rate": 0.76,
+  "mean_score": 0.7229,
+  "mean_correctness": 0.769,
+  "mean_architecture": 0.6471,
+  "mean_security": 0.8645,
+  "mean_maintainability": 0.6599,
+  "mean_efficiency": 0.6506,
+  "mean_iterations": 2.18,
+  "mean_latency_ms": 4532.02,
+  "median_duration": 4.316,
+  "std_score": 0.2252,
+  "replan_rate": 0.32,
+  "learning_hit_rate": 0.98,
+  "security_violations": 0,
+  "governance_violations": 0,
+  "per_scenario": {
+    "BM-P001": {
+      "runs": 5,
+      "success_count": 4,
+      "success_rate": 0.8,
+      "mean_score": 0.7735,
+      "mean_iterations": 2.4,
+      "mean_duration": 4.392,
+      "std_score": 0.2422
+    },
+    "BM-P002": {
+      "runs": 5,
+      "success_count": 4,
+      "success_rate": 0.8,
+      "mean_score": 0.7327,
+      "mean_iterations": 1.8,
+      "mean_duration": 5.508,
+      "std_score": 0.2415
+    },
+    "BM-P003": {
+      "runs": 5,
+      "success_count": 4,
+      "success_rate": 0.8,
+      "mean_score": 0.7403,
+      "mean_iterations": 1.8,
+      "mean_duration": 4.412,
+      "std_score": 0.1984
+    },
+    "BM-P004": {
+      "runs": 5,
+      "success_count": 4,
+      "success_rate": 0.8,
+      "mean_score": 0.7387,
+      "mean_iterations": 2.2,
+      "mean_duration": 4.803,
+      "std_score": 0.2565
+    },
+    "BM-P005": {
+      "runs": 5,
+      "success_count": 4,
+      "success_rate": 0.8,
+      "mean_score": 0.7074,
+      "mean_iterations": 2.2,
+      "mean_duration": 4.198,
+      "std_score": 0.2273
+    },
+    "BM-P006": {
+      "runs": 5,
+      "success_count": 3,
+      "success_rate": 0.6,
+      "mean_score": 0.6591,
+      "mean_iterations": 1.6,
+      "mean_duration": 5.188,
+      "std_score": 0.2737
+    },
+    "BM-P007": {
+      "runs": 5,
+      "success_count": 3,
+      "success_rate": 0.6,
+      "mean_score": 0.6744,
+      "mean_iterations": 2.4,
+      "mean_duration": 4.281,
+      "std_score": 0.3329
+    },
+    "BM-P008": {
+      "runs": 5,
+      "success_count": 4,
+      "success_rate": 0.8,
+      "mean_score": 0.7145,
+      "mean_iterations": 2.6,
+      "mean_duration": 4.863,
+      "std_score": 0.2419
+    },
+    "BM-P009": {
+      "runs": 5,
+      "success_count": 3,
+      "success_rate": 0.6,
+      "mean_score": 0.6393,
+      "mean_iterations": 2.6,
+      "mean_duration": 4.466,
+      "std_score": 0.2371
+    },
+    "BM-P010": {
+      "runs": 5,
+      "success_count": 5,
+      "success_rate": 1.0,
+      "mean_score": 0.8491,
+      "mean_iterations": 2.2,
+      "mean_duration": 3.21,
+      "std_score": 0.0774
+    }
+  }
+}

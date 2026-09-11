@@ -1,0 +1,17 @@
+{
+  "task_id": "BM-P006",
+  "task_objective": "Implement integration between the order service and the inventory service so that order creation decrements inventory and inventory restoration happens on cancellation",
+  "capabilities_used": [
+    "integration_design",
+    "api_implementation",
+    "integration_testing",
+    "review"
+  ],
+  "result_status": "FAILED",
+  "score": 0.3852742395726679,
+  "duration_seconds": 4.970377200627224,
+  "lessons": [
+    "Run 5: Failure - Integration between Two Services"
+  ],
+  "timestamp": "2026-09-11T20:06:56.419389"
+}

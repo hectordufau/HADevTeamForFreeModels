@@ -1,0 +1,30 @@
+{
+  "lesson_generated": true,
+  "lesson_stored": true,
+  "re_execution_uses_lesson": true,
+  "failure_avoided": true,
+  "details": {
+    "failure_created": {
+      "node_id": "bm-fail-test",
+      "capability": "api_implementation",
+      "category": "implementation",
+      "sub_category": "logic_error",
+      "severity": "major",
+      "error_message": "Deliberate test failure: missing dependency in target project",
+      "evidence": "",
+      "timestamp": "2026-09-11T20:06:56.655419"
+    },
+    "lesson_stored_id": "BM-FAIL-TEST",
+    "lesson_search_results": 1,
+    "retrieved_lesson": {
+      "entry_id": "BM-FAIL-TEST",
+      "content": "Deliberate failure test for validation",
+      "relevance": 0.0,
+      "confidence": 0.5,
+      "source": "experience",
+      "category": "experience",
+      "timestamp": "2026-09-11T20:06:56.655787"
+    },
+    "avoidance_mechanism": "Lesson retrieved from ExperienceStore - pre-check applied"
+  }
+}

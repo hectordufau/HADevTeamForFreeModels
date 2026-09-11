@@ -1,0 +1,19 @@
+{
+  "validation_run": "V3.0-VALIDATION-20260911T200656Z",
+  "timestamp": "2026-09-11T20:06:56",
+  "target_project": "/home/hector/workspace/dockerfabricwizard",
+  "baseline_executions": 50,
+  "learning_executions": 50,
+  "total_executions": 100,
+  "conditions_passed": false,
+  "recommendation": "V3.1",
+  "tag": "v3.1.0-learning-improvements",
+  "gates": {
+    "Learning Gain (score) > 0.05": "+0.0045",
+    "Learning Gain (success rate) > 5%": "+2.00%",
+    "Generalization Gain > 0": "+0.1787",
+    "Failure \u2192 Learning \u2192 Recovery works": "YES",
+    "Security violations = 0": "0",
+    "Governance violations = 0": "0"
+  }
+}

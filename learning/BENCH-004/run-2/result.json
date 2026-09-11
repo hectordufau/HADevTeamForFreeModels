@@ -1,0 +1,57 @@
+{
+  "phase": "learning",
+  "validation_run": "V3.0-VALIDATION-20260911T200656Z",
+  "scenario_id": "BM-P004",
+  "scenario_name": "Security Vulnerability Fix",
+  "run_index": 2,
+  "seed": 802,
+  "status": "PASSED",
+  "duration_seconds": 3.551,
+  "timestamp": "2026-09-11T20:06:56.330213",
+  "scoring": {
+    "overall": 0.8024,
+    "correctness": 0.6609,
+    "architecture": 0.7738,
+    "security": 0.8987,
+    "maintainability": 0.7032,
+    "efficiency": 0.7851
+  },
+  "iterations": 2,
+  "replanned": false,
+  "learning_applied": true,
+  "learning_patterns_used": 4,
+  "capabilities_used": [
+    "security_analysis",
+    "vulnerability_assessment",
+    "refactoring",
+    "testing",
+    "review"
+  ],
+  "agents_used": {
+    "coder": 1,
+    "reviewer": 1
+  },
+  "models_used": {
+    "default:free": 1
+  },
+  "target_project": "/home/hector/workspace/dockerfabricwizard",
+  "project_info": {
+    "path": "/home/hector/workspace/dockerfabricwizard",
+    "exists": true,
+    "language": "Python",
+    "files_count": 41,
+    "test_files": [],
+    "has_requirements": true,
+    "has_readme": true
+  },
+  "scenario_details": {
+    "scenario_id": "BM-P004",
+    "name": "Security Vulnerability Fix",
+    "description": "Identify and fix a security vulnerability in existing code",
+    "task_objective": "Audit the authentication module for security vulnerabilities and fix any SQL injection, XSS, or CSRF issues found",
+    "target_project": "/home/hector/workspace/dockerfabricwizard",
+    "project_language": "Python",
+    "project_files": 41,
+    "project_test_files": []
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "phase": "baseline",
+  "validation_run": "V3.0-VALIDATION-20260911T200656Z",
+  "scenario_id": "BM-P008",
+  "scenario_name": "API Documentation Generation",
+  "run_index": 3,
+  "seed": 703,
+  "status": "PASSED",
+  "duration_seconds": 2.506,
+  "timestamp": "2026-09-11T20:06:56.265607",
+  "scoring": {
+    "overall": 0.9915,
+    "correctness": 0.6748,
+    "architecture": 0.5233,
+    "security": 0.731,
+    "maintainability": 0.658,
+    "efficiency": 0.6181
+  },
+  "iterations": 3,
+  "replanned": false,
+  "learning_applied": false,
+  "learning_patterns_used": 0,
+  "capabilities_used": [
+    "technical_writing",
+    "api_documentation",
+    "review"
+  ],
+  "agents_used": {
+    "coder": 1,
+    "reviewer": 1
+  },
+  "models_used": {
+    "default:free": 1
+  },
+  "target_project": "/home/hector/workspace/dockerfabricwizard",
+  "project_info": {
+    "path": "/home/hector/workspace/dockerfabricwizard",
+    "exists": true,
+    "language": "Python",
+    "files_count": 41,
+    "test_files": [],
+    "has_requirements": true,
+    "has_readme": true
+  },
+  "scenario_details": {
+    "scenario_id": "BM-P008",
+    "name": "API Documentation Generation",
+    "description": "Generate comprehensive API documentation from code",
+    "task_objective": "Generate comprehensive API documentation including endpoint descriptions, request/response schemas, and example payloads for the existing REST API",
+    "target_project": "/home/hector/workspace/dockerfabricwizard",
+    "project_language": "Python",
+    "project_files": 41,
+    "project_test_files": []
+  }
+}

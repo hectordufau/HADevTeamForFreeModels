@@ -1,0 +1,55 @@
+{
+  "phase": "learning",
+  "validation_run": "V3.0-VALIDATION-20260911T200656Z",
+  "scenario_id": "BM-P005",
+  "scenario_name": "Code Refactoring",
+  "run_index": 3,
+  "seed": 903,
+  "status": "PASSED",
+  "duration_seconds": 3.36,
+  "timestamp": "2026-09-11T20:06:56.374956",
+  "scoring": {
+    "overall": 0.769,
+    "correctness": 0.6663,
+    "architecture": 0.6256,
+    "security": 0.7246,
+    "maintainability": 0.5789,
+    "efficiency": 0.5811
+  },
+  "iterations": 3,
+  "replanned": false,
+  "learning_applied": true,
+  "learning_patterns_used": 2,
+  "capabilities_used": [
+    "refactoring",
+    "testing",
+    "code_review"
+  ],
+  "agents_used": {
+    "coder": 1,
+    "reviewer": 1
+  },
+  "models_used": {
+    "default:free": 1
+  },
+  "target_project": "/home/hector/workspace/dockerfabricwizard",
+  "project_info": {
+    "path": "/home/hector/workspace/dockerfabricwizard",
+    "exists": true,
+    "language": "Python",
+    "files_count": 41,
+    "test_files": [],
+    "has_requirements": true,
+    "has_readme": true
+  },
+  "scenario_details": {
+    "scenario_id": "BM-P005",
+    "name": "Code Refactoring",
+    "description": "Refactor a monolithic function into clean modular code",
+    "task_objective": "Refactor the payment processing module from a single monolithic function into clean, modular, testable functions with proper error handling",
+    "target_project": "/home/hector/workspace/dockerfabricwizard",
+    "project_language": "Python",
+    "project_files": 41,
+    "project_test_files": []
+  }
+}

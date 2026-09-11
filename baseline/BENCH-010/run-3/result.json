@@ -1,0 +1,60 @@
+{
+  "phase": "baseline",
+  "validation_run": "V3.0-VALIDATION-20260911T200656Z",
+  "scenario_id": "BM-P010",
+  "scenario_name": "End-to-End Feature Implementation",
+  "run_index": 3,
+  "seed": 903,
+  "status": "PASSED",
+  "duration_seconds": 5.747,
+  "timestamp": "2026-09-11T20:06:56.269455",
+  "scoring": {
+    "overall": 0.7871,
+    "correctness": 0.6553,
+    "architecture": 0.5581,
+    "security": 0.8202,
+    "maintainability": 0.5246,
+    "efficiency": 0.5748
+  },
+  "iterations": 1,
+  "replanned": false,
+  "learning_applied": false,
+  "learning_patterns_used": 0,
+  "capabilities_used": [
+    "api_design",
+    "backend_development",
+    "frontend_development",
+    "database_schema",
+    "testing",
+    "integration_testing",
+    "e2e_testing",
+    "review"
+  ],
+  "agents_used": {
+    "coder": 1,
+    "reviewer": 1
+  },
+  "models_used": {
+    "default:free": 1
+  },
+  "target_project": "/home/hector/workspace/dockerfabricwizard",
+  "project_info": {
+    "path": "/home/hector/workspace/dockerfabricwizard",
+    "exists": true,
+    "language": "Python",
+    "files_count": 41,
+    "test_files": [],
+    "has_requirements": true,
+    "has_readme": true
+  },
+  "scenario_details": {
+    "scenario_id": "BM-P010",
+    "name": "End-to-End Feature Implementation",
+    "description": "Implement a complete feature from backend to frontend",
+    "task_objective": "Implement a complete user profile feature including backend API, database schema, and frontend views for viewing and editing profiles",
+    "target_project": "/home/hector/workspace/dockerfabricwizard",
+    "project_language": "Python",
+    "project_files": 41,
+    "project_test_files": []
+  }
+}

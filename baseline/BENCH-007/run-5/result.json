@@ -1,0 +1,56 @@
+{
+  "phase": "baseline",
+  "validation_run": "V3.0-VALIDATION-20260911T200656Z",
+  "scenario_id": "BM-P007",
+  "scenario_name": "Performance Optimization",
+  "run_index": 5,
+  "seed": 605,
+  "status": "PASSED",
+  "duration_seconds": 5.234,
+  "timestamp": "2026-09-11T20:06:56.264658",
+  "scoring": {
+    "overall": 0.8304,
+    "correctness": 0.7485,
+    "architecture": 0.5179,
+    "security": 0.772,
+    "maintainability": 0.6836,
+    "efficiency": 0.6809
+  },
+  "iterations": 1,
+  "replanned": true,
+  "learning_applied": false,
+  "learning_patterns_used": 0,
+  "capabilities_used": [
+    "profiling",
+    "optimization",
+    "testing",
+    "review"
+  ],
+  "agents_used": {
+    "coder": 1,
+    "reviewer": 1
+  },
+  "models_used": {
+    "default:free": 1
+  },
+  "target_project": "/home/hector/workspace/dockerfabricwizard",
+  "project_info": {
+    "path": "/home/hector/workspace/dockerfabricwizard",
+    "exists": true,
+    "language": "Python",
+    "files_count": 41,
+    "test_files": [],
+    "has_requirements": true,
+    "has_readme": true
+  },
+  "scenario_details": {
+    "scenario_id": "BM-P007",
+    "name": "Performance Optimization",
+    "description": "Optimize a slow database query or algorithm",
+    "task_objective": "Profile and optimize the product search endpoint which is currently taking >5 seconds for simple queries. Identify bottlenecks and implement caching or query optimization",
+    "target_project": "/home/hector/workspace/dockerfabricwizard",
+    "project_language": "Python",
+    "project_files": 41,
+    "project_test_files": []
+  }
+}
