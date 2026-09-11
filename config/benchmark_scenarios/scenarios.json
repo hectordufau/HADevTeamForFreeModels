@@ -1,0 +1,220 @@
+[
+  {
+    "id": "BM-P001",
+    "name": "API Endpoint Implementation",
+    "description": "Implement a REST API endpoint with full CRUD operations",
+    "task_objective": "Implement a REST API endpoint for user management with full CRUD operations including create, read, update, and delete",
+    "acceptance_criteria": [
+      "API endpoint responds correctly to all CRUD operations",
+      "Input validation implemented",
+      "Error handling covers edge cases",
+      "Tests pass",
+      "Review completed"
+    ],
+    "allowed_changes": ["src/api/**", "tests/**"],
+    "verification_required": ["unit_tests", "lint"],
+    "autonomy_level": 3,
+    "expected_capabilities": ["api_design", "backend_development", "testing", "review"],
+    "tags": ["api", "backend", "crud"]
+  },
+  {
+    "id": "BM-P002",
+    "name": "Database Schema Design",
+    "description": "Design and implement a database schema with relationships",
+    "task_objective": "Design a database schema for an e-commerce platform with users, products, orders, and payments tables with proper relationships and indexes",
+    "acceptance_criteria": [
+      "Schema supports all required entities",
+      "Relationships correctly defined",
+      "Indexes on foreign keys",
+      "Migration scripts generated",
+      "Review completed"
+    ],
+    "allowed_changes": ["database/**", "migrations/**"],
+    "verification_required": ["lint"],
+    "autonomy_level": 3,
+    "expected_capabilities": ["database_schema", "domain_modeling", "api_implementation", "review"],
+    "tags": ["database", "schema", "migrations"]
+  },
+  {
+    "id": "BM-P003",
+    "name": "Frontend Component Implementation",
+    "description": "Implement a reusable frontend UI component",
+    "task_objective": "Implement a reusable data table component with sorting, filtering, and pagination for a React application",
+    "acceptance_criteria": [
+      "Component renders correctly",
+      "Sorting works on all columns",
+      "Filtering filters data correctly",
+      "Pagination displays correct page count",
+      "Review completed"
+    ],
+    "allowed_changes": ["src/components/**", "src/styles/**"],
+    "verification_required": ["unit_tests", "lint"],
+    "autonomy_level": 3,
+    "expected_capabilities": ["frontend_development", "ui_implementation", "testing", "review"],
+    "tags": ["frontend", "ui", "react"]
+  },
+  {
+    "id": "BM-P004",
+    "name": "Security Vulnerability Fix",
+    "description": "Identify and fix a security vulnerability in existing code",
+    "task_objective": "Audit the authentication module for security vulnerabilities and fix any SQL injection, XSS, or CSRF issues found",
+    "acceptance_criteria": [
+      "SQL injection vulnerabilities patched",
+      "XSS vectors closed",
+      "CSRF protection implemented",
+      "Regression tests pass",
+      "Review completed"
+    ],
+    "allowed_changes": ["src/auth/**", "src/middleware/**"],
+    "verification_required": ["unit_tests", "lint", "security"],
+    "autonomy_level": 3,
+    "expected_capabilities": ["security_analysis", "vulnerability_assessment", "refactoring", "testing", "review"],
+    "tags": ["security", "auth", "vulnerability"]
+  },
+  {
+    "id": "BM-P005",
+    "name": "Code Refactoring",
+    "description": "Refactor a monolithic function into clean modular code",
+    "task_objective": "Refactor the payment processing module from a single monolithic function into clean, modular, testable functions with proper error handling",
+    "acceptance_criteria": [
+      "Monolithic function split into focused modules",
+      "All existing functionality preserved",
+      "New functions have unit tests",
+      "Code passes linting",
+      "Review completed"
+    ],
+    "allowed_changes": ["src/payment/**", "tests/**"],
+    "verification_required": ["unit_tests", "lint"],
+    "autonomy_level": 3,
+    "expected_capabilities": ["refactoring", "testing", "code_review"],
+    "tags": ["refactoring", "code-quality", "modularity"]
+  },
+  {
+    "id": "BM-P006",
+    "name": "Integration between Two Services",
+    "description": "Implement integration between two existing microservices",
+    "task_objective": "Implement integration between the order service and the inventory service so that order creation decrements inventory and inventory restoration happens on cancellation",
+    "acceptance_criteria": [
+      "Order creation decrements inventory correctly",
+      "Order cancellation restores inventory",
+      "Integration tests pass",
+      "Error handling for race conditions",
+      "Review completed"
+    ],
+    "allowed_changes": ["src/order/**", "src/inventory/**", "tests/**"],
+    "verification_required": ["unit_tests", "integration", "lint"],
+    "autonomy_level": 3,
+    "expected_capabilities": ["integration_design", "api_implementation", "integration_testing", "review"],
+    "tags": ["integration", "microservices", "order-inventory"]
+  },
+  {
+    "id": "BM-P007",
+    "name": "Performance Optimization",
+    "description": "Optimize a slow database query or algorithm",
+    "task_objective": "Profile and optimize the product search endpoint which is currently taking >5 seconds for simple queries. Identify bottlenecks and implement caching or query optimization",
+    "acceptance_criteria": [
+      "Search response time under 500ms",
+      "Indexes added for common query patterns",
+      "Caching layer implemented where appropriate",
+      "Existing tests still pass",
+      "Review completed"
+    ],
+    "allowed_changes": ["src/search/**", "src/cache/**"],
+    "verification_required": ["unit_tests", "lint"],
+    "autonomy_level": 3,
+    "expected_capabilities": ["profiling", "optimization", "testing", "review"],
+    "tags": ["performance", "optimization", "caching"]
+  },
+  {
+    "id": "BM-P008",
+    "name": "API Documentation Generation",
+    "description": "Generate comprehensive API documentation from code",
+    "task_objective": "Generate comprehensive API documentation including endpoint descriptions, request/response schemas, and example payloads for the existing REST API",
+    "acceptance_criteria": [
+      "All endpoints documented",
+      "Request schemas included",
+      "Response schemas included",
+      "Examples for each endpoint",
+      "Review completed"
+    ],
+    "allowed_changes": ["docs/api/**"],
+    "verification_required": ["lint"],
+    "autonomy_level": 2,
+    "expected_capabilities": ["technical_writing", "api_documentation", "review"],
+    "tags": ["documentation", "api", "openapi"]
+  },
+  {
+    "id": "BM-P009",
+    "name": "CI/CD Pipeline Configuration",
+    "description": "Set up a CI/CD pipeline with automated testing and deployment",
+    "task_objective": "Configure a CI/CD pipeline with automated testing, linting, security scanning, and deployment to staging environment",
+    "acceptance_criteria": [
+      "Pipeline runs tests automatically",
+      "Linting enforced",
+      "Security scan included",
+      "Deployment to staging automated",
+      "Review completed"
+    ],
+    "allowed_changes": [".github/**", "deploy/**"],
+    "verification_required": ["lint"],
+    "autonomy_level": 3,
+    "expected_capabilities": ["ci_cd", "deployment", "testing", "review"],
+    "tags": ["ci-cd", "devops", "automation"]
+  },
+  {
+    "id": "BM-P010",
+    "name": "End-to-End Feature Implementation",
+    "description": "Implement a complete feature from backend to frontend",
+    "task_objective": "Implement a complete user profile feature including backend API, database schema, and frontend views for viewing and editing profiles",
+    "acceptance_criteria": [
+      "Backend API endpoints for profile CRUD working",
+      "Database migration for profiles table",
+      "Frontend profile view component",
+      "Frontend profile edit form",
+      "E2E flow from UI to database works",
+      "Tests pass",
+      "Review completed"
+    ],
+    "allowed_changes": ["src/api/**", "src/components/**", "database/**", "tests/**"],
+    "verification_required": ["unit_tests", "integration", "e2e", "lint"],
+    "autonomy_level": 3,
+    "expected_capabilities": ["api_design", "backend_development", "frontend_development", "database_schema", "testing", "integration_testing", "e2e_testing", "review"],
+    "tags": ["full-stack", "e2e", "feature"]
+  },
+  {
+    "id": "BM-P011",
+    "name": "Bug Reproduction and Fix",
+    "description": "Reproduce a reported bug, find root cause, and implement fix",
+    "task_objective": "Reproduce the reported bug where user session expires prematurely. Find root cause in session management and implement a permanent fix",
+    "acceptance_criteria": [
+      "Bug reproduced in controlled environment",
+      "Root cause identified",
+      "Fix implemented",
+      "Regression tests pass",
+      "Review completed"
+    ],
+    "allowed_changes": ["src/session/**", "src/auth/**", "tests/**"],
+    "verification_required": ["unit_tests", "lint"],
+    "autonomy_level": 3,
+    "expected_capabilities": ["debugging", "testing", "refactoring", "review"],
+    "tags": ["bug-fix", "debugging", "session"]
+  },
+  {
+    "id": "BM-P012",
+    "name": "System Architecture Design",
+    "description": "Design system architecture for a new feature",
+    "task_objective": "Design the system architecture for a real-time notification system including event bus, push notifications, and in-app notification center",
+    "acceptance_criteria": [
+      "Architecture diagram produced",
+      "Component interactions defined",
+      "Data flow documented",
+      "Scalability considerations addressed",
+      "Review completed"
+    ],
+    "allowed_changes": ["docs/architecture/**"],
+    "verification_required": ["lint"],
+    "autonomy_level": 2,
+    "expected_capabilities": ["system_design", "integration_design", "domain_modeling", "technical_writing", "review"],
+    "tags": ["architecture", "design", "notifications"]
+  }
+]
