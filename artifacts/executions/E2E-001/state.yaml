@@ -1,0 +1,9 @@
+task_id: E2E-001
+current_state: FAILED
+history:
+- from: RECEIVED
+  to: ANALYZING
+  timestamp: '2026-09-11T14:59:09.391470'
+- from: ANALYZING
+  to: FAILED
+  timestamp: '2026-09-11T14:59:09.488358'

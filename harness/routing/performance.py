@@ -33,6 +33,7 @@ class ModelPerformanceRegistry:
                 "..", "..", "artifacts", "model_performance.db"
             )
         self.db_path = db_path
+        self._record_type = ModelTaskRecord
         os.makedirs(os.path.dirname(db_path), exist_ok=True)
         self._init_db()
 

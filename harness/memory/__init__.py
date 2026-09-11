@@ -28,6 +28,7 @@ class MemoryManager:
                 "..", "..", "artifacts", "memory"
             )
         self.storage_dir = storage_dir
+        self._entry_type = MemoryEntry
         os.makedirs(storage_dir, exist_ok=True)
         for sub in ["project", "task", "agent", "lessons"]:
             os.makedirs(os.path.join(storage_dir, sub), exist_ok=True)
