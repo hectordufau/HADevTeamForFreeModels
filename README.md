@@ -1,4 +1,4 @@
-# HADevTeamForFreeModels
+# Hermes Agent DevTeam For Free Models
 
 > An AI Engineering Harness for Hermes Agent — free models, verifiable execution, autonomous software engineering.
 
