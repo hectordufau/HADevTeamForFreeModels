@@ -1,0 +1,137 @@
+{
+    "scenarios": [
+        {
+            "id": "V3.1-BM-GEN-001",
+            "name": "Generalization Test — Backend → API (similar)",
+            "type": "generalization_pair",
+            "source_task_class": "backend_development",
+            "target_task_class": "api_development",
+            "min_experiences": 3,
+            "expected_transfer": true,
+            "description": "Test that learning from backend development transfers to API development"
+        },
+        {
+            "id": "V3.1-BM-GEN-002",
+            "name": "Generalization Test — Testing → QA (closely related)",
+            "type": "generalization_pair",
+            "source_task_class": "testing",
+            "target_task_class": "qa",
+            "min_experiences": 2,
+            "expected_transfer": true,
+            "description": "Test that testing experience transfers to quality assurance tasks"
+        },
+        {
+            "id": "V3.1-BM-GEN-003",
+            "name": "Generalization Test — Deploy → DevOps (related)",
+            "type": "generalization_pair",
+            "source_task_class": "deployment",
+            "target_task_class": "devops",
+            "min_experiences": 3,
+            "expected_transfer": true,
+            "description": "Test that deployment experience transfers to broader DevOps tasks"
+        },
+        {
+            "id": "V3.1-BM-GEN-004",
+            "name": "Generalization Test — Security → Cryptography (far transfer)",
+            "type": "generalization_pair",
+            "source_task_class": "security_analysis",
+            "target_task_class": "cryptography",
+            "min_experiences": 5,
+            "expected_transfer": false,
+            "description": "Security analysis may not transfer to specialized cryptography"
+        },
+        {
+            "id": "V3.1-BM-FAIL-001",
+            "name": "Failure Learning — Deployment Timeout",
+            "type": "failure_learning",
+            "failure_capability": "deployment",
+            "failure_pattern": "timeout",
+            "error_message": "Deployment timed out after 120s",
+            "expected_retry_strategy": "increase_timeout_retry_with_backoff",
+            "description": "Learn from a deployment timeout failure and adjust retry strategy"
+        },
+        {
+            "id": "V3.1-BM-FAIL-002",
+            "name": "Failure Learning — API Authentication Error",
+            "type": "failure_learning",
+            "failure_capability": "api_development",
+            "failure_pattern": "authentication",
+            "error_message": "401 Unauthorized: invalid or expired token",
+            "expected_retry_strategy": "refresh_token_retry",
+            "description": "Learn from API authentication failures and add token refresh"
+        },
+        {
+            "id": "V3.1-BM-FAIL-003",
+            "name": "Failure Learning — Model Selection Error",
+            "type": "failure_learning",
+            "failure_capability": "model_selection",
+            "failure_pattern": "model_unavailable",
+            "error_message": "Model 'gpt-4-preview' is at capacity. Please try again later.",
+            "expected_retry_strategy": "fallback_to_alternative_model",
+            "description": "Learn from model unavailability and add fallback models"
+        },
+        {
+            "id": "V3.1-BM-DEC-001",
+            "name": "Decision Influence — Model Selection",
+            "type": "decision_influence",
+            "decision_type": "model",
+            "baseline_choice": "default_model",
+            "expected_choice": "recommended_model",
+            "experience_count": 5,
+            "confidence_threshold": 0.3,
+            "description": "Verify that accumulated experiences influence model selection decisions"
+        },
+        {
+            "id": "V3.1-BM-DEC-002",
+            "name": "Decision Influence — Agent Selection",
+            "type": "decision_influence",
+            "decision_type": "agent",
+            "baseline_choice": "generic_agent",
+            "expected_choice": "specialized_agent",
+            "experience_count": 3,
+            "confidence_threshold": 0.25,
+            "description": "Verify that accumulated experiences influence agent selection decisions"
+        },
+        {
+            "id": "V3.1-BM-DEC-003",
+            "name": "Decision Influence — Workflow Selection",
+            "type": "decision_influence",
+            "decision_type": "workflow",
+            "baseline_choice": "sequential",
+            "expected_choice": "parallel_verify",
+            "experience_count": 4,
+            "confidence_threshold": 0.4,
+            "description": "Verify that experiences influence workflow ordering decisions"
+        },
+        {
+            "id": "V3.1-BM-EXP-001",
+            "name": "Adaptive Exploration — High Confidence → Low Exploration",
+            "type": "exploration",
+            "confidence_level": "high",
+            "confidence_value": 0.85,
+            "expected_exploration_rate_max": 0.10,
+            "num_candidates": 5,
+            "description": "High confidence should result in low exploration rate (< 10%)"
+        },
+        {
+            "id": "V3.1-BM-EXP-002",
+            "name": "Adaptive Exploration — Low Confidence → High Exploration",
+            "type": "exploration",
+            "confidence_level": "low",
+            "confidence_value": 0.15,
+            "expected_exploration_rate_min": 0.25,
+            "num_candidates": 5,
+            "description": "Low confidence should result in exploration rate > 25%"
+        },
+        {
+            "id": "V3.1-BM-EXP-003",
+            "name": "Purposeful Exploration — Information Gain Selection",
+            "type": "exploration",
+            "exploration_type": "purposeful",
+            "focus": "information_gain",
+            "num_candidates": 10,
+            "top_k": 3,
+            "description": "Purposeful candidate selection should pick information-rich candidates"
+        }
+    ]
+}

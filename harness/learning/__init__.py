@@ -36,3 +36,8 @@ from .evaluation import (
     LearningEfficiency,
     LearningEvaluator,
 )
+from .exploration import (
+    AdaptiveExplorationPolicy,
+    PurposefulCandidateSelector,
+    ExplorationResultLearner,
+)
