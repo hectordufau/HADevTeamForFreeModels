@@ -13,6 +13,9 @@ import json
 import os
 import math
 
+from .context import ExperimentContext
+from .isolation import check_test_protection, namespace_path as _ns
+
 
 class ExperienceError(Exception):
     """Raised on experience extraction errors."""
@@ -105,7 +108,20 @@ class StructuredExperience:
     confidence: float = 0.0
     evidence: List[Evidence] = field(default_factory=list)
     category: str = ""  # generic categorization (success_pattern, failure_lesson, performance_tip)
+    # V3.2 ExperimentContext fields (optional for backward compatibility)
+    validation_run_id: str = ""
+    benchmark_id: str = ""
+    mode: str = ""
+    execution_id: str = ""
     timestamp: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+    # V3.2 Phase 7 — failure-derived learning provenance (optional; present only
+    # on failure-derived experiences, defaults keep legacy entries unchanged).
+    source_type: str = ""            # "failure" for failure-derived experiences
+    source_task_id: str = ""
+    source_execution_id: str = ""
+    failure_id: str = ""
+    failure_category: str = ""
+    provenance: Dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         return {
@@ -119,7 +135,17 @@ class StructuredExperience:
             "confidence": round(self.confidence, 4),
             "evidence": [e.to_dict() for e in self.evidence],
             "category": self.category,
+            "validation_run_id": self.validation_run_id,
+            "benchmark_id": self.benchmark_id,
+            "mode": self.mode,
+            "execution_id": self.execution_id,
             "timestamp": self.timestamp,
+            "source_type": self.source_type,
+            "source_task_id": self.source_task_id,
+            "source_execution_id": self.source_execution_id,
+            "failure_id": self.failure_id,
+            "failure_category": self.failure_category,
+            "provenance": self.provenance,
         }
 
 
@@ -371,8 +397,10 @@ class ExperiencePipeline:
     Wraps extraction + quality scoring + storage.
     """
 
-    def __init__(self, store: Any = None, storage_dir: str = ""):
+    def __init__(self, store: Any = None, storage_dir: str = "",
+                 experiment_context: Optional[ExperimentContext] = None):
         self.store = store
+        self.experiment_context = experiment_context
         if not storage_dir:
             storage_dir = os.path.join(
                 os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -393,23 +421,68 @@ class ExperiencePipeline:
         self._store(exp)
         return exp
 
-    def _store(self, exp: StructuredExperience):
-        """Store a structured experience."""
-        path = os.path.join(self._storage_dir, f"{exp.task_id}.json")
+    def process_stored(self, experience: StructuredExperience,
+                       experiment_context: Optional[ExperimentContext] = None
+                       ) -> StructuredExperience:
+        """Store an already-built StructuredExperience (used by failure pipeline).
+
+        Fail-closed: TEST-mode contexts are rejected from this store path, so a
+        derived experience can never enter the learning store from a TEST run.
+        """
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+        if experiment_context is not None and experiment_context.mode == "TEST":
+            raise ValueError(
+                "TEST-mode StructuredExperience cannot be stored: "
+                "TEST failures must never become training experiences."
+            )
+        self._store(experience, experiment_context=experiment_context)
+        return experience
+
+    def _store(self, exp: StructuredExperience,
+               experiment_context: Optional[ExperimentContext] = None):
+        """Store a structured experience in namespaced directory."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+        check_test_protection(experiment_context, "store")
+
+        store_dir = _ns(
+            "experiences",
+            experiment_context=experiment_context
+        ) if experiment_context else self._storage_dir
+
+        path = os.path.join(store_dir, f"{exp.task_id}.json")
         with open(path, "w") as f:
             json.dump(exp.to_dict(), f, indent=2)
 
         # Store quality score separately
         quality = ExperienceQualityScorer.score_components(exp)
-        quality_path = os.path.join(self._quality_dir, f"{exp.task_id}.json")
+        quality_dir = os.path.join(store_dir, "quality")
+        os.makedirs(quality_dir, exist_ok=True)
+        quality_path = os.path.join(quality_dir, f"{exp.task_id}.json")
         with open(quality_path, "w") as f:
             json.dump(quality, f, indent=2)
 
-    def retrieve(self, task_id: str) -> Optional[StructuredExperience]:
-        """Retrieve a stored experience by task ID."""
-        path = os.path.join(self._storage_dir, f"{task_id}.json")
+    def retrieve(self, task_id: str,
+                 experiment_context: Optional[ExperimentContext] = None) -> Optional[StructuredExperience]:
+        """Retrieve a stored experience by task ID, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+
+        store_dir = _ns(
+            "experiences",
+            experiment_context=experiment_context
+        ) if experiment_context else self._storage_dir
+
+        path = os.path.join(store_dir, f"{task_id}.json")
         if not os.path.exists(path):
-            return None
+            # Fallback: try the non-namespaced directory if no context
+            if experiment_context is None:
+                path = os.path.join(self._storage_dir, f"{task_id}.json")
+                if not os.path.exists(path):
+                    return None
+            else:
+                return None
         with open(path) as f:
             data = json.load(f)
         # Reconstruct Evidence objects from dicts
@@ -417,18 +490,51 @@ class ExperiencePipeline:
             data["evidence"] = [Evidence(**e) if isinstance(e, dict) else e for e in data["evidence"]]
         return StructuredExperience(**data)
 
-    def get_quality(self, task_id: str) -> Optional[Dict[str, float]]:
-        """Get quality score for an experience."""
-        path = os.path.join(self._quality_dir, f"{task_id}.json")
+    def get_quality(self, task_id: str,
+                    experiment_context: Optional[ExperimentContext] = None) -> Optional[Dict[str, float]]:
+        """Get quality score for an experience, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+
+        if experiment_context:
+            quality_dir = os.path.join(
+                self._storage_dir,
+                experiment_context.validation_run_id,
+                experiment_context.mode,
+                "experiences",
+                "quality",
+            )
+        else:
+            quality_dir = self._quality_dir
+
+        path = os.path.join(quality_dir, f"{task_id}.json")
         if not os.path.exists(path):
-            return None
+            # Fallback
+            if experiment_context is None:
+                path = os.path.join(self._quality_dir, f"{task_id}.json")
+                if not os.path.exists(path):
+                    return None
+            else:
+                return None
         with open(path) as f:
             return json.load(f)
 
-    def list_experiences(self) -> List[str]:
-        """List all stored experience task IDs."""
+    def list_experiences(self,
+                         experiment_context: Optional[ExperimentContext] = None) -> List[str]:
+        """List all stored experience task IDs, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+
+        store_dir = _ns(
+            "experiences",
+            experiment_context=experiment_context
+        ) if experiment_context else self._storage_dir
+
+        if not os.path.exists(store_dir):
+            return []
+
         exps = []
-        for fname in os.listdir(self._storage_dir):
+        for fname in os.listdir(store_dir):
             if fname.endswith(".json"):
                 exps.append(fname[:-5])
         return exps

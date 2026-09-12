@@ -12,6 +12,8 @@ import os
 import uuid
 
 from .experience import StructuredExperience
+from .context import ExperimentContext
+from .isolation import check_test_protection, namespace_path
 
 
 class StrategyError(Exception):
@@ -38,6 +40,10 @@ class Strategy:
     confidence: float = 0.5
     created: str = field(default_factory=lambda: datetime.utcnow().isoformat())
     updated: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+    # V3.2 ExperimentContext fields (optional for backward compatibility)
+    validation_run_id: str = ""
+    benchmark_id: str = ""
+    mode: str = ""
 
     def to_dict(self) -> dict:
         return {
@@ -53,6 +59,9 @@ class Strategy:
             "confidence": round(self.confidence, 4),
             "created": self.created,
             "updated": self.updated,
+            "validation_run_id": self.validation_run_id,
+            "benchmark_id": self.benchmark_id,
+            "mode": self.mode,
         }
 
 
@@ -246,38 +255,78 @@ class StrategyGenerator:
 class StrategyStore:
     """Persistent store for strategies with validation."""
 
-    def __init__(self, storage_dir: str = ""):
+    def __init__(self, storage_dir: str = "",
+                 experiment_context: Optional[ExperimentContext] = None):
         self.storage_dir = storage_dir or os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
             "..", "artifacts", "strategies"
         )
         os.makedirs(self.storage_dir, exist_ok=True)
+        self.experiment_context = experiment_context
 
-    def save(self, strategy: Strategy):
-        """Save a strategy."""
-        path = os.path.join(self.storage_dir, f"{strategy.strategy_id}.json")
+    def save(self, strategy: Strategy,
+             experiment_context: Optional[ExperimentContext] = None):
+        """Save a strategy to namespaced directory."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+        check_test_protection(experiment_context, "store")
+
+        store_dir = namespace_path(
+            "strategies",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+        path = os.path.join(store_dir, f"{strategy.strategy_id}.json")
         with open(path, "w") as f:
             json.dump(strategy.to_dict(), f, indent=2)
 
-    def load(self, strategy_id: str) -> Optional[Strategy]:
-        """Load a strategy by ID."""
-        path = os.path.join(self.storage_dir, f"{strategy_id}.json")
+    def load(self, strategy_id: str,
+             experiment_context: Optional[ExperimentContext] = None) -> Optional[Strategy]:
+        """Load a strategy by ID, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+
+        store_dir = namespace_path(
+            "strategies",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+
+        path = os.path.join(store_dir, f"{strategy_id}.json")
         if not os.path.exists(path):
-            return None
+            # Fallback: try V3.1 flat directory if no context
+            if experiment_context is None:
+                path = os.path.join(self.storage_dir, f"{strategy_id}.json")
+                if not os.path.exists(path):
+                    return None
+            else:
+                return None
         with open(path) as f:
             data = json.load(f)
         return Strategy(**data)
 
-    def list_strategies(self) -> List[Strategy]:
-        """List all stored strategies."""
+    def list_strategies(self,
+                        experiment_context: Optional[ExperimentContext] = None) -> List[Strategy]:
+        """List all stored strategies, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+
+        store_dir = namespace_path(
+            "strategies",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+
+        if not os.path.exists(store_dir):
+            return []
+
         strategies = []
-        for fname in os.listdir(self.storage_dir):
+        for fname in os.listdir(store_dir):
             if fname.endswith(".json"):
-                with open(os.path.join(self.storage_dir, fname)) as f:
+                with open(os.path.join(store_dir, fname)) as f:
                     data = json.load(f)
                 strategies.append(Strategy(**data))
         return sorted(strategies, key=lambda s: s.confidence, reverse=True)
 
-    def find_by_task_class(self, task_class: str) -> List[Strategy]:
-        """Find strategies for a specific task class."""
-        return [s for s in self.list_strategies() if s.task_class == task_class]
+    def find_by_task_class(self, task_class: str,
+                           experiment_context: Optional[ExperimentContext] = None) -> List[Strategy]:
+        """Find strategies for a specific task class, filtered by context."""
+        all_strategies = self.list_strategies(experiment_context=experiment_context)
+        return [s for s in all_strategies if s.task_class == task_class]

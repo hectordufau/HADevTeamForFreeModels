@@ -11,6 +11,9 @@ import json
 import os
 import math
 
+from ..learning.context import ExperimentContext
+from ..learning.isolation import check_test_protection, namespace_path
+
 
 class MemoryV3Error(Exception):
     """Raised on V3 memory errors."""
@@ -200,7 +203,8 @@ class RelevanceScorer:
 class ExperienceStore:
     """Persistent store for experiences with relevance and confidence tracking."""
 
-    def __init__(self, storage_dir: str = ""):
+    def __init__(self, storage_dir: str = "",
+                 experiment_context: Optional[ExperimentContext] = None):
         self.storage_dir = storage_dir or os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
             "..", "artifacts", "experiences"
@@ -208,41 +212,82 @@ class ExperienceStore:
         os.makedirs(self.storage_dir, exist_ok=True)
         self._confidence_dir = os.path.join(self.storage_dir, "confidence")
         os.makedirs(self._confidence_dir, exist_ok=True)
+        self.experiment_context = experiment_context
 
-    def store(self, experience: ExperienceRecord) -> str:
-        """Store an experience and initialize its confidence tracker."""
-        exp_path = os.path.join(self.storage_dir, f"{experience.task_id}.json")
+    def store(self, experience: ExperienceRecord,
+              experiment_context: Optional[ExperimentContext] = None) -> str:
+        """Store an experience and initialize its confidence tracker in namespaced directory."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+        check_test_protection(experiment_context, "store")
+
+        store_dir = namespace_path(
+            "experiences",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+
+        exp_path = os.path.join(store_dir, f"{experience.task_id}.json")
         with open(exp_path, "w") as f:
             json.dump(experience.to_dict(), f, indent=2)
 
         # Initialize confidence tracker
+        confidence_dir = os.path.join(store_dir, "confidence")
+        os.makedirs(confidence_dir, exist_ok=True)
         tracker = ConfidenceTracker(entry_id=experience.task_id)
-        self._save_confidence(tracker)
+        self._save_confidence(tracker, confidence_dir)
 
         return experience.task_id
 
-    def retrieve(self, task_id: str) -> Optional[ExperienceRecord]:
-        """Retrieve an experience by task ID."""
-        path = os.path.join(self.storage_dir, f"{task_id}.json")
+    def retrieve(self, task_id: str,
+                 experiment_context: Optional[ExperimentContext] = None) -> Optional[ExperienceRecord]:
+        """Retrieve an experience by task ID, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+
+        store_dir = namespace_path(
+            "experiences",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+
+        path = os.path.join(store_dir, f"{task_id}.json")
         if not os.path.exists(path):
-            return None
+            # Fallback: try V3.0 flat directory if no context
+            if experiment_context is None:
+                path = os.path.join(self.storage_dir, f"{task_id}.json")
+                if not os.path.exists(path):
+                    return None
+            else:
+                return None
         with open(path) as f:
             data = json.load(f)
         return ExperienceRecord(**data)
 
     def search(self, query: str, min_relevance: float = 0.0,
-               limit: int = 10) -> List[MemoryScore]:
-        """Search experiences by relevance to query."""
+               limit: int = 10,
+               experiment_context: Optional[ExperimentContext] = None) -> List[MemoryScore]:
+        """Search experiences by relevance to query, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+
+        store_dir = namespace_path(
+            "experiences",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+
+        if not os.path.exists(store_dir):
+            return []
+
         results = []
-        for fname in os.listdir(self.storage_dir):
+        for fname in os.listdir(store_dir):
             if not fname.endswith(".json") or fname == "confidence":
                 continue
-            with open(os.path.join(self.storage_dir, fname)) as f:
+            with open(os.path.join(store_dir, fname)) as f:
                 data = json.load(f)
             exp = ExperienceRecord(**data)
             relevance = RelevanceScorer.score(exp, query)
             if relevance >= min_relevance:
-                confidence = self._get_confidence(exp.task_id)
+                confidence_dir = os.path.join(store_dir, "confidence")
+                confidence = self._get_confidence(exp.task_id, confidence_dir)
                 results.append(MemoryScore(
                     entry_id=exp.task_id,
                     content=exp.task_objective,
@@ -255,26 +300,42 @@ class ExperienceStore:
         results.sort(key=lambda x: (x.relevance, x.confidence), reverse=True)
         return results[:limit]
 
-    def get_confidence(self, entry_id: str) -> ConfidenceTracker:
+    def get_confidence(self, entry_id: str,
+                       experiment_context: Optional[ExperimentContext] = None) -> ConfidenceTracker:
         """Get the confidence tracker for an entry."""
-        return self._get_confidence(entry_id)
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+        confidence_dir = os.path.join(
+            namespace_path("experiences", experiment_context=experiment_context),
+            "confidence",
+        ) if experiment_context else self._confidence_dir
+        return self._get_confidence(entry_id, confidence_dir)
 
-    def record_outcome(self, entry_id: str, outcome: str):
+    def record_outcome(self, entry_id: str, outcome: str,
+                       experiment_context: Optional[ExperimentContext] = None):
         """Record an outcome for a confidence tracker."""
-        tracker = self._get_confidence(entry_id)
+        tracker = self.get_confidence(entry_id, experiment_context)
         if tracker:
             tracker.record_access(outcome)
-            self._save_confidence(tracker)
+            confidence_dir = os.path.join(
+                namespace_path("experiences", experiment_context=experiment_context),
+                "confidence",
+            ) if experiment_context else self._confidence_dir
+            self._save_confidence(tracker, confidence_dir)
 
-    def _get_confidence(self, entry_id: str) -> Optional[ConfidenceTracker]:
-        path = os.path.join(self._confidence_dir, f"{entry_id}.json")
+    def _get_confidence(self, entry_id: str,
+                        confidence_dir: Optional[str] = None) -> Optional[ConfidenceTracker]:
+        conf_dir = confidence_dir or self._confidence_dir
+        path = os.path.join(conf_dir, f"{entry_id}.json")
         if not os.path.exists(path):
             return None
         with open(path) as f:
             data = json.load(f)
         return ConfidenceTracker(**data)
 
-    def _save_confidence(self, tracker: ConfidenceTracker):
-        path = os.path.join(self._confidence_dir, f"{tracker.entry_id}.json")
+    def _save_confidence(self, tracker: ConfidenceTracker,
+                         confidence_dir: Optional[str] = None):
+        conf_dir = confidence_dir or self._confidence_dir
+        path = os.path.join(conf_dir, f"{tracker.entry_id}.json")
         with open(path, "w") as f:
             json.dump(tracker.to_dict(), f, indent=2)

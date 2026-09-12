@@ -16,6 +16,12 @@ class EvaluationError(Exception):
     """Raised on evaluation errors."""
 
 
+# V3.2 Phase 5: explicit status sentinels — a statistic that cannot be validly
+# computed is reported as such, never silently substituted.
+NOT_AVAILABLE = "NOT_AVAILABLE"
+NOT_APPLICABLE = "NOT_APPLICABLE"
+
+
 @dataclass
 class LearningGainResult:
     """Result of a learning gain calculation."""
@@ -31,13 +37,18 @@ class LearningGainResult:
 
 @dataclass
 class GeneralizationResult:
-    """Result of generalization gain calculation."""
-    baseline_generalization_score: float
-    learning_generalization_score: float
-    generalization_gain: float  # positive = learning generalizes well
-    seen_performance: float
-    unseen_performance: float
-    gap: float  # seen - unseen (positive = overfitting)
+    """Result of generalization gain calculation.
+
+    V3.2 Phase 5: fields are Any because they may carry explicit sentinels
+    (NOT_AVAILABLE / NOT_APPLICABLE) when a statistic cannot be validly
+    computed, instead of an invented numeric value.
+    """
+    baseline_generalization_score: Any
+    learning_generalization_score: Any
+    generalization_gain: Any  # positive = learning generalizes well
+    seen_performance: Any
+    unseen_performance: Any
+    gap: Any  # seen - unseen (positive = overfitting)
 
 
 @dataclass
@@ -75,12 +86,29 @@ class LearningEfficiencyResult:
 
 
 class LearningGainCalculator:
-    """Calculates learning gain as percentage improvement over baseline."""
+    """Calculates learning gain as percentage improvement over baseline.
+
+    V3.2 Phase 5: the +5 percentage-point "significant" threshold is no longer
+    hard-coded — it is supplied via the configurable SignificanceConfig (see
+    harness.learning.statistics) and reflected in reports.
+    """
 
     @staticmethod
     def calculate(baseline_metrics: Dict[str, Any],
-                  learning_metrics: Dict[str, Any]) -> LearningGainResult:
-        """Calculate learning gain from baseline vs learning metrics."""
+                  learning_metrics: Dict[str, Any],
+                  significance: Any = None) -> LearningGainResult:
+        """Calculate learning gain from baseline vs learning metrics.
+
+        Args:
+            baseline_metrics: dict with success_rate, avg_score
+            learning_metrics: dict with success_rate, avg_score
+            significance: optional SignificanceConfig; defaults to the standard
+                config so the +5pp threshold is configurable, not hard-coded.
+        """
+        if significance is None:
+            from .statistics import DEFAULT_SIGNIFICANCE
+            significance = DEFAULT_SIGNIFICANCE
+
         b_success = baseline_metrics.get("success_rate", 0)
         l_success = learning_metrics.get("success_rate", 0)
         b_score = baseline_metrics.get("avg_score", 0)
@@ -90,7 +118,7 @@ class LearningGainCalculator:
         score_improvement = l_score - b_score
 
         gain_ratio = l_score / max(b_score, 0.001)
-        significant = success_improvement >= 0.05  # +5 percentage points threshold
+        significant = abs(success_improvement) >= significance.success_rate_pp
 
         return LearningGainResult(
             baseline_success_rate=b_success,
@@ -105,21 +133,37 @@ class LearningGainCalculator:
 
 
 class GeneralizationGain:
-    """Measures how well learning generalizes to unseen tasks."""
+    """Measures how well learning generalizes to unseen tasks.
+
+    V3.2 (Phase 5): the artificial 0.5 "random baseline" is removed. The
+    generalization baseline is an EMPIRICAL COLD-DERIVED value supplied by the
+    caller; when EITHER an environment is absent (n=0) or the caller does not
+    supply a COLD baseline for the pre-normalization score, it is reported as
+    NOT_APPLICABLE rather than inventing a number. A bare ratio is only a
+    descriptive statistic, not a causal claim.
+    """
 
     @staticmethod
     def calculate(all_results: List[Dict[str, Any]],
                   train_task_ids: List[str],
-                  eval_task_ids: List[str]) -> GeneralizationResult:
+                  eval_task_ids: List[str],
+                  cold_baseline_score: Any = None,
+                  cold_raw_score: Any = None) -> GeneralizationResult:
         """Calculate generalization gain.
 
         Args:
             all_results: All benchmark results with task_id and score
             train_task_ids: Task IDs used during training
             eval_task_ids: Task IDs held out for evaluation
+            cold_baseline_score: Empirical COLD baseline for the generalization
+                ration (e.g. COLD unseen/train ratio); NOT_APPLICABLE when None.
+            cold_raw_score: Empirical COLD score for the gap baseline (from
+                persisted COLD outcomes); NOT_APPLICABLE when None.
 
         Returns:
-            GeneralizationResult
+            GeneralizationResult — baseline_generalization_score is NOT_APPLICABLE
+            when no empirical COLD baseline is supplied; when a baseline is
+            supplied it is used, never replaced by an invented 0.5.
         """
         train_scores = [
             r.get("score", 0) for r in all_results
@@ -130,24 +174,42 @@ class GeneralizationGain:
             if r.get("task_id") in eval_task_ids
         ]
 
-        train_avg = sum(train_scores) / max(len(train_scores), 1)
-        eval_avg = sum(eval_scores) / max(len(eval_scores), 1)
+        if not train_scores or not eval_scores:
+            # None/insufficient environment: no valid generalization statistic.
+            return GeneralizationResult(
+                baseline_generalization_score=(cold_baseline_score if cold_baseline_score is not None else NOT_APPLICABLE),
+                learning_generalization_score=NOT_AVAILABLE,
+                generalization_gain=NOT_AVAILABLE,
+                seen_performance=NOT_AVAILABLE,
+                unseen_performance=NOT_AVAILABLE,
+                gap=NOT_AVAILABLE,
+            )
+
+        train_avg = sum(train_scores) / len(train_scores)
+        eval_avg = sum(eval_scores) / len(eval_scores)
 
         # Generalization gain: eval performance as fraction of train performance
-        gen_gain = eval_avg / max(train_avg, 0.001)
+        gen_gain = eval_avg / max(train_avg, 1e-9)
 
-        # Gap: difference between seen and unseen (positive = overfitting)
+        # Gap: difference between seen and unseen (positive = overfitting);
+        # delta is relative to the empirical COLD raw score when supplied.
         gap = train_avg - eval_avg
 
-        # How does this compare to a baseline without learning?
-        # For V3.1, we use seen performance as the "with learning" proxy
-        # and unseen performance as the generalization test
-        baseline_gen = 0.5  # random baseline
+        # Empirical COLD baseline: use it if supplied, else NOT_APPLICABLE.
+        baseline_gen = cold_baseline_score if cold_baseline_score is not None else NOT_APPLICABLE
+
+        if isinstance(baseline_gen, (int, float)):
+            generalization_gain = round(gen_gain - baseline_gen, 4)
+        else:
+            generalization_gain = NOT_APPLICABLE
+
+        if cold_raw_score is not None:
+            gap = train_avg - cold_raw_score
 
         return GeneralizationResult(
             baseline_generalization_score=baseline_gen,
             learning_generalization_score=round(gen_gain, 4),
-            generalization_gain=round(gen_gain - baseline_gen, 4),
+            generalization_gain=generalization_gain,
             seen_performance=round(train_avg, 4),
             unseen_performance=round(eval_avg, 4),
             gap=round(gap, 4),

@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from harness.learning.evaluation import (
     LearningGainCalculator, GeneralizationGain, FailureAvoidanceMetric,
     DecisionInfluenceMetric, LearningEfficiency, LearningEvaluator,
+    NOT_AVAILABLE, NOT_APPLICABLE,
 )
 
 
@@ -57,12 +58,33 @@ class TestGeneralizationGain:
             {"task_id": "eval-1", "score": 0.75},
             {"task_id": "eval-2", "score": 0.72},
         ]
+        # V3.2 Phase 5: the hard-coded 0.5 random baseline is removed. The
+        # baseline is now the caller-supplied EMPIRICAL COLD value; the
+        # generalization gain is the unseen/train ratio above that baseline.
+        gen = GeneralizationGain.calculate(
+            results,
+            train_task_ids=["train-1", "train-2"],
+            eval_task_ids=["eval-1", "eval-2"],
+            cold_baseline_score=0.3,  # empirical COLD-derived baseline
+        )
+        assert gen.generalization_gain > 0
+
+    def test_no_cold_baseline_is_not_applicable(self):
+        # Without a supplied empirical COLD baseline the generalization gain is
+        # NOT_APPLICABLE, never an invented 0.5.
+        results = [
+            {"task_id": "train-1", "score": 0.8},
+            {"task_id": "train-2", "score": 0.7},
+            {"task_id": "eval-1", "score": 0.75},
+            {"task_id": "eval-2", "score": 0.72},
+        ]
         gen = GeneralizationGain.calculate(
             results,
             train_task_ids=["train-1", "train-2"],
             eval_task_ids=["eval-1", "eval-2"],
         )
-        assert gen.generalization_gain > 0  # should beat random baseline
+        assert gen.baseline_generalization_score == NOT_APPLICABLE
+        assert gen.generalization_gain == NOT_APPLICABLE
 
     def test_overfitting(self):
         results = [
@@ -75,6 +97,7 @@ class TestGeneralizationGain:
             results,
             train_task_ids=["train-1", "train-2"],
             eval_task_ids=["eval-1", "eval-2"],
+            cold_raw_score=0.5,
         )
         assert gen.gap > 0.4  # large gap indicates overfitting
 
@@ -85,7 +108,8 @@ class TestGeneralizationGain:
             train_task_ids=["train-1"],
             eval_task_ids=["eval-1"],
         )
-        assert gen.unseen_performance == 0.0
+        # No eval observations -> no valid unseen statistic, not a forced 0.0.
+        assert gen.unseen_performance == NOT_AVAILABLE
 
 
 class TestFailureAvoidanceMetric:
