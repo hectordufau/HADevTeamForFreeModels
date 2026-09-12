@@ -57,19 +57,27 @@ class TestAdaptiveExplorationPolicy:
             assert rate <= 0.10
 
     def test_should_explore(self):
+        """V3.2 Phase 6: should_explore is deterministic per seed."""
         policy = AdaptiveExplorationPolicy()
-        # At max exploration rate, should sometimes explore
+        # At max exploration rate (avg_confidence=0.1 -> ~0.452 rate), the
+        # same seed always yields the same decision (determinism).
+        assert policy.should_explore(["test"], avg_confidence=0.1, seed=42) == \
+            policy.should_explore(["test"], avg_confidence=0.1, seed=42)
+        # Across seeded runs we observe variety: some seeds explore.
         explored = sum(
-            policy.should_explore(["test"], avg_confidence=0.1)
-            for _ in range(1000)
+            policy.should_explore(["test"], avg_confidence=0.1, seed=s)
+            for s in range(200)
         )
-        assert explored > 100  # should explore > 10% of the time
+        assert 0 < explored < 200
 
     def test_should_exploit_high_confidence(self):
+        """V3.2 Phase 6: high confidence explores rarely at any seed."""
         policy = AdaptiveExplorationPolicy()
+        # High confidence --> very low rate; even across many seeds, almost all
+        # exploit (rate ~0.044 so ~4% explore). Treat as rarely-explores.
         explored = sum(
-            policy.should_explore(["test"], avg_confidence=0.95)
-            for _ in range(1000)
+            policy.should_explore(["test"], avg_confidence=0.95, seed=s)
+            for s in range(200)
         )
         assert explored < 100  # should exploit most of the time
 

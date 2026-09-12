@@ -38,6 +38,19 @@ evaluation:
     correctness: 0.90
     security: 0.90
   enabled: true
+  # V3.2 Phase 5 — configurable statistical significance thresholds
+  # (observed and reported in every statistical evaluation report).
+  significance:
+    success_rate_pp: 0.05   # min absolute success-rate delta (fraction; 0.05 == 5pp)
+    score_delta: 0.01       # min absolute score delta
+    min_samples: 10         # deterministic minimum sample size for significance/CI
+
+# V3.2 Phase 6 — reproducible, deterministic exploration configuration.
+learning:
+  exploration:
+    enabled: true           # false => LEARNED_NO_EXPLORATION greedy, no RNG influence
+    rate: 0.10              # base exploration rate (bounded by confidence-adaptive rate)
+    seed: null              # advisory only; per-decision seed is derived via SHA-256
 
 model_routing:
   adaptive: true

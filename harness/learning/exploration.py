@@ -61,11 +61,18 @@ class AdaptiveExplorationPolicy:
         return max(self.MIN_EXPLORATION_RATE, min(self.MAX_EXPLORATION_RATE, rate))
 
     def should_explore(self, capabilities: List[str],
-                       avg_confidence: Optional[float] = None) -> bool:
-        """Determine whether to explore or exploit based on computed rate."""
+                       avg_confidence: Optional[float] = None,
+                       seed: Optional[int] = None) -> bool:
+        """Determine whether to explore or exploit based on computed rate.
+
+        Deterministic (V3.2 Phase 6): uses a local ``random.Random(seed)`` —
+        never the global module RNG. When ``seed`` is None a stable default is
+        used so the result is still reproducible in isolation.
+        """
         import random
         rate = self.compute_rate(capabilities, avg_confidence)
-        return random.random() < rate
+        rng = random.Random(0 if seed is None else seed)
+        return rng.random() < rate
 
 
 class PurposefulCandidateSelector:

@@ -1,0 +1,534 @@
+{
+  "benchmark_id": "V3.2-FIELD-VALIDATION",
+  "category_distribution": {
+    "test": {
+      "architecture": 2,
+      "backend": 1,
+      "devops": 1,
+      "frontend": 1,
+      "legacy/refactoring": 1,
+      "performance": 1,
+      "security": 2,
+      "testing": 1
+    },
+    "train": {
+      "architecture": 3,
+      "backend": 4,
+      "debugging": 2,
+      "devops": 2,
+      "frontend": 2,
+      "integration": 1,
+      "legacy/refactoring": 2,
+      "performance": 2,
+      "security": 2
+    },
+    "validation": {
+      "architecture": 2,
+      "debugging": 1,
+      "devops": 2,
+      "documentation": 1,
+      "frontend": 1,
+      "legacy/refactoring": 1,
+      "performance": 1,
+      "security": 1
+    }
+  },
+  "code_revision": "37fb61c",
+  "configuration_digest": "2eb628cf826f280d",
+  "dataset_digest": "569acf1dc759329d",
+  "decision_outcomes": {
+    "LEARNED_EXPLORATION": {
+      "decision_improvement_rate": 0.7872,
+      "improved": 74,
+      "influenced_n": 94,
+      "learning_harm_rate": 0.0213,
+      "mode": "LEARNED_EXPLORATION",
+      "n": 94,
+      "unchanged": 18,
+      "unknown": 0,
+      "unknown_outcome_rate": 0.0,
+      "worsened": 2
+    },
+    "LEARNED_NO_EXPLORATION": {
+      "decision_improvement_rate": 0.6915,
+      "improved": 65,
+      "influenced_n": 94,
+      "learning_harm_rate": 0.0213,
+      "mode": "LEARNED_NO_EXPLORATION",
+      "n": 94,
+      "unchanged": 27,
+      "unknown": 0,
+      "unknown_outcome_rate": 0.0,
+      "worsened": 2
+    }
+  },
+  "experiment_phase": "8",
+  "exploration_contribution": {
+    "interpretation": "POSITIVE",
+    "latency": -0.1442,
+    "learning_harm_delta": 0.0,
+    "n_exploration": 50,
+    "n_no_exploration": 50,
+    "scope": "test",
+    "score": 0.0488,
+    "success_pp": 8.0
+  },
+  "exploration_statistics": {
+    "counterfactual_not_computable": 0,
+    "exploration_taken_n": 16,
+    "mode": "LEARNED_EXPLORATION",
+    "would_selection_differ_n": 10
+  },
+  "failure_learning": {
+    "COLD": {
+      "eligible_failures": 50,
+      "failure_rate": 0.04,
+      "failures_observed": 2
+    },
+    "LEARNED_EXPLORATION": {
+      "eligible_failures": 50,
+      "failure_rate": 0.08,
+      "failures_observed": 4
+    },
+    "LEARNED_NO_EXPLORATION": {
+      "eligible_failures": 50,
+      "failure_rate": 0.1,
+      "failures_observed": 5
+    },
+    "avoidance_COLD_vs_EXPLORATION": 0.0,
+    "avoidance_COLD_vs_NO_EXPLORATION": 0.0
+  },
+  "integrity": {
+    "cold_learned_contamination": 0,
+    "critical_contamination": false,
+    "cross_run_contamination": 0,
+    "missing_experiment_context": 0,
+    "test_contamination": 0,
+    "unattributed_artifacts": 0,
+    "unseeded_exploration": 0
+  },
+  "learning_influence_rate": {
+    "LEARNED_EXPLORATION": {
+      "influenced": 185,
+      "mode": "LEARNED_EXPLORATION",
+      "rate": 0.925,
+      "total_decisions": 200
+    },
+    "LEARNED_NO_EXPLORATION": {
+      "influenced": 185,
+      "mode": "LEARNED_NO_EXPLORATION",
+      "rate": 0.925,
+      "total_decisions": 200
+    }
+  },
+  "modes": [
+    "COLD",
+    "LEARNED_NO_EXPLORATION",
+    "LEARNED_EXPLORATION"
+  ],
+  "repetitions": {
+    "test": 5,
+    "train": 5,
+    "validation": 5
+  },
+  "reproducibility_seed": 314159,
+  "resolved_configuration": {
+    "exploration_rate": 0.1,
+    "repetitions": {
+      "test": 5,
+      "train": 5,
+      "validation": 5
+    },
+    "seed": 314159,
+    "significance": {
+      "min_samples": 10,
+      "score_delta": 0.01,
+      "success_rate_pp": 0.05
+    },
+    "split_policy": "train/validation/test held-out; TEST evidence-only, never trains",
+    "variance_policy": "deterministic seeded bootstrap (2000) + permutation (2000)"
+  },
+  "run_id": "V3.2-FV8-20260912-reprod",
+  "sample_sizes": {
+    "all": {
+      "COLD": 200,
+      "LEARNED_EXPLORATION": 200,
+      "LEARNED_NO_EXPLORATION": 200
+    },
+    "test": {
+      "COLD": 50,
+      "LEARNED_EXPLORATION": 50,
+      "LEARNED_NO_EXPLORATION": 50
+    }
+  },
+  "security_governance": {
+    "free_model_invariant_preserved": true,
+    "governance_violations": 0,
+    "non_free_model_executions": 0,
+    "security_violations": 0
+  },
+  "split_improvement_score": {
+    "test": 0.1894,
+    "train": 0.1017,
+    "validation": 0.2167
+  },
+  "split_improvement_success_pp": {
+    "test": 40.0,
+    "train": 26.0,
+    "validation": 46.0
+  },
+  "statistics_all": {
+    "COLD_vs_LEARNED_EXPLORATION": {
+      "engineering_score": {
+        "baseline_mean": 0.4669,
+        "baseline_n": 200,
+        "ci_95": [
+          0.1268,
+          0.179
+        ],
+        "comparison_mean": 0.6193,
+        "comparison_n": 200,
+        "comparison_type": "PAIRED",
+        "delta": 0.1524,
+        "effect_size": 1.053,
+        "p_value": 0.0005,
+        "paired_n": 200,
+        "practically_significant": true,
+        "statistically_significant": true
+      },
+      "success_rate": {
+        "baseline_mean": 0.43,
+        "baseline_n": 200,
+        "ci_95": [
+          0.275,
+          0.42
+        ],
+        "comparison_mean": 0.775,
+        "comparison_n": 200,
+        "comparison_type": "PAIRED",
+        "delta": 0.345,
+        "delta_pp": 34.5,
+        "effect_size": 0.7514,
+        "p_value": 0.0005,
+        "paired_n": 200,
+        "practically_significant": true,
+        "statistically_significant": true
+      }
+    },
+    "COLD_vs_LEARNED_NO_EXPLORATION": {
+      "engineering_score": {
+        "baseline_mean": 0.4669,
+        "baseline_n": 200,
+        "ci_95": [
+          0.0952,
+          0.1433
+        ],
+        "comparison_mean": 0.5864,
+        "comparison_n": 200,
+        "comparison_type": "PAIRED",
+        "delta": 0.1196,
+        "effect_size": 0.8259,
+        "p_value": 0.0005,
+        "paired_n": 200,
+        "practically_significant": true,
+        "statistically_significant": true
+      },
+      "success_rate": {
+        "baseline_mean": 0.43,
+        "baseline_n": 200,
+        "ci_95": [
+          0.2,
+          0.35
+        ],
+        "comparison_mean": 0.705,
+        "comparison_n": 200,
+        "comparison_type": "PAIRED",
+        "delta": 0.275,
+        "delta_pp": 27.5,
+        "effect_size": 0.5763,
+        "p_value": 0.0005,
+        "paired_n": 200,
+        "practically_significant": true,
+        "statistically_significant": true
+      }
+    },
+    "LEARNED_NO_EXPLORATION_vs_LEARNED_EXPLORATION": {
+      "engineering_score": {
+        "baseline_mean": 0.5864,
+        "baseline_n": 200,
+        "ci_95": [
+          0.0192,
+          0.0475
+        ],
+        "comparison_mean": 0.6193,
+        "comparison_n": 200,
+        "comparison_type": "PAIRED",
+        "delta": 0.0328,
+        "effect_size": 0.2006,
+        "p_value": 0.0005,
+        "paired_n": 200,
+        "practically_significant": true,
+        "statistically_significant": true
+      },
+      "success_rate": {
+        "baseline_mean": 0.705,
+        "baseline_n": 200,
+        "ci_95": [
+          0.03,
+          0.11
+        ],
+        "comparison_mean": 0.775,
+        "comparison_n": 200,
+        "comparison_type": "PAIRED",
+        "delta": 0.07,
+        "delta_pp": 7.0,
+        "effect_size": 0.1597,
+        "p_value": 0.0035,
+        "paired_n": 200,
+        "practically_significant": true,
+        "statistically_significant": true
+      }
+    },
+    "n": {
+      "COLD": 200,
+      "LEARNED_EXPLORATION": 200,
+      "LEARNED_NO_EXPLORATION": 200
+    },
+    "pairing": {
+      "COLD_LEARNED_EXPLORATION": {
+        "paired_n": 200,
+        "paired_ok": true,
+        "pairing_rate": 1.0,
+        "unmatched_a": 0,
+        "unmatched_b": 0
+      },
+      "COLD_LEARNED_NO_EXPLORATION": {
+        "paired_n": 200,
+        "paired_ok": true,
+        "pairing_rate": 1.0,
+        "unmatched_a": 0,
+        "unmatched_b": 0
+      },
+      "LEARNED_NO_EXPLORATION_LEARNED_EXPLORATION": {
+        "paired_n": 200,
+        "paired_ok": true,
+        "pairing_rate": 1.0,
+        "unmatched_a": 0,
+        "unmatched_b": 0
+      }
+    }
+  },
+  "statistics_test": {
+    "COLD_vs_LEARNED_EXPLORATION": {
+      "engineering_score": {
+        "baseline_mean": 0.4437,
+        "baseline_n": 50,
+        "ci_95": [
+          0.1399,
+          0.2387
+        ],
+        "comparison_mean": 0.6331,
+        "comparison_n": 50,
+        "comparison_type": "PAIRED",
+        "delta": 0.1894,
+        "effect_size": 1.3506,
+        "p_value": 0.0005,
+        "paired_n": 50,
+        "practically_significant": true,
+        "statistically_significant": true
+      },
+      "success_rate": {
+        "baseline_mean": 0.42,
+        "baseline_n": 50,
+        "ci_95": [
+          0.26,
+          0.54
+        ],
+        "comparison_mean": 0.82,
+        "comparison_n": 50,
+        "comparison_type": "PAIRED",
+        "delta": 0.4,
+        "delta_pp": 40.0,
+        "effect_size": 0.8953,
+        "p_value": 0.0005,
+        "paired_n": 50,
+        "practically_significant": true,
+        "statistically_significant": true
+      }
+    },
+    "COLD_vs_LEARNED_NO_EXPLORATION": {
+      "engineering_score": {
+        "baseline_mean": 0.4437,
+        "baseline_n": 50,
+        "ci_95": [
+          0.0952,
+          0.187
+        ],
+        "comparison_mean": 0.5842,
+        "comparison_n": 50,
+        "comparison_type": "PAIRED",
+        "delta": 0.1405,
+        "effect_size": 0.9786,
+        "p_value": 0.0005,
+        "paired_n": 50,
+        "practically_significant": true,
+        "statistically_significant": true
+      },
+      "success_rate": {
+        "baseline_mean": 0.42,
+        "baseline_n": 50,
+        "ci_95": [
+          0.18,
+          0.46
+        ],
+        "comparison_mean": 0.74,
+        "comparison_n": 50,
+        "comparison_type": "PAIRED",
+        "delta": 0.32,
+        "delta_pp": 32.0,
+        "effect_size": 0.6785,
+        "p_value": 0.0005,
+        "paired_n": 50,
+        "practically_significant": true,
+        "statistically_significant": true
+      }
+    },
+    "LEARNED_NO_EXPLORATION_vs_LEARNED_EXPLORATION": {
+      "engineering_score": {
+        "baseline_mean": 0.5842,
+        "baseline_n": 50,
+        "ci_95": [
+          0.0205,
+          0.0855
+        ],
+        "comparison_mean": 0.6331,
+        "comparison_n": 50,
+        "comparison_type": "PAIRED",
+        "delta": 0.0488,
+        "effect_size": 0.298,
+        "p_value": 0.0025,
+        "paired_n": 50,
+        "practically_significant": true,
+        "statistically_significant": true
+      },
+      "success_rate": {
+        "baseline_mean": 0.74,
+        "baseline_n": 50,
+        "ci_95": [
+          0.02,
+          0.16
+        ],
+        "comparison_mean": 0.82,
+        "comparison_n": 50,
+        "comparison_type": "PAIRED",
+        "delta": 0.08,
+        "delta_pp": 8.0,
+        "effect_size": 0.1921,
+        "p_value": 0.1254,
+        "paired_n": 50,
+        "practically_significant": true,
+        "statistically_significant": false
+      }
+    },
+    "n": {
+      "COLD": 50,
+      "LEARNED_EXPLORATION": 50,
+      "LEARNED_NO_EXPLORATION": 50
+    },
+    "pairing": {
+      "COLD_LEARNED_EXPLORATION": {
+        "paired_n": 50,
+        "paired_ok": true,
+        "pairing_rate": 1.0,
+        "unmatched_a": 0,
+        "unmatched_b": 0
+      },
+      "COLD_LEARNED_NO_EXPLORATION": {
+        "paired_n": 50,
+        "paired_ok": true,
+        "pairing_rate": 1.0,
+        "unmatched_a": 0,
+        "unmatched_b": 0
+      },
+      "LEARNED_NO_EXPLORATION_LEARNED_EXPLORATION": {
+        "paired_n": 50,
+        "paired_ok": true,
+        "pairing_rate": 1.0,
+        "unmatched_a": 0,
+        "unmatched_b": 0
+      }
+    }
+  },
+  "supersedes": {
+    "prior_validation_run_id": "V3.2-FV8-20260911",
+    "reason": "Reproducibility defect corrected: load_benchmark_tasks() no longer mutates the shared benchmark corpus in place (idempotency fix) and repetition count is now canonicalized to a single source. Prior accepted run validated as reproducible with its exact recorded configuration; this run re-establishes final release evidence on the corrected, reproducible codebase."
+  },
+  "test": {
+    "COLD": {
+      "n": 50,
+      "score": 0.4437,
+      "success": 0.42
+    },
+    "LEARNED_EXPLORATION": {
+      "n": 50,
+      "score": 0.6331,
+      "success": 0.82
+    },
+    "LEARNED_NO_EXPLORATION": {
+      "n": 50,
+      "score": 0.5842,
+      "success": 0.74
+    }
+  },
+  "timestamp": "{\"note\": \"see observations timestamps\"}",
+  "variance": {
+    "COLD_score": {
+      "max": 0.4841,
+      "mean": 0.4611,
+      "min": 0.4437,
+      "n": 3,
+      "sd": 0.0208,
+      "spread_pct": 8.77
+    },
+    "COLD_success": {
+      "max": 45.0,
+      "mean": 42.3333,
+      "min": 40.0,
+      "n": 3,
+      "sd": 2.5166,
+      "spread_pct": 11.81
+    },
+    "LEARNED_EXPLORATION_score": {
+      "max": 0.6722,
+      "mean": 0.6304,
+      "min": 0.5859,
+      "n": 3,
+      "sd": 0.0432,
+      "spread_pct": 13.69
+    },
+    "LEARNED_EXPLORATION_success": {
+      "max": 86.0,
+      "mean": 79.6667,
+      "min": 71.0,
+      "n": 3,
+      "sd": 7.7675,
+      "spread_pct": 18.83
+    },
+    "LEARNED_NO_EXPLORATION_score": {
+      "max": 0.6451,
+      "mean": 0.5959,
+      "min": 0.5582,
+      "n": 3,
+      "sd": 0.0446,
+      "spread_pct": 14.59
+    },
+    "LEARNED_NO_EXPLORATION_success": {
+      "max": 80.0,
+      "mean": 72.6667,
+      "min": 64.0,
+      "n": 3,
+      "sd": 8.0829,
+      "spread_pct": 22.02
+    }
+  }
+}

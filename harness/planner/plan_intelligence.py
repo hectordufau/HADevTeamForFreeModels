@@ -9,6 +9,9 @@ from datetime import datetime
 import json
 import os
 
+from ..learning.context import ExperimentContext
+from ..learning.isolation import check_test_protection, namespace_path
+
 
 class PlanIntelligenceError(Exception):
     """Raised on plan intelligence errors."""
@@ -220,16 +223,22 @@ class PlanSelector:
 class PlanLearningStore:
     """Stores plan scores and selection outcomes for learning."""
 
-    def __init__(self, storage_dir: str = ""):
+    def __init__(self, storage_dir: str = "",
+                 experiment_context: Optional[ExperimentContext] = None):
         self.storage_dir = storage_dir or os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
             "..", "artifacts", "plan_learning"
         )
         os.makedirs(self.storage_dir, exist_ok=True)
+        self.experiment_context = experiment_context
 
     def record_outcome(self, plan_id: str, score: PlanScore,
-                       result_status: str):
-        """Record a plan's execution outcome."""
+                       result_status: str,
+                       experiment_context: Optional[ExperimentContext] = None):
+        """Record a plan's execution outcome in namespaced directory."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+
         entry = {
             "plan_id": plan_id,
             "score": {
@@ -241,21 +250,39 @@ class PlanLearningStore:
                 "risk": score.risk,
             },
             "result_status": result_status,
+            "validation_run_id": experiment_context.validation_run_id if experiment_context else "",
+            "mode": experiment_context.mode if experiment_context else "",
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-        path = os.path.join(self.storage_dir, f"{plan_id}.json")
+        store_dir = namespace_path(
+            "plan_learning",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+        path = os.path.join(store_dir, f"{plan_id}.json")
         with open(path, "w") as f:
             json.dump(entry, f, indent=2)
 
-    def get_best_scoring_pattern(self) -> Optional[Dict[str, Any]]:
-        """Get the best-scoring plan pattern from history."""
+    def get_best_scoring_pattern(self,
+                                 experiment_context: Optional[ExperimentContext] = None) -> Optional[Dict[str, Any]]:
+        """Get the best-scoring plan pattern from history, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+
+        store_dir = namespace_path(
+            "plan_learning",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+
+        if not os.path.exists(store_dir):
+            return None
+
         best = None
         best_score = -1.0
-        for fname in os.listdir(self.storage_dir):
+        for fname in os.listdir(store_dir):
             if not fname.endswith(".json"):
                 continue
-            with open(os.path.join(self.storage_dir, fname)) as f:
+            with open(os.path.join(store_dir, fname)) as f:
                 data = json.load(f)
             score = data.get("score", {}).get("overall", 0)
             if score > best_score:

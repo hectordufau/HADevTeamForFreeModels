@@ -12,6 +12,9 @@ import json
 import os
 import threading
 
+from ..learning.context import ExperimentContext
+from ..learning.isolation import check_test_protection, namespace_path
+
 
 class EvidenceError(Exception):
     """Raised on evidence store errors."""
@@ -28,6 +31,9 @@ class CanonicalExecutionRecord:
     assignments: Dict[str, Any]
     results: Dict[str, Any]
     evidence_hashes: List[str]
+    # V3.2 ExperimentContext fields (optional for backward compatibility)
+    validation_run_id: str = ""
+    mode: str = ""
     timestamp: str = field(default_factory=lambda: datetime.utcnow().isoformat())
     previous_hash: str = ""
 
@@ -61,6 +67,8 @@ class CanonicalExecutionRecord:
             "assignments": self.assignments,
             "results": self.results,
             "evidence_hashes": self.evidence_hashes,
+            "validation_run_id": self.validation_run_id,
+            "mode": self.mode,
             "timestamp": self.timestamp,
             "previous_hash": self.previous_hash,
         }
@@ -75,6 +83,10 @@ class EvidencePackage:
     task_id: str
     execution_id: str
     data: Dict[str, Any] = field(default_factory=dict)
+    # V3.2 ExperimentContext fields (optional for backward compatibility)
+    validation_run_id: str = ""
+    benchmark_id: str = ""
+    mode: str = ""
     content_hash: str = ""
     previous_hash: str = ""
     timestamp: str = field(default_factory=lambda: datetime.utcnow().isoformat())
@@ -106,6 +118,9 @@ class EvidencePackage:
             "task_id": self.task_id,
             "execution_id": self.execution_id,
             "data": self.data,
+            "validation_run_id": self.validation_run_id,
+            "benchmark_id": self.benchmark_id,
+            "mode": self.mode,
             "content_hash": self.content_hash,
             "previous_hash": self.previous_hash,
             "timestamp": self.timestamp,
@@ -130,16 +145,26 @@ class EvidenceStore:
     one via SHA-256 hashes, creating an immutable audit trail.
     """
 
-    def __init__(self, storage_dir: str = ""):
+    def __init__(self, storage_dir: str = "",
+                 experiment_context: Optional[ExperimentContext] = None):
         self.storage_dir = storage_dir or os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
             "..", "artifacts", "evidence_v3"
         )
         self._lock = threading.Lock()
         os.makedirs(self.storage_dir, exist_ok=True)
+        self.experiment_context = experiment_context
 
-    def store_evidence(self, package: EvidencePackage) -> str:
-        """Store an evidence package and return its hash chain position."""
+    def store_evidence(self, package: EvidencePackage,
+                       experiment_context: Optional[ExperimentContext] = None) -> str:
+        """Store an evidence package in namespaced directory and return its hash chain position."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+        # Apply experiment context fields if provided
+        if experiment_context:
+            package.validation_run_id = experiment_context.validation_run_id
+            package.benchmark_id = experiment_context.benchmark_id
+            package.mode = experiment_context.mode
         # Compute hash chain first
         previous_hash = self._get_latest_hash()
         package.previous_hash = previous_hash
@@ -149,7 +174,11 @@ class EvidenceStore:
         package.content_hash = content_hash
 
         with self._lock:
-            path = self._evidence_path(package.task_id, package.execution_id, package.node_id)
+            store_dir = namespace_path(
+                    "evidence",
+                    experiment_context=experiment_context
+                ) if experiment_context else self.storage_dir
+            path = self._evidence_path(package.task_id, package.execution_id, package.node_id, store_dir)
             os.makedirs(os.path.dirname(path), exist_ok=True)
             with open(path, "w") as f:
                 json.dump(package.store_dict(), f, indent=2, default=str)
@@ -163,12 +192,19 @@ class EvidenceStore:
                 "node_id": package.node_id,
                 "timestamp": package.timestamp,
             }
-            self._append_chain(chain_entry)
+            self._append_chain(chain_entry, store_dir)
 
         return package.content_hash
 
-    def store_record(self, record: CanonicalExecutionRecord) -> str:
-        """Store a canonical execution record."""
+    def store_record(self, record: CanonicalExecutionRecord,
+                     experiment_context: Optional[ExperimentContext] = None) -> str:
+        """Store a canonical execution record in namespaced directory."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+        # Apply experiment context fields if provided
+        if experiment_context:
+            record.validation_run_id = experiment_context.validation_run_id
+            record.mode = experiment_context.mode
         # Compute hash
         record_hash = record._hash_content()
 
@@ -176,7 +212,11 @@ class EvidenceStore:
         prev_hash = self._get_latest_record_hash()
         record.previous_hash = prev_hash
 
-        path = self._record_path(record.task_id, record.execution_id)
+        store_dir = namespace_path(
+            "evidence",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+        path = self._record_path(record.task_id, record.execution_id, store_dir)
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w") as f:
             json.dump(record.to_dict(), f, indent=2, default=str)
@@ -210,18 +250,38 @@ class EvidenceStore:
             "evidence_count": len(evidence_list),
         }
 
-    def get_record(self, task_id: str, execution_id: str) -> Optional[CanonicalExecutionRecord]:
-        """Retrieve a canonical execution record."""
-        path = self._record_path(task_id, execution_id)
+    def get_record(self, task_id: str, execution_id: str,
+                   experiment_context: Optional[ExperimentContext] = None) -> Optional[CanonicalExecutionRecord]:
+        """Retrieve a canonical execution record, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+        store_dir = namespace_path(
+            "evidence",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+        path = self._record_path(task_id, execution_id, store_dir)
         if not os.path.exists(path):
-            return None
+            # Fallback: try non-namespaced if no context
+            if experiment_context is None:
+                path = self._record_path(task_id, execution_id, self.storage_dir)
+                if not os.path.exists(path):
+                    return None
+            else:
+                return None
         with open(path) as f:
             data = json.load(f)
         return CanonicalExecutionRecord(**data)
 
-    def get_evidence(self, task_id: str, execution_id: str) -> List[EvidencePackage]:
-        """Retrieve all evidence packages for an execution."""
-        dir_path = os.path.join(self.storage_dir, "packages", task_id, execution_id)
+    def get_evidence(self, task_id: str, execution_id: str,
+                     experiment_context: Optional[ExperimentContext] = None) -> List[EvidencePackage]:
+        """Retrieve all evidence packages for an execution, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+        store_dir = namespace_path(
+            "evidence",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+        dir_path = os.path.join(store_dir, "packages", task_id, execution_id)
         if not os.path.exists(dir_path):
             return []
         packages = []
@@ -233,10 +293,18 @@ class EvidenceStore:
                 packages.append(EvidencePackage(**data))
         return packages
 
-    def query(self, query: EvidenceQuery) -> List[EvidencePackage]:
-        """Query evidence by criteria."""
+    def query(self, query: EvidenceQuery,
+              experiment_context: Optional[ExperimentContext] = None) -> List[EvidencePackage]:
+        """Query evidence by criteria, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
         results = []
-        base_dir = os.path.join(self.storage_dir, "packages")
+
+        store_dir = namespace_path(
+            "evidence",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+        base_dir = os.path.join(store_dir, "packages")
 
         if query.task_id:
             task_dir = os.path.join(base_dir, query.task_id)
@@ -262,24 +330,83 @@ class EvidenceStore:
 
         return results[query.offset:query.offset + query.limit]
 
-    def _evidence_path(self, task_id: str, execution_id: str, node_id: str) -> str:
-        return os.path.join(self.storage_dir, "packages", task_id, execution_id, f"{node_id}.json")
+    def query_global(self, query: EvidenceQuery) -> List[EvidencePackage]:
+        """Query evidence globally across all namespaces (no filtering)."""
+        results = []
+        global_base = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+            "artifacts", "v3.2"
+        )
 
-    def _record_path(self, task_id: str, execution_id: str) -> str:
-        return os.path.join(self.storage_dir, "records", f"{task_id}_{execution_id}.json")
+        # Check all v3.2 namespaced directories
+        if os.path.exists(global_base):
+            for run_id in os.listdir(global_base):
+                run_dir = os.path.join(global_base, run_id)
+                if not os.path.isdir(run_dir):
+                    continue
+                for mode in os.listdir(run_dir):
+                    if mode not in ("COLD", "LEARNED", "TEST"):
+                        continue
+                    packages_dir = os.path.join(run_dir, mode, "evidence", "packages")
+                    self._query_packages_dir(packages_dir, query, results)
 
-    def _get_latest_hash(self) -> str:
+        # Also check V3.0/3.1 flat directory
+        packages_dir = os.path.join(self.storage_dir, "packages")
+        self._query_packages_dir(packages_dir, query, results)
+
+        return results[query.offset:query.offset + query.limit]
+
+    def _query_packages_dir(self, packages_dir: str, query: EvidenceQuery,
+                            results: List[EvidencePackage]):
+        """Helper to query a single packages directory."""
+        if not os.path.exists(packages_dir):
+            return
+        if query.task_id:
+            task_dir = os.path.join(packages_dir, query.task_id)
+            if not os.path.exists(task_dir):
+                return
+            for exec_id in os.listdir(task_dir):
+                if query.execution_id and exec_id != query.execution_id:
+                    continue
+                exec_dir = os.path.join(task_dir, exec_id)
+                if not os.path.isdir(exec_dir):
+                    continue
+                for fname in sorted(os.listdir(exec_dir)):
+                    if not fname.endswith(".json"):
+                        continue
+                    with open(os.path.join(exec_dir, fname)) as f:
+                        data = json.load(f)
+                    pkg = EvidencePackage(**data)
+                    if query.node_id and pkg.node_id != query.node_id:
+                        continue
+                    if query.capability and pkg.capability != query.capability:
+                        continue
+                    results.append(pkg)
+
+    def _evidence_path(self, task_id: str, execution_id: str, node_id: str,
+                       store_dir: Optional[str] = None) -> str:
+        base = store_dir or self.storage_dir
+        return os.path.join(base, "packages", task_id, execution_id, f"{node_id}.json")
+
+    def _record_path(self, task_id: str, execution_id: str,
+                     store_dir: Optional[str] = None) -> str:
+        base = store_dir or self.storage_dir
+        return os.path.join(base, "records", f"{task_id}_{execution_id}.json")
+
+    def _get_latest_hash(self, store_dir: Optional[str] = None) -> str:
         """Get the latest hash from the chain index."""
-        chain_path = os.path.join(self.storage_dir, "chain_index.json")
+        base = store_dir or self.storage_dir
+        chain_path = os.path.join(base, "chain_index.json")
         if not os.path.exists(chain_path):
             return ""
         with open(chain_path) as f:
             chain = json.load(f)
         return chain[-1]["hash"] if chain else ""
 
-    def _get_latest_record_hash(self) -> str:
+    def _get_latest_record_hash(self, store_dir: Optional[str] = None) -> str:
         """Get the latest record hash."""
-        records_dir = os.path.join(self.storage_dir, "records")
+        base = store_dir or self.storage_dir
+        records_dir = os.path.join(base, "records")
         if not os.path.exists(records_dir):
             return ""
         record_files = sorted(os.listdir(records_dir))
@@ -291,9 +418,10 @@ class EvidenceStore:
         record = CanonicalExecutionRecord(**data)
         return record._hash_content()
 
-    def _append_chain(self, entry: dict):
+    def _append_chain(self, entry: dict, store_dir: Optional[str] = None):
         """Append to the chain index."""
-        chain_path = os.path.join(self.storage_dir, "chain_index.json")
+        base = store_dir or self.storage_dir
+        chain_path = os.path.join(base, "chain_index.json")
         chain = []
         if os.path.exists(chain_path):
             with open(chain_path) as f:

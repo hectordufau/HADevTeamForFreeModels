@@ -15,6 +15,9 @@ import os
 import random
 import math
 
+from ..learning.context import ExperimentContext
+from ..learning.isolation import check_test_protection, namespace_path
+
 
 class ModelIntelligenceError(Exception):
     """Raised on model intelligence errors."""
@@ -48,6 +51,9 @@ class ModelExperiment:
     task_id: str
     result_score: float
     is_exploration: bool
+    # V3.2 ExperimentContext fields (optional for backward compatibility)
+    validation_run_id: str = ""
+    mode: str = ""
     timestamp: str = field(default_factory=lambda: datetime.utcnow().isoformat())
 
     def to_dict(self) -> dict:
@@ -58,6 +64,8 @@ class ModelExperiment:
             "task_id": self.task_id,
             "result_score": self.result_score,
             "is_exploration": self.is_exploration,
+            "validation_run_id": self.validation_run_id,
+            "mode": self.mode,
             "timestamp": self.timestamp,
         }
 
@@ -180,12 +188,64 @@ class AdaptiveModelPolicyV3:
 
     def __init__(self, catalog: Any, performance_registry_v3: Any,
                  fallback_router: Any, profile_store: Optional[ModelProfileStore] = None,
-                 exploration_learner: Optional[ExplorationResultLearner] = None):
+                 exploration_learner: Optional[ExplorationResultLearner] = None,
+                 # V3.2 Phase 6 — deterministic exploration wiring (optional,
+                 # backward compatible). When experiment_context is provided the
+                 # exploration path uses a local random.Random derived from the
+                 # context (never the global module RNG).
+                 experiment_context: Optional[ExperimentContext] = None,
+                 exploration_enabled: Optional[bool] = None,
+                 exploration_rate: Optional[float] = None):
         self.catalog = catalog
         self.perf_registry = performance_registry_v3
         self.fallback_router = fallback_router
         self.profile_store = profile_store or ModelProfileStore()
         self.exploration_learner = exploration_learner or ExplorationResultLearner()
+        self.experiment_context = experiment_context
+        self.exploration_enabled = exploration_enabled
+        self.exploration_rate = exploration_rate
+
+    # -- deterministic exploration helpers (V3.2 Phase 6) ------------------
+    def _exploration_active(self) -> bool:
+        """Whether exploration may run.
+
+        Never mutate the caller -- pure query. Gated by mode (LEARNED_NO_
+        EXPLORATION / COLD forbid it) and by the explicit flag when set.
+        """
+        if self.experiment_context is not None:
+            if self.experiment_context.exploration_is_disabled():
+                return False
+            if not self.experiment_context.exploration_is_enabled():
+                return False
+        elif self.exploration_enabled is False:
+            return False
+        return True
+
+    def _effective_exploration_rate(self) -> float:
+        if self.experiment_context is not None:
+            return self.experiment_context.effective_exploration_rate(self.EXPLORATION_RATE)
+        if self.exploration_rate is not None:
+            return float(self.exploration_rate)
+        return self.EXPLORATION_RATE
+
+    def _exploration_rng(self, decision_scope: str = "model") -> "random.Random":
+        """A local seeded RNG derived from the experiment context (Phase 6).
+
+        Uses the deterministic seed derivation (SHA-256 over the context +
+        decision scope) — never the global module RNG and never Python hash().
+        When there is no context a stable default seed is used so behavior stays
+        reproducible even for legacy callers.
+        """
+        import random as _random
+        from ..learning.determinism import (
+            context_derived_seed,
+            derive_exploration_seed,
+        )
+        if self.experiment_context is not None:
+            seed = context_derived_seed(self.experiment_context, decision_scope)
+        else:
+            seed = derive_exploration_seed(0, "none", "none", "none", decision_scope)
+        return _random.Random(seed)
 
     def select(self, required_capabilities: List[str],
                role: str = "", task_id: str = "",
@@ -203,11 +263,17 @@ class AdaptiveModelPolicyV3:
         Returns:
             A ModelSelection (or similar) with the chosen model.
         """
-        # Compute adaptive exploration rate
+        # Compute adaptive exploration rate (V3.1 confidence-based), bounded by
+        # the configured/effective rate when Phase 6 config is present.
         adaptive_rate = self._compute_exploration_rate(required_capabilities)
+        rate = min(adaptive_rate, self._effective_exploration_rate())
 
-        # Exploration: adaptively choose rate
-        if not force_exploit and random.random() < adaptive_rate:
+        # V3.2 Phase 6: exploration is gated by mode/flag and driven by a local
+        # seeded RNG derived from the ExperimentContext — never the global RNG.
+        explore = (not force_exploit
+                   and self._exploration_active()
+                   and self._exploration_rng().random() < rate)
+        if explore:
             return self._explore(required_capabilities, role, task_id)
 
         # Exploitation: use best known model
@@ -279,7 +345,8 @@ class AdaptiveModelPolicyV3:
         # Sort by score, pick from top candidates probabilistically
         candidates.sort(key=lambda x: x[1], reverse=True)
 
-        # Weighted random selection from top 3 (or fewer)
+        # Weighted random selection from top 3 (or fewer) using the
+        # experiment-scoped seeded RNG (V3.2 Phase 6) — never the global RNG.
         top_n = min(3, len(candidates))
         if top_n == 0:
             return self.fallback_router.select(caps, role=role)
@@ -288,7 +355,15 @@ class AdaptiveModelPolicyV3:
         total = sum(weights)
         weights = [w / total for w in weights]
 
-        chosen_idx = random.choices(range(top_n), weights=weights)[0]
+        rng = self._exploration_rng(decision_scope="model_explore")
+        pick = rng.random() * total
+        acc = 0.0
+        chosen_idx = 0
+        for i, w in enumerate(weights):
+            acc += w
+            if pick <= acc:
+                chosen_idx = i
+                break
         chosen_model = candidates[chosen_idx][0]
 
         # Record the exploration choice
@@ -339,26 +414,52 @@ class AdaptiveModelPolicyV3:
 class ExperimentTracker:
     """Tracks model experiments for analysis."""
 
-    def __init__(self, storage_dir: str = ""):
+    def __init__(self, storage_dir: str = "",
+                 experiment_context: Optional[ExperimentContext] = None):
         self.storage_dir = storage_dir or os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
             "..", "artifacts", "experiments"
         )
         os.makedirs(self.storage_dir, exist_ok=True)
+        self.experiment_context = experiment_context
 
-    def record(self, experiment: ModelExperiment):
-        """Record an experiment."""
-        path = os.path.join(self.storage_dir, f"{experiment.experiment_id}.json")
+    def record(self, experiment: ModelExperiment,
+               experiment_context: Optional[ExperimentContext] = None):
+        """Record an experiment in namespaced directory."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+        # Apply experiment context fields if provided
+        if experiment_context:
+            experiment.validation_run_id = experiment_context.validation_run_id
+            experiment.mode = experiment_context.mode
+
+        store_dir = namespace_path(
+            "experiments",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+        path = os.path.join(store_dir, f"{experiment.experiment_id}.json")
         with open(path, "w") as f:
             json.dump(experiment.to_dict(), f, indent=2)
 
-    def get_results(self, model_id: str, capability: str) -> List[ModelExperiment]:
-        """Get all experiments for a (model, capability) pair."""
+    def get_results(self, model_id: str, capability: str,
+                    experiment_context: Optional[ExperimentContext] = None) -> List[ModelExperiment]:
+        """Get all experiments for a (model, capability) pair, filtered by context."""
+        if experiment_context is None:
+            experiment_context = self.experiment_context
+
+        store_dir = namespace_path(
+            "experiments",
+            experiment_context=experiment_context
+        ) if experiment_context else self.storage_dir
+
+        if not os.path.exists(store_dir):
+            return []
+
         results = []
-        for fname in os.listdir(self.storage_dir):
+        for fname in os.listdir(store_dir):
             if not fname.endswith(".json"):
                 continue
-            with open(os.path.join(self.storage_dir, fname)) as f:
+            with open(os.path.join(store_dir, fname)) as f:
                 data = json.load(f)
             exp = ModelExperiment(**data)
             if exp.model_id == model_id and exp.capability == capability:
