@@ -48,6 +48,13 @@ from .lifecycle import (
     validate_lifecycle_state,
     LIFECYCLE_DEFINITIONS,
 )
+from .store import (
+    KnowledgeStore,
+    StoreError,
+    IntegrityError,
+    RecordNotFoundError,
+    DuplicateRecordError,
+)
 
 __all__ = [
     # Records
@@ -91,4 +98,10 @@ __all__ = [
     "get_allowed_transitions",
     "validate_lifecycle_state",
     "LIFECYCLE_DEFINITIONS",
+    # Store
+    "KnowledgeStore",
+    "StoreError",
+    "IntegrityError",
+    "RecordNotFoundError",
+    "DuplicateRecordError",
 ]
