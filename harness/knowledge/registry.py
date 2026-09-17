@@ -9,20 +9,21 @@ Import this module from anywhere that needs the registry.
 from typing import Dict, Type
 from .records import EngineeringRecord
 from .requirements import PRD, Requirement, NFR
+from .decisions import DecisionRecord, ArchitectureDecisionRecord
 
-# Typed record classes (Phase 4: PRD, REQ, NFR)
+# Typed record classes (Phase 4: PRD, REQ, NFR; Phase 5: DR, ADR)
 TYPED_RECORD_CLASSES: Dict[str, Type] = {
     "PRD": PRD,
     "REQ": Requirement,
     "NFR": NFR,
-    # DR, ADR, TDR, RSK, SEC, RCA deferred to Phase 5-7
+    "DR": DecisionRecord,
+    "ADR": ArchitectureDecisionRecord,
+    # TDR, RSK, SEC, RCA deferred to Phase 6-7
 }
 
 # Full registry including untyped (base class) entries
 RECORD_TYPE_CLASSES: Dict[str, Type] = {
     **TYPED_RECORD_CLASSES,
-    "DR": EngineeringRecord,
-    "ADR": EngineeringRecord,
     "TDR": EngineeringRecord,
     "RSK": EngineeringRecord,
     "SEC": EngineeringRecord,

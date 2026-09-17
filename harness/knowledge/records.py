@@ -462,16 +462,17 @@ from .registry import RECORD_TYPE_CLASSES, TYPED_RECORD_CLASSES  # noqa: F401, E
 def create_record(record_type: str, **kwargs) -> EngineeringRecord:
     """
     Factory function to create a record of the given type.
-    Uses registry.RECORD_TYPE_CLASSES for typed dispatch.
+    Creates a base EngineeringRecord (role-independent, minimal validation).
+    For typed dispatch with full validation, use the typed class constructor
+    directly (e.g., ArchitectureDecisionRecord, DecisionRecord, PRD, etc.).
 
     Raises RecordError if record type is unknown.
     """
-    from .registry import RECORD_TYPE_CLASSES
-    if record_type not in RECORD_TYPE_CLASSES:
+    from .records import VALID_RECORD_TYPES
+    if record_type not in VALID_RECORD_TYPES:
         raise RecordError(
             f"Unknown record type '{record_type}'. "
-            f"Must be one of: {', '.join(sorted(RECORD_TYPE_CLASSES.keys()))}"
+            f"Must be one of: {', '.join(sorted(VALID_RECORD_TYPES))}"
         )
-    cls = RECORD_TYPE_CLASSES[record_type]
     kwargs["record_type"] = record_type
-    return cls(**kwargs)
+    return EngineeringRecord(**kwargs)

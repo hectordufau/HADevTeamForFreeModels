@@ -57,6 +57,8 @@ _TYPED_FIELD_MARKERS = {
     "PRD": ("objective", "scope"),
     "REQ": ("req_type", "priority", "parent_prd"),
     "NFR": ("category", "scope", "qualitative"),
+    "DR": ("decision_type", "context", "rationale"),
+    "ADR": ("architecture_domain", "pattern_selected", "trade_offs"),
 }
 
 
