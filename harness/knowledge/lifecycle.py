@@ -133,16 +133,20 @@ RCA_LIFECYCLE = {
     },
 }
 
-# REQ: proposed → accepted → deprecated → archived
+# REQ: proposed → accepted → implemented → verified → deprecated → superseded
+# Phase 4: Requirement Lifecycle States:
+# PROPOSED, ACCEPTED, IMPLEMENTED, VERIFIED, DEPRECATED, SUPERSEDED
 REQ_LIFECYCLE = {
-    "states": ["proposed", "accepted", "deprecated", "archived"],
+    "states": ["proposed", "accepted", "implemented", "verified", "deprecated", "superseded"],
     "initial": "proposed",
-    "terminal": {"archived"},
+    "terminal": {"superseded"},
     "transitions": {
         "proposed": {"accepted", "deprecated"},
-        "accepted": {"deprecated"},
-        "deprecated": {"archived"},
-        "archived": set(),
+        "accepted": {"implemented", "deprecated"},
+        "implemented": {"verified", "deprecated"},
+        "verified": {"deprecated"},
+        "deprecated": {"superseded"},
+        "superseded": set(),
     },
 }
 

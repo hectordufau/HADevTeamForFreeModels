@@ -141,10 +141,10 @@ RECORD_ID_PATTERN = re.compile(r"^(PRD|NFR|DR|ADR|TDR|RSK|SEC|RCA|REQ)-\d{3,}$")
 class EngineeringRecord:
     """
     Base class for all engineering records.
-    
+
     All record types inherit from this. Provides shared identity, provenance,
     authority, lifecycle, relationships, versioning, and validation.
-    
+
     Fields:
         record_id: Unique identifier (e.g., "PRD-001", "ADR-042")
         record_type: One of PRD, NFR, DR, ADR, TDR, RSK, SEC, RCA
@@ -152,34 +152,48 @@ class EngineeringRecord:
         description: Full description
         status: Lifecycle state (see lifecycle.py)
         authority: Authority level (proposed, accepted, deprecated, archived)
-        provenance: Origin and history (required)
+        provenance: Origin and history (required, but default None for dataclass inheritance)
         tags: Optional tags for categorization
         created_at: ISO-8601 creation timestamp
         updated_at: ISO-8601 last-update timestamp
         version: Integer version number (starts at 1)
         superseded_by: record_id of newer version (if superseded)
         experiment_context: V3.2 ExperimentContext for traceability
+
+    Note: provenance has default None for dataclass inheritance field ordering.
+    validate() still requires provenance to be set.
     """
 
-    record_id: str
-    record_type: str
-    title: str
-    description: str
-    status: str
-    authority: str
-    provenance: Provenance
+    record_id: str = ""
+    record_type: str = ""
+    title: str = ""
+    description: str = ""
+    status: str = ""
+    authority: str = ""
+    provenance: Optional[Provenance] = None
     tags: List[str] = field(default_factory=list)
     created_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
     updated_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
     version: int = 1
     superseded_by: Optional[str] = None
-    experiment_context: Optional[Any] = None  # ExperimentContext from V3.2
+    experiment_context: Optional[Any] = None
 
     # Internal: relationships are not part of __init__ signature but stored
     _relationships: List[RecordRelationship] = field(init=False, default_factory=list, repr=False)
 
     def __post_init__(self):
-        """Validate record after initialization."""
+        """Validate record after initialization. Coerces nested dicts to proper types."""
+        # Coerce provenance dict to Provenance instance
+        if isinstance(self.provenance, dict):
+            self.provenance = Provenance.from_dict(self.provenance)
+        # Coerce experiment_context dict to ExperimentContext
+        if isinstance(self.experiment_context, dict):
+            from harness.learning.context import ExperimentContext
+            self.experiment_context = ExperimentContext.from_dict(self.experiment_context)
+        # Coerce relationship dicts to RecordRelationship
+        for i, rel in enumerate(self._relationships):
+            if isinstance(rel, dict):
+                self._relationships[i] = RecordRelationship.from_dict(rel)
         self.validate()
 
     def validate(self) -> None:
@@ -287,8 +301,10 @@ class EngineeringRecord:
     def from_dict(cls, data: dict) -> "EngineeringRecord":
         """
         Create an EngineeringRecord from a dictionary.
-        
+
         Reconstructs nested Provenance and ExperimentContext objects.
+        Returns a base EngineeringRecord instance — the store preserves
+        whatever record type was saved (typed or untyped).
         """
         # Reconstruct provenance
         provenance = Provenance.from_dict(data["provenance"])
@@ -302,7 +318,8 @@ class EngineeringRecord:
         # Reconstruct relationships
         relationships = []
         for rel_data in data.get("relationships", []):
-            relationships.append(RecordRelationship.from_dict(rel_data))
+            if isinstance(rel_data, dict):
+                relationships.append(RecordRelationship.from_dict(rel_data))
 
         record = cls(
             record_id=data["record_id"],
@@ -357,8 +374,9 @@ class EngineeringRecord:
     ) -> RecordRelationship:
         """
         Add a relationship to another record.
-        
+
         Uses stable reference (record_id), not embedded record.
+        Does NOT update updated_at — relationship changes are not record mutations.
         """
         rel = RecordRelationship(
             source_id=self.record_id,
@@ -368,7 +386,6 @@ class EngineeringRecord:
             metadata=metadata or {},
         )
         self._relationships.append(rel)
-        self.updated_at = datetime.utcnow().isoformat()
         return rel
 
     def get_relationships(self, relation_type: Optional[str] = None) -> List[RecordRelationship]:
@@ -435,28 +452,21 @@ class EngineeringRecord:
 
 
 # ──────────────────────────────────────────────────────────────────────
-# Record type registry (base class only — typed records in Phase 4-7)
+# Registry re-export for backward compatibility
+# The canonical registry lives in registry.py (breaks circular imports).
+# Re-exported here so existing code and tests can import from records.py.
 # ──────────────────────────────────────────────────────────────────────
 
-RECORD_TYPE_CLASSES: Dict[str, type] = {
-    "PRD": EngineeringRecord,
-    "NFR": EngineeringRecord,
-    "DR": EngineeringRecord,
-    "ADR": EngineeringRecord,
-    "TDR": EngineeringRecord,
-    "RSK": EngineeringRecord,
-    "SEC": EngineeringRecord,
-    "RCA": EngineeringRecord,
-    "REQ": EngineeringRecord,
-}
-
+from .registry import RECORD_TYPE_CLASSES, TYPED_RECORD_CLASSES  # noqa: F401, E402
 
 def create_record(record_type: str, **kwargs) -> EngineeringRecord:
     """
     Factory function to create a record of the given type.
-    
+    Uses registry.RECORD_TYPE_CLASSES for typed dispatch.
+
     Raises RecordError if record type is unknown.
     """
+    from .registry import RECORD_TYPE_CLASSES
     if record_type not in RECORD_TYPE_CLASSES:
         raise RecordError(
             f"Unknown record type '{record_type}'. "

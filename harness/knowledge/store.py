@@ -22,6 +22,7 @@ Three-domain separation:
 - Does NOT touch Evidence domain (evidence packages, hash chains)
 """
 
+import hashlib
 import json
 import os
 import sqlite3
@@ -50,6 +51,19 @@ class DuplicateRecordError(Exception):
 
 
 SCHEMA_VERSION = 1
+
+# Typed field markers — presence of these in record JSON indicates typed origin
+_TYPED_FIELD_MARKERS = {
+    "PRD": ("objective", "scope"),
+    "REQ": ("req_type", "priority", "parent_prd"),
+    "NFR": ("category", "scope", "qualitative"),
+}
+
+
+def _has_typed_fields(record_data: dict, record_type: str) -> bool:
+    """Check if record data contains typed-specific fields."""
+    markers = _TYPED_FIELD_MARKERS.get(record_type, ())
+    return any(marker in record_data for marker in markers)
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS records (
@@ -215,6 +229,14 @@ class KnowledgeStore:
         """
         record.validate()
 
+        # Phase 4: If record is a typed class instance (PRD, REQ, NFR), ensure
+        # it uses the canonical typed class for consistent serialization.
+        # Base EngineeringRecord instances are stored as-is (no conversion).
+        from .registry import TYPED_RECORD_CLASSES
+        target_cls = TYPED_RECORD_CLASSES.get(record.record_type)
+        if target_cls is not None and isinstance(record, target_cls) and type(record) is not target_cls:
+            record = target_cls.from_dict(record.to_dict())
+
         with self._cursor() as cursor:
             # Check for existing
             existing = cursor.execute(
@@ -346,8 +368,19 @@ class KnowledgeStore:
                 (record_id,),
             ).fetchone()
 
-            # Relationships are already embedded in the JSON blob via to_dict()
-            return EngineeringRecord.from_dict(json.loads(row["record_json"]))
+            record_data = json.loads(row["record_json"])
+            # Phase 4: Dispatch to typed class only if the record has typed-specific fields
+            from .registry import TYPED_RECORD_CLASSES
+            record_type = record_data.get("record_type", "")
+            target_cls = TYPED_RECORD_CLASSES.get(record_type)
+            if target_cls is not None:
+                markers = _TYPED_FIELD_MARKERS.get(record_type, ())
+                if any(m in record_data for m in markers):
+                    try:
+                        return target_cls.from_dict(record_data)
+                    except (RecordError, TypeError, ValueError, KeyError):
+                        pass
+            return EngineeringRecord.from_dict(record_data)
 
     def delete(self, record_id: str) -> None:
         """
@@ -515,7 +548,7 @@ class KnowledgeStore:
         """
         Verify the integrity of a stored record.
 
-        Computes the hash of the stored record JSON and compares
+        Computes the hash of the stored record JSON directly and compares
         it with the hash stored at save time.
 
         Returns:
@@ -526,11 +559,20 @@ class KnowledgeStore:
             return False
 
         try:
-            record = self.get(record_id, verify=False)
-        except RecordNotFoundError:
+            with self._cursor() as cursor:
+                row = cursor.execute(
+                    "SELECT record_json FROM records WHERE record_id = ?",
+                    (record_id,),
+                ).fetchone()
+                if row is None:
+                    return False
+                record_data = json.loads(row["record_json"])
+        except (RecordNotFoundError, json.JSONDecodeError):
             return False
 
-        computed_hash = record.compute_hash()
+        # Compute hash from the stored JSON directly (preserves typed fields)
+        canonical = json.dumps(record_data, sort_keys=True, separators=(",", ":"))
+        computed_hash = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
         return stored_hash == computed_hash
 
     def verify_all_integrity(self) -> Dict[str, bool]:
