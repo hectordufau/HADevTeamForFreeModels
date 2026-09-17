@@ -95,8 +95,8 @@ class TestEngineeringRecordCreation:
         assert record.superseded_by == "PRD-002"
 
     def test_record_type_constants(self):
-        assert VALID_RECORD_TYPES == {"PRD", "NFR", "DR", "ADR", "TDR", "RSK", "SEC", "RCA"}
-        assert len(RECORD_TYPE_CLASSES) == 8
+        assert VALID_RECORD_TYPES == {"PRD", "NFR", "DR", "ADR", "TDR", "RSK", "SEC", "RCA", "REQ"}
+        assert len(RECORD_TYPE_CLASSES) == 9
 
     def test_relationship_type_constants(self):
         assert len(VALID_RELATIONSHIP_TYPES) == 14

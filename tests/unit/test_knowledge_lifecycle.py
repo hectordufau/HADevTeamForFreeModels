@@ -37,8 +37,8 @@ class TestLifecycleDefinitions:
     """Test lifecycle definitions for all record types."""
 
     def test_all_record_types_have_lifecycle(self):
-        assert VALID_RECORD_TYPES == {"PRD", "NFR", "DR", "ADR", "TDR", "RSK", "SEC", "RCA"}
-        assert len(LIFECYCLE_DEFINITIONS) == 8
+        assert VALID_RECORD_TYPES == {"PRD", "NFR", "DR", "ADR", "TDR", "RSK", "SEC", "RCA", "REQ"}
+        assert len(LIFECYCLE_DEFINITIONS) == 9
 
     def test_prd_lifecycle(self):
         defn = get_lifecycle_definition("PRD")

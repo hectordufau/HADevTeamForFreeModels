@@ -1,354 +1,396 @@
-# harness/knowledge/contradiction.py — V3.3 Contradiction Detection
+# harness/knowledge/contradiction.py — V3.3 Structural Contradiction Detection
 """
-Detect and track contradictions between engineering records.
+Detect structural contradictions in the EngineeringKnowledgeGraph.
 
-Contradictions arise when:
-- Two ADRs on the same topic make conflicting decisions (both ACCEPTED)
-- An ADR violates a governing NFR on the same topic
-- Records with the same tag have semantically conflicting descriptions
+Phase 3 Implementation — TASK-045 (Contradiction Detection)
+
+This module detects deterministic structural contradictions only.
+It does NOT attempt broad LLM semantic contradiction detection.
+
+Contradiction types detected:
+- DANGLING_REFERENCE: relationship references nonexistent record
+- INVALID_RELATION: relation type not recognized
+- FORBIDDEN_CYCLE: cycle in SUPERSEDES or CAUSED_BY
+- SUPERSESSION_CONFLICT: mutual supersession, branching ambiguity
+- EXPLICIT_CONTRADICTION: CONTRADICTS edge exists
+- STATUS_CONFLICT: superseded record still marked active/accepted
 
 Domain separation:
 - ContradictionDetector belongs to Engineering Knowledge
 - Does NOT touch Learning or Evidence domains
-- Integrates with KnowledgeGraph for relationship context
+- Integrates with EngineeringKnowledgeGraph for structural analysis
 """
 
-import re
-from datetime import datetime
-from typing import Any, Dict, List, Optional
-from enum import Enum
+from typing import Any, Dict, List, Optional, Set
 
-from .records import EngineeringRecord
-from .graph import KnowledgeGraph
-from .provenance import AUTHORITY_ACCEPTED
+from .records import (
+    EngineeringRecord,
+    RELATIONSHIP_SUPERSEDES,
+    RELATIONSHIP_CONTRADICTS,
+    RELATIONSHIP_CAUSED_BY,
+    RELATIONSHIP_RESOLVED_BY,
+)
+from .graph import (
+    EngineeringKnowledgeGraph,
+    GraphEdge,
+    IntegrityConflict,
+    GraphError,
+)
 
 
 class ContradictionError(Exception):
     """Raised on contradiction detection errors."""
 
 
-class ContradictionStatus(Enum):
-    """Lifecycle status of a detected contradiction."""
-    PENDING = "pending"       # Detected, not yet reviewed
-    FLAGGED = "flagged"       # Flagged for human review
-    RESOLVED = "resolved"     # Resolved (e.g., supersession, clarification)
-    REJECTED = "rejected"     # Rejected (not a real contradiction)
+# ──────────────────────────────────────────────────────────────────────
+# Structured conflict representation
+# ──────────────────────────────────────────────────────────────────────
+
+CONFLICT_TYPE_DANGLING_REFERENCE = "DANGLING_REFERENCE"
+CONFLICT_TYPE_INVALID_RELATION = "INVALID_RELATION"
+CONFLICT_TYPE_FORBIDDEN_CYCLE = "FORBIDDEN_CYCLE"
+CONFLICT_TYPE_SUPERSESSION_CONFLICT = "SUPERSESSION_CONFLICT"
+CONFLICT_TYPE_EXPLICIT_CONTRADICTION = "EXPLICIT_CONTRADICTION"
+CONFLICT_TYPE_STATUS_CONFLICT = "STATUS_CONFLICT"
+
+VALID_CONFLICT_TYPES = {
+    CONFLICT_TYPE_DANGLING_REFERENCE,
+    CONFLICT_TYPE_INVALID_RELATION,
+    CONFLICT_TYPE_FORBIDDEN_CYCLE,
+    CONFLICT_TYPE_SUPERSESSION_CONFLICT,
+    CONFLICT_TYPE_EXPLICIT_CONTRADICTION,
+    CONFLICT_TYPE_STATUS_CONFLICT,
+}
 
 
-# Technology/entity keywords for conflict detection
-_TECH_KEYWORDS = [
-    "postgresql", "mongodb", "mysql", "sqlite",
-    "react", "vue", "angular", "svelte",
-    "redis", "memcached", "kafka", "rabbitmq",
-    "rest", "graphql", "grpc",
-    "docker", "kubernetes", "terraform",
-    "aws", "gcp", "azure",
-]
-
-# NFR violation patterns: NFR target vs ADR description
-# Each pattern: (nfr_target_regex, violation_regex, category)
-_NFR_VIOLATION_PATTERNS = [
-    # Latency: NFR says "under/below/less than X ms" or "< X ms", ADR says "> X ms"
-    (r"(?:under|below|less than|<\s*)\s*(\d+)\s*ms", r">\s*\d+\s*ms", "latency"),
-    # Throughput: NFR says "over/above/more than X mb/s" or "> X mb/s", ADR says "< X mb/s"
-    (r"(?:over|above|more than|>\s*)\s*(\d+)\s*mb/s", r"<\s*\d+\s*mb/s", "throughput"),
-    # CPU: NFR says "under/below X% cpu", ADR says "> X% cpu"
-    (r"(?:under|below|<\s*)\s*(\d+)\s*%\s*cpu", r">\s*\d+\s*%\s*cpu", "cpu_usage"),
-    # Availability: NFR says "over/above X%", ADR says "< X%"
-    (r"(?:over|above|>\s*)\s*(\d+)\s*%\s*availability", r"<\s*\d+\s*%\s*availability", "availability"),
-]
-
-
-class Contradiction:
-    """
-    Represents a detected contradiction between two engineering records.
-
-    Fields:
-        contradiction_id: Unique identifier (deterministic)
-        source_id: The record that has the issue (usually NFR or older ADR)
-        target_id: The conflicting record (usually newer ADR)
-        contradiction_type: Classification (ADR_CONFLICT, NFR_VIOLATION, STATUS_CONFLICT)
-        status: Review status (pending → flagged → resolved/rejected)
-        description: Human-readable description
-        detected_at: ISO-8601 timestamp
-        flagged_at: When flagged for review (if applicable)
-        resolved_at: When resolved (if applicable)
-        resolution: Resolution details (if resolved)
-    """
-
-    def __init__(
-        self,
-        contradiction_id: str,
-        source_id: str,
-        target_id: str,
-        contradiction_type: str,
-        description: str = "",
-        status: ContradictionStatus = ContradictionStatus.PENDING,
-        detected_at: Optional[str] = None,
-        flagged_at: Optional[str] = None,
-        resolved_at: Optional[str] = None,
-        resolution: str = "",
-    ):
-        self.contradiction_id = contradiction_id
-        self.source_id = source_id
-        self.target_id = target_id
-        self.contradiction_type = contradiction_type
-        self.description = description
-        self.status = status
-        self.detected_at = detected_at or datetime.utcnow().isoformat()
-        self.flagged_at = flagged_at
-        self.resolved_at = resolved_at
-        self.resolution = resolution
-
-    def to_dict(self) -> dict:
-        return {
-            "contradiction_id": self.contradiction_id,
-            "source_id": self.source_id,
-            "target_id": self.target_id,
-            "contradiction_type": self.contradiction_type,
-            "status": self.status.value,
-            "description": self.description,
-            "detected_at": self.detected_at,
-            "flagged_at": self.flagged_at,
-            "resolved_at": self.resolved_at,
-            "resolution": self.resolution,
-        }
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "Contradiction":
-        return cls(
-            contradiction_id=data["contradiction_id"],
-            source_id=data["source_id"],
-            target_id=data["target_id"],
-            contradiction_type=data["contradiction_type"],
-            description=data.get("description", ""),
-            status=ContradictionStatus(data.get("status", "pending")),
-            detected_at=data.get("detected_at"),
-            flagged_at=data.get("flagged_at"),
-            resolved_at=data.get("resolved_at"),
-            resolution=data.get("resolution", ""),
-        )
-
-
-def _extract_technologies(text: str) -> set:
-    """Extract technology/entity mentions from text."""
-    text_lower = text.lower()
-    found = set()
-    for keyword in _TECH_KEYWORDS:
-        if keyword in text_lower:
-            found.add(keyword)
-    return found
-
-
-def _check_nfr_violation(nfr_desc: str, adr_desc: str) -> Optional[str]:
-    """Check if an ADR description violates an NFR target pattern."""
-    for target_pat, viol_pat, category in _NFR_VIOLATION_PATTERNS:
-        target_match = re.search(target_pat, nfr_desc, re.IGNORECASE)
-        if target_match:
-            viol_match = re.search(viol_pat, adr_desc, re.IGNORECASE)
-            if viol_match:
-                return category
-    return None
-
+# ──────────────────────────────────────────────────────────────────────
+# ContradictionDetector
+# ──────────────────────────────────────────────────────────────────────
 
 class ContradictionDetector:
     """
-    Detects contradictions between engineering records.
+    Detects structural contradictions in an EngineeringKnowledgeGraph.
 
-    Records are indexed by tag (topic). Within each tag group, the detector
-    checks for:
-    1. ADR vs ADR: Conflicting technology decisions (both accepted)
-    2. NFR vs ADR: ADR description violates NFR target
-    3. Any vs any: Records with identical titles (potential duplicates)
+    Deterministic: same graph → same contradictions, always.
+    No LLM inference. No semantic analysis. Structural only.
 
     Usage:
+        graph = EngineeringKnowledgeGraph.build_from_store(store)
         detector = ContradictionDetector(graph)
-        detector.index_record(adr1)
-        detector.index_record(adr2)
-        contradictions = detector.detect()
-        detector.flag_contradiction(contradictions[0].contradiction_id)
+        conflicts = detector.detect_all()
+        for c in conflicts:
+            print(c.conflict_type, c.records, c.reason)
+
+    Fail-closed: A graph with unresolved integrity violations is NOT
+    presented as clean knowledge.
     """
 
-    def __init__(self, graph: Optional[KnowledgeGraph] = None):
-        self.graph = graph or KnowledgeGraph()
-        # Indexed records: record_id → EngineeringRecord
-        self._records: Dict[str, EngineeringRecord] = {}
-        # Tag → set of record_ids
-        self._tag_index: Dict[str, set] = {}
-        # Active contradictions: contradiction_id → Contradiction
-        self._contradictions: Dict[str, Contradiction] = {}
+    def __init__(self, graph: EngineeringKnowledgeGraph):
+        self.graph = graph
 
-    def index_record(self, record: EngineeringRecord) -> None:
-        """Index a record for contradiction detection. Idempotent."""
-        self._records[record.record_id] = record
-        for tag in record.tags:
-            if tag not in self._tag_index:
-                self._tag_index[tag] = set()
-            self._tag_index[tag].add(record.record_id)
-
-    def detect(self) -> List[Contradiction]:
+    def detect_all(self) -> List[IntegrityConflict]:
         """
-        Detect contradictions among all indexed records.
+        Detect all structural contradictions in the graph.
 
-        Returns:
-            List of Contradiction objects. New contradictions are stored
-            internally; previously found contradictions are not duplicated.
+        Returns a sorted, deduplicated list of IntegrityConflict objects.
+        Empty list means the graph is structurally clean.
         """
-        contradictions: List[Contradiction] = []
+        conflicts: List[IntegrityConflict] = []
 
-        # Check each tag group (topic)
-        for tag, record_ids in self._tag_index.items():
-            records = [self._records[rid] for rid in record_ids]
-            group_contradictions = self._detect_in_group(records, tag)
-            for c in group_contradictions:
-                if c.contradiction_id not in self._contradictions:
-                    self._contradictions[c.contradiction_id] = c
-                contradictions.append(c)
+        # Dangling references (edges pointing to nonexistent nodes)
+        conflicts.extend(self._detect_dangling_references())
 
-        return contradictions
+        # Invalid relation types (should not happen with GraphEdge validation)
+        conflicts.extend(self._detect_invalid_relations())
 
-    def _detect_in_group(
-        self, records: List[EngineeringRecord], tag: str
-    ) -> List[Contradiction]:
-        """Detect contradictions within a tag group."""
-        contradictions = []
+        # Forbidden cycles
+        conflicts.extend(self._detect_forbidden_cycles())
 
-        # ADR vs ADR on same topic
-        accepted_adrs = [
-            r for r in records
-            if r.record_type == "ADR" and r.authority == AUTHORITY_ACCEPTED
-        ]
-        for i, adr1 in enumerate(accepted_adrs):
-            for adr2 in accepted_adrs[i + 1:]:
-                # Same topic (tag), different technologies mentioned
-                techs1 = _extract_technologies(adr1.description)
-                techs2 = _extract_technologies(adr2.description)
-                if techs1 and techs2 and techs1 != techs2:
-                    # Ensure deterministic ordering
-                    source, target = (adr1, adr2) if adr1.record_id < adr2.record_id else (adr2, adr1)
-                    cid = self._make_contradiction_id(
-                        source.record_id, target.record_id, "ADR_CONFLICT"
-                    )
-                    c = Contradiction(
-                        contradiction_id=cid,
-                        source_id=source.record_id,
-                        target_id=target.record_id,
-                        contradiction_type="ADR_CONFLICT",
-                        description=(
-                            f"Both '{source.record_id}' and '{target.record_id}' "
-                            f"make different decisions on topic '{tag}': "
-                            f"{techs1} vs {techs2}"
+        # Supersession conflicts
+        conflicts.extend(self._detect_supersession_conflicts())
+
+        # Explicit contradictions (CONTRADICTS edges)
+        conflicts.extend(self._detect_explicit_contradictions())
+
+        # Status conflicts (superseded record still active)
+        conflicts.extend(self._detect_status_conflicts())
+
+        # Deduplicate by (type, records) — keep first occurrence
+        seen: Set[tuple] = set()
+        unique: List[IntegrityConflict] = []
+        for c in conflicts:
+            key = (c.conflict_type, tuple(c.records))
+            if key not in seen:
+                seen.add(key)
+                unique.append(c)
+
+        # Sort for deterministic output
+        unique.sort(key=lambda c: (c.conflict_type, c.records))
+        return unique
+
+    def is_clean(self) -> bool:
+        """Return True if the graph has no structural contradictions."""
+        return len(self.detect_all()) == 0
+
+    def _detect_dangling_references(self) -> List[IntegrityConflict]:
+        """Detect edges referencing nonexistent canonical records."""
+        conflicts: List[IntegrityConflict] = []
+        known_nodes = self.graph.nodes
+
+        for edge in self.graph.get_edges():
+            if edge.target_id not in known_nodes:
+                conflicts.append(
+                    IntegrityConflict(
+                        conflict_type=CONFLICT_TYPE_DANGLING_REFERENCE,
+                        records=[edge.source_id, edge.target_id],
+                        relations=[{
+                            "source_id": edge.source_id,
+                            "relation_type": edge.relation_type,
+                            "target_id": edge.target_id,
+                        }],
+                        severity="HIGH",
+                        reason=(
+                            f"Dangling reference: {edge.source_id} "
+                            f"—{edge.relation_type}→ {edge.target_id} "
+                            f"but {edge.target_id} does not exist in graph"
                         ),
                     )
-                    contradictions.append(c)
-
-        # NFR vs ADR on same topic
-        nfrs = [
-            r for r in records
-            if r.record_type == "NFR" and r.authority == AUTHORITY_ACCEPTED
-        ]
-        adrs = [
-            r for r in records
-            if r.record_type == "ADR" and r.authority == AUTHORITY_ACCEPTED
-        ]
-        for nfr in nfrs:
-            for adr in adrs:
-                violation = _check_nfr_violation(nfr.description, adr.description)
-                if violation:
-                    cid = self._make_contradiction_id(
-                        nfr.record_id, adr.record_id, "NFR_VIOLATION"
-                    )
-                    c = Contradiction(
-                        contradiction_id=cid,
-                        source_id=nfr.record_id,
-                        target_id=adr.record_id,
-                        contradiction_type="NFR_VIOLATION",
-                        description=(
-                            f"ADR '{adr.record_id}' may violate NFR "
-                            f"'{nfr.record_id}' ({violation}): "
-                            f"NFR target vs ADR description"
+                )
+            if edge.source_id not in known_nodes:
+                conflicts.append(
+                    IntegrityConflict(
+                        conflict_type=CONFLICT_TYPE_DANGLING_REFERENCE,
+                        records=[edge.source_id, edge.target_id],
+                        relations=[{
+                            "source_id": edge.source_id,
+                            "relation_type": edge.relation_type,
+                            "target_id": edge.target_id,
+                        }],
+                        severity="HIGH",
+                        reason=(
+                            f"Dangling reference: {edge.source_id} "
+                            f"—{edge.relation_type}→ {edge.target_id} "
+                            f"but {edge.source_id} does not exist in graph"
                         ),
                     )
-                    contradictions.append(c)
+                )
 
-        return contradictions
+        return conflicts
 
-    def _make_contradiction_id(self, a: str, b: str, ctype: str) -> str:
-        """Create a deterministic contradiction ID."""
-        return f"CONTRADICTION-{ctype}-{a}-{b}"
+    def _detect_invalid_relations(self) -> List[IntegrityConflict]:
+        """Detect edges with invalid relation types."""
+        conflicts: List[IntegrityConflict] = []
+        # GraphEdge constructor already validates, but double-check
+        for edge in self.graph.get_edges():
+            if edge.relation_type not in {
+                "REQUIRES", "SATISFIES", "DECIDED_BY", "CONSTRAINED_BY",
+                "INTRODUCES", "MITIGATES", "SUPERSEDES", "CAUSED_BY",
+                "RESOLVED_BY", "VERIFIED_BY", "SUPPORTED_BY", "CONTRADICTS",
+                "RELATES_TO", "DERIVED_FROM",
+            }:
+                conflicts.append(
+                    IntegrityConflict(
+                        conflict_type=CONFLICT_TYPE_INVALID_RELATION,
+                        records=[edge.source_id, edge.target_id],
+                        relations=[{
+                            "source_id": edge.source_id,
+                            "relation_type": edge.relation_type,
+                            "target_id": edge.target_id,
+                        }],
+                        severity="HIGH",
+                        reason=f"Invalid relation type: {edge.relation_type}",
+                    )
+                )
+        return conflicts
 
-    def get_contradiction(self, contradiction_id: str) -> Optional[Contradiction]:
-        """Retrieve a contradiction by ID."""
-        return self._contradictions.get(contradiction_id)
+    def _detect_forbidden_cycles(self) -> List[IntegrityConflict]:
+        """Detect cycles in SUPERSEDES, CAUSED_BY, or RESOLVED_BY."""
+        conflicts: List[IntegrityConflict] = []
+        forbidden_types = {
+            RELATIONSEDES := RELATIONSHIP_SUPERSEDES,
+            RELATIONSHIP_CAUSED_BY,
+            RELATIONSHIP_RESOLVED_BY,
+        }
 
-    def flag_contradiction(self, contradiction_id: str) -> Contradiction:
-        """
-        Flag a contradiction for human review.
+        for rtype in sorted(forbidden_types):
+            has_cycle, cycle_path = self.graph.has_cycle(relation_type=rtype)
+            if has_cycle:
+                relations = []
+                for i in range(len(cycle_path) - 1):
+                    relations.append({
+                        "source_id": cycle_path[i],
+                        "relation_type": rtype,
+                        "target_id": cycle_path[i + 1],
+                    })
+                # Close the cycle
+                relations.append({
+                    "source_id": cycle_path[-1],
+                    "relation_type": rtype,
+                    "target_id": cycle_path[0],
+                })
+                conflicts.append(
+                    IntegrityConflict(
+                        conflict_type=CONFLICT_TYPE_FORBIDDEN_CYCLE,
+                        records=cycle_path,
+                        relations=relations,
+                        severity="HIGH",
+                        reason=(
+                            f"Forbidden cycle in {rtype}: "
+                            f"{' → '.join(cycle_path)} → {cycle_path[0]}"
+                        ),
+                    )
+                )
 
-        Raises ContradictionError if the contradiction doesn't exist
-        or is already flagged.
-        """
-        c = self._contradictions.get(contradiction_id)
-        if c is None:
-            raise ContradictionError(
-                f"Contradiction '{contradiction_id}' not found"
+        return conflicts
+
+    def _detect_supersession_conflicts(self) -> List[IntegrityConflict]:
+        """Detect mutual supersession and branching ambiguity."""
+        conflicts: List[IntegrityConflict] = []
+
+        # Mutual supersession: A supersedes B AND B supersedes A
+        for edge in self.graph.get_edges(relation_type=RELATIONSHIP_SUPERSEDES):
+            reverse = self.graph.has_edge(
+                edge.target_id, edge.source_id, RELATIONSHIP_SUPERSEDES
             )
-        if c.status == ContradictionStatus.FLAGGED:
-            raise ContradictionError(
-                f"Contradiction '{contradiction_id}' is already flagged"
-            )
-        c.status = ContradictionStatus.FLAGGED
-        c.flagged_at = datetime.utcnow().isoformat()
-        return c
+            if reverse:
+                records = sorted([edge.source_id, edge.target_id])
+                conflicts.append(
+                    IntegrityConflict(
+                        conflict_type=CONFLICT_TYPE_SUPERSESSION_CONFLICT,
+                        records=records,
+                        relations=[
+                            {
+                                "source_id": edge.source_id,
+                                "relation_type": "SUPERSEDES",
+                                "target_id": edge.target_id,
+                            },
+                            {
+                                "source_id": edge.target_id,
+                                "relation_type": "SUPERSEDES",
+                                "target_id": edge.source_id,
+                            },
+                        ],
+                        severity="HIGH",
+                        reason=(
+                            f"Mutual supersession: {edge.source_id} and "
+                            f"{edge.target_id} each supersede the other"
+                        ),
+                    )
+                )
 
-    def resolve_contradiction(
-        self, contradiction_id: str, resolution: str
-    ) -> Contradiction:
+        # Branching ambiguity: one record superseded by multiple
+        outgoing: Dict[str, List[str]] = {}
+        for edge in self.graph.get_edges(relation_type=RELATIONSHIP_SUPERSEDES):
+            outgoing.setdefault(edge.source_id, []).append(edge.target_id)
+
+        for source_id, targets in sorted(outgoing.items()):
+            if len(targets) > 1:
+                conflicts.append(
+                    IntegrityConflict(
+                        conflict_type=CONFLICT_TYPE_SUPERSESSION_CONFLICT,
+                        records=[source_id] + sorted(targets),
+                        relations=[
+                            {
+                                "source_id": source_id,
+                                "relation_type": "SUPERSEDES",
+                                "target_id": t,
+                            }
+                            for t in sorted(targets)
+                        ],
+                        severity="MEDIUM",
+                        reason=(
+                            f"Ambiguous supersession: {source_id} supersedes "
+                            f"multiple records: {sorted(targets)}"
+                        ),
+                    )
+                )
+
+        return conflicts
+
+    def _detect_explicit_contradictions(self) -> List[IntegrityConflict]:
+        """Detect explicit CONTRADICTS edges (structural, not semantic)."""
+        conflicts: List[IntegrityConflict] = []
+
+        for edge in self.graph.get_edges(relation_type=RELATIONSHIP_CONTRADICTS):
+            conflicts.append(
+                IntegrityConflict(
+                    conflict_type=CONFLICT_TYPE_EXPLICIT_CONTRADICTION,
+                    records=sorted([edge.source_id, edge.target_id]),
+                    relations=[{
+                        "source_id": edge.source_id,
+                        "relation_type": "CONTRADICTS",
+                        "target_id": edge.target_id,
+                    }],
+                    severity="MEDIUM",
+                    reason=(
+                        f"Explicit contradiction: {edge.source_id} "
+                        f"CONTRADICTS {edge.target_id}"
+                    ),
+                )
+            )
+
+        return conflicts
+
+    def _detect_status_conflicts(self) -> List[IntegrityConflict]:
         """
-        Mark a contradiction as resolved.
+        Detect records that are superseded but still marked active/accepted.
 
-        Args:
-            contradiction_id: The contradiction to resolve.
-            resolution: Human-readable resolution details.
-
-        Raises ContradictionError if not found.
+        This requires record metadata (status, authority) which is not stored
+        in the graph itself. When records are available via the store, this
+        check is performed by validate_integrity(store).
         """
-        c = self._contradictions.get(contradiction_id)
-        if c is None:
-            raise ContradictionError(
-                f"Contradiction '{contradiction_id}' not found"
-            )
-        c.status = ContradictionStatus.RESOLVED
-        c.resolution = resolution
-        c.resolved_at = datetime.utcnow().isoformat()
-        return c
+        # Graph-level status conflicts are detected during validate_integrity()
+        # with store access. This method is a placeholder for graph-only checks.
+        return []
 
-    def reject_contradiction(self, contradiction_id: str, reason: str = "") -> Contradiction:
-        """Mark a contradiction as rejected (false positive)."""
-        c = self._contradictions.get(contradiction_id)
-        if c is None:
-            raise ContradictionError(
-                f"Contradiction '{contradiction_id}' not found"
-            )
-        c.status = ContradictionStatus.REJECTED
-        c.resolution = reason
-        c.resolved_at = datetime.utcnow().isoformat()
-        return c
+    def detect_with_records(
+        self, records: List[EngineeringRecord]
+    ) -> List[IntegrityConflict]:
+        """
+        DetectContradictions enriched with record metadata.
 
-    def get_all_contradictions(self) -> List[Contradiction]:
-        """Return all known contradictions."""
-        return list(self._contradictions.values())
+        Adds STATUS_CONFLICT detection: superseded records that are still
+        active/accepted in the canonical store.
+        """
+        conflicts = self.detect_all()
 
-    def get_flagged_contradictions(self) -> List[Contradiction]:
-        """Return all contradictions flagged for review."""
-        return [
-            c for c in self._contradictions.values()
-            if c.status == ContradictionStatus.FLAGGED
-        ]
+        # Build record lookup
+        record_map: Dict[str, EngineeringRecord] = {
+            r.record_id: r for r in records
+        }
 
-    def get_pending_contradictions(self) -> List[Contradiction]:
-        """Return all pending (unreviewed) contradictions."""
-        return [
-            c for c in self._contradictions.values()
-            if c.status == ContradictionStatus.PENDING
-        ]
+        # Check for superseded-but-active records
+        for edge in self.graph.get_edges(relation_type=RELATIONSHIP_SUPERSEDES):
+            source = record_map.get(edge.source_id)
+            if source is not None:
+                # Superseded record should not be 'active' or 'accepted'
+                active_statuses = {"active", "accepted", "proposed", "identified", "draft"}
+                if source.status in active_statuses:
+                    conflicts.append(
+                        IntegrityConflict(
+                            conflict_type=CONFLICT_TYPE_STATUS_CONFLICT,
+                            records=[edge.source_id],
+                            relations=[{
+                                "source_id": edge.source_id,
+                                "relation_type": "SUPERSEDES",
+                                "target_id": edge.target_id,
+                            }],
+                            severity="MEDIUM",
+                            reason=(
+                                f"Record {edge.source_id} is superseded by "
+                                f"{edge.target_id} but still has active status "
+                                f"'{source.status}'"
+                            ),
+                        )
+                    )
+
+        # Re-deduplicate and sort
+        seen: Set[tuple] = set()
+        unique: List[IntegrityConflict] = []
+        for c in conflicts:
+            key = (c.conflict_type, tuple(c.records))
+            if key not in seen:
+                seen.add(key)
+                unique.append(c)
+        unique.sort(key=lambda c: (c.conflict_type, c.records))
+        return unique

@@ -3,13 +3,15 @@
 Engineering Knowledge package for V3.3.
 
 Provides structured engineering records (PRD, NFR, DR, ADR, TDR, RSK, SEC, RCA)
-with provenance, authority, lifecycle, relationships, versioning, and validation.
+with provenance, authority, lifecycle, relationships, versioning, validation,
+and a deterministic EngineeringKnowledgeGraph for relationship traversal.
 
 Architecture boundaries:
 - Engineering Knowledge is separate from Learning Knowledge and Evidence
 - Does NOT replace V3.2 learning modules (StructuredExperience, FailureLesson, Strategy, etc.)
 - Does NOT replace Evidence modules (EvidencePackage, EvidenceStore)
 - Maintains three-domain separation: Engineering Knowledge / Learning Knowledge / Evidence
+- EngineeringKnowledgeGraph != CapabilityGraph (no semantics leak)
 """
 
 from .records import (
@@ -56,17 +58,25 @@ from .store import (
     DuplicateRecordError,
 )
 from .graph import (
-    KnowledgeGraph,
+    EngineeringKnowledgeGraph,
+    GraphEdge,
     GraphError,
-    EdgeType,
-    EDGE_TYPES,
-    VALID_EDGE_TYPES,
+    IntegrityViolation,
+    IntegrityConflict,
+    TraversalOptions,
+    PathResult,
+    DEFAULT_TRAVERSAL,
 )
 from .contradiction import (
     ContradictionDetector,
     ContradictionError,
-    Contradiction,
-    ContradictionStatus,
+    CONFLICT_TYPE_DANGLING_REFERENCE,
+    CONFLICT_TYPE_INVALID_RELATION,
+    CONFLICT_TYPE_FORBIDDEN_CYCLE,
+    CONFLICT_TYPE_SUPERSESSION_CONFLICT,
+    CONFLICT_TYPE_EXPLICIT_CONTRADICTION,
+    CONFLICT_TYPE_STATUS_CONFLICT,
+    VALID_CONFLICT_TYPES,
 )
 
 __all__ = [
@@ -118,14 +128,22 @@ __all__ = [
     "RecordNotFoundError",
     "DuplicateRecordError",
     # Graph
-    "KnowledgeGraph",
+    "EngineeringKnowledgeGraph",
+    "GraphEdge",
     "GraphError",
-    "EdgeType",
-    "EDGE_TYPES",
-    "VALID_EDGE_TYPES",
+    "IntegrityViolation",
+    "IntegrityConflict",
+    "TraversalOptions",
+    "PathResult",
+    "DEFAULT_TRAVERSAL",
     # Contradiction
     "ContradictionDetector",
     "ContradictionError",
-    "Contradiction",
-    "ContradictionStatus",
+    "CONFLICT_TYPE_DANGLING_REFERENCE",
+    "CONFLICT_TYPE_INVALID_RELATION",
+    "CONFLICT_TYPE_FORBIDDEN_CYCLE",
+    "CONFLICT_TYPE_SUPERSESSION_CONFLICT",
+    "CONFLICT_TYPE_EXPLICIT_CONTRADICTION",
+    "CONFLICT_TYPE_STATUS_CONFLICT",
+    "VALID_CONFLICT_TYPES",
 ]

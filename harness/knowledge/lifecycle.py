@@ -133,6 +133,19 @@ RCA_LIFECYCLE = {
     },
 }
 
+# REQ: proposed → accepted → deprecated → archived
+REQ_LIFECYCLE = {
+    "states": ["proposed", "accepted", "deprecated", "archived"],
+    "initial": "proposed",
+    "terminal": {"archived"},
+    "transitions": {
+        "proposed": {"accepted", "deprecated"},
+        "accepted": {"deprecated"},
+        "deprecated": {"archived"},
+        "archived": set(),
+    },
+}
+
 # ──────────────────────────────────────────────────────────────────────
 # Lifecycle registry
 # ──────────────────────────────────────────────────────────────────────
@@ -146,6 +159,7 @@ LIFECYCLE_DEFINITIONS: Dict[str, Dict[str, Any]] = {
     "RSK": RSK_LIFECYCLE,
     "SEC": SEC_LIFECYCLE,
     "RCA": RCA_LIFECYCLE,
+    "REQ": REQ_LIFECYCLE,
 }
 
 # Valid record types

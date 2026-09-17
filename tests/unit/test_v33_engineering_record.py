@@ -152,8 +152,8 @@ class TestEngineeringRecordCreation:
             make_record(tags="not_a_list")
 
     def test_record_type_constants(self):
-        assert VALID_RECORD_TYPES == {"PRD", "NFR", "DR", "ADR", "TDR", "RSK", "SEC", "RCA"}
-        assert len(RECORD_TYPE_CLASSES) == 8
+        assert VALID_RECORD_TYPES == {"PRD", "NFR", "DR", "ADR", "TDR", "RSK", "SEC", "RCA", "REQ"}
+        assert len(RECORD_TYPE_CLASSES) == 9
 
     def test_relationship_type_constants(self):
         assert len(VALID_RELATIONSHIP_TYPES) == 14
@@ -311,8 +311,8 @@ class TestAuthority:
 
 class TestLifecycle:
     def test_all_record_types_have_lifecycle(self):
-        assert VALID_RECORD_TYPES == {"PRD", "NFR", "DR", "ADR", "TDR", "RSK", "SEC", "RCA"}
-        assert len(LIFECYCLE_DEFINITIONS) == 8
+        assert VALID_RECORD_TYPES == {"PRD", "NFR", "DR", "ADR", "TDR", "RSK", "SEC", "RCA", "REQ"}
+        assert len(LIFECYCLE_DEFINITIONS) == 9
 
     def test_prd_valid_transitions(self):
         assert is_valid_transition("PRD", "draft", "review")

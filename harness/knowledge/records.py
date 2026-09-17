@@ -134,7 +134,7 @@ class RecordRelationship:
 # ──────────────────────────────────────────────────────────────────────
 
 # Record ID pattern: TYPE-NNN (e.g., PRD-001, ADR-042)
-RECORD_ID_PATTERN = re.compile(r"^(PRD|NFR|DR|ADR|TDR|RSK|SEC|RCA)-\d{3,}$")
+RECORD_ID_PATTERN = re.compile(r"^(PRD|NFR|DR|ADR|TDR|RSK|SEC|RCA|REQ)-\d{3,}$")
 
 
 @dataclass
@@ -447,6 +447,7 @@ RECORD_TYPE_CLASSES: Dict[str, type] = {
     "RSK": EngineeringRecord,
     "SEC": EngineeringRecord,
     "RCA": EngineeringRecord,
+    "REQ": EngineeringRecord,
 }
 
 
