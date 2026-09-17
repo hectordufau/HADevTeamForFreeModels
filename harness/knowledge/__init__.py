@@ -55,6 +55,19 @@ from .store import (
     RecordNotFoundError,
     DuplicateRecordError,
 )
+from .graph import (
+    KnowledgeGraph,
+    GraphError,
+    EdgeType,
+    EDGE_TYPES,
+    VALID_EDGE_TYPES,
+)
+from .contradiction import (
+    ContradictionDetector,
+    ContradictionError,
+    Contradiction,
+    ContradictionStatus,
+)
 
 __all__ = [
     # Records
@@ -104,4 +117,15 @@ __all__ = [
     "IntegrityError",
     "RecordNotFoundError",
     "DuplicateRecordError",
+    # Graph
+    "KnowledgeGraph",
+    "GraphError",
+    "EdgeType",
+    "EDGE_TYPES",
+    "VALID_EDGE_TYPES",
+    # Contradiction
+    "ContradictionDetector",
+    "ContradictionError",
+    "Contradiction",
+    "ContradictionStatus",
 ]
