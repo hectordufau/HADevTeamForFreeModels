@@ -118,10 +118,15 @@ class EngineeringKnowledgeContext:
         }
 
     def compute_digest(self) -> str:
-        """Compute deterministic SHA-256 digest."""
+        """Compute deterministic SHA-256 digest.
+
+        Includes content so that knowledge version changes are observable:
+        same record_id with different content produces a different digest.
+        """
         items_sorted = sorted(
             (item.record_id, item.record_type, item.authority, item.status,
-             item.source_domain, item.retrieval_reason, item.precedence)
+             item.source_domain, item.retrieval_reason, item.precedence,
+             item.content)
             for item in self.items
         )
         digest_input = json.dumps(
