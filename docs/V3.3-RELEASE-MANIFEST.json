@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "release": {
+    "version": "v3.3.0",
+    "name": "Engineering Knowledge & Decision Intelligence"
+  },
+  "source": {
+    "feature_branch": "feature/v3.3-engineering-knowledge",
+    "feature_head": "9ebbf88",
+    "merge_commit": "9c07f6734db8f56312e921ac32235e1f5d8a7d78",
+    "master_commit": "9c07f6734db8f56312e921ac32235e1f5d8a7d78"
+  },
+  "validation": {
+    "test_count": 1960,
+    "previous_test_count": 1960,
+    "tests": "1960/1960 PASS",
+    "previous_test_integrity": "PASS",
+    "phase14_verdict": "PASS",
+    "release_candidate_eligible": "YES"
+  },
+  "integrity": {
+    "architecture": "PASS",
+    "regression": "PASS",
+    "governance": "PASS",
+    "security": "PASS",
+    "evidence": "PASS",
+    "measurement": "PASS",
+    "artifact": "PASS",
+    "reproducibility": "PASS",
+    "documentation": "PASS"
+  },
+  "gates": {
+    "authoritative_v33": ["G27-G44", "G60-G62", "G63-G66"],
+    "results": "PASS",
+    "undefined_gates_invented": 0
+  },
+  "historical_evidence": "PRESERVED",
+  "phase13": {
+    "observed_effect": "NEUTRAL",
+    "interpretation": "No positive or negative empirical effect was established under the tested validation configuration."
+  },
+  "violations": {
+    "security": 0,
+    "governance": 0,
+    "policy_bypass": 0,
+    "unsafe_strategy": 0,
+    "unauthorized_authority_transition": 0,
+    "non_free_model": 0
+  },
+  "known_limitations": [
+    "Phase 13 observed effect is NEUTRAL; release validation does not establish empirical superiority over CONTROL.",
+    "G67-G70 are not defined by authoritative V3.3 documents and are not represented as release gates.",
+    "Phase 16 remains post-release work and was not started."
+  ],
+  "critical_artifact_sha256": {
+    "docs/V3.3-SPEC.md": "d515846cd95bbbf3c26103722957f08b99aadf7737264089e125b6a501ea923b",
+    "docs/V3.3-MASTER-IMPLEMENTATION-PLAN.md": "609acb2c442d9981e8ca5dc77edef12a69b109aa5d93301f0e59831b1fa65032",
+    "docs/V3.3-PHASE13-REPORT.md": "19eca1f16d61fb8f8b22d2fa50a62c98003ee1d93a5f85f9362fd8644e956504",
+    "docs/V3.3-PHASE14-REPORT.md": "6d2448b9ce820f05b41abfad0b7cb4af1e4c4592754496e4e94479ba2ef0f9b5"
+  },
+  "runtime_local_only_manifest_required": false,
+  "tag": "v3.3.0"
+}
