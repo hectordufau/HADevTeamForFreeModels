@@ -286,6 +286,28 @@ from .reviewer import (
     EvidenceFabricationError,
     AuthorityChangeError,
 )
+from .learning_bridge import (
+    KnowledgeLearningBridge,
+    KnowledgeInfluence,
+    StrategyAdmissibility,
+    LearningProvenance,
+    EngineeringKnowledgeSuggestion,
+    ADMISSIBLE,
+    CONSTRAINED,
+    BLOCKED,
+    SUGGESTION_STATUS_PROPOSED,
+    SUGGESTION_STATUS_CONFLICTING,
+    SUGGESTION_STATUS_BLOCKED,
+    SUGGESTION_STATUS_NEEDS_REVIEW,
+    BridgeError,
+    AuthorityConflictError,
+)
+from .consistency import (
+    ConsistencyChecker,
+    ConsistencyFinding,
+    ConsistencyReport,
+    ConsistencyError,
+)
 
 __all__ = [
     # Records
@@ -426,6 +448,25 @@ __all__ = [
     "ReviewerError",
     "EvidenceFabricationError",
     "AuthorityChangeError",
+    # Learning Bridge (Phase 11)
+    "KnowledgeLearningBridge",
+    "KnowledgeInfluence",
+    "StrategyAdmissibility",
+    "LearningProvenance",
+    "EngineeringKnowledgeSuggestion",
+    "ADMISSIBLE",
+    "CONSTRAINED",
+    "BLOCKED",
+    "SUGGESTION_STATUS_PROPOSED",
+    "SUGGESTION_STATUS_CONFLICTING",
+    "SUGGESTION_STATUS_BLOCKED",
+    "SUGGESTION_STATUS_NEEDS_REVIEW",
+    "BridgeError",
+    "AuthorityConflictError",
+    "ConsistencyChecker",
+    "ConsistencyFinding",
+    "ConsistencyReport",
+    "ConsistencyError",
     # Decisions (DR/ADR)
     "DecisionRecord",
     "ArchitectureDecisionRecord",
