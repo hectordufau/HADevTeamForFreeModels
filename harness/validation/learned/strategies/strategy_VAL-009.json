@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_VAL-009",
+  "task_class": "VAL-009",
+  "capabilities": [
+    "debugging",
+    "testing",
+    "profiling"
+  ],
+  "conditions": {
+    "task_type": "VAL-009",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Memory Leak Diagnosis",
+    "steps": [
+      "debugging",
+      "testing",
+      "profiling"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.8074,
+    "success_rate": 0.5
+  },
+  "evidence_count": 39,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "validation"
+}

@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TRAIN-017",
+  "task_class": "TRAIN-017",
+  "capabilities": [
+    "profiling",
+    "optimization",
+    "database_schema"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-017",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Database Query Performance Tuning",
+    "steps": [
+      "profiling",
+      "optimization",
+      "database_schema"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.8419,
+    "success_rate": 0.5
+  },
+  "evidence_count": 27,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "train"
+}

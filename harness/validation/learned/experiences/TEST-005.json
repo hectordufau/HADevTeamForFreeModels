@@ -1,0 +1,25 @@
+{
+  "task_id": "TEST-005",
+  "mode": "LEARNED",
+  "split": "test",
+  "task_objective": "Integrate chaos engineering into CI/CD: add fault injection during integration tests for resilience validation",
+  "capabilities_used": [
+    "ci_cd",
+    "integration_design",
+    "testing"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.9338,
+    "duration": 7.11
+  },
+  "lesson": "Strategy worked for Chaos Engineering Integration",
+  "confidence": 0.9338,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:06.048258"
+}

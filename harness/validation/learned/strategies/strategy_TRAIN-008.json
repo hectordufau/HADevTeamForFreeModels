@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TRAIN-008",
+  "task_class": "TRAIN-008",
+  "capabilities": [
+    "ci_cd",
+    "deployment",
+    "testing"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-008",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for CI/CD Pipeline Setup",
+    "steps": [
+      "ci_cd",
+      "deployment",
+      "testing"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.5809,
+    "success_rate": 0.5
+  },
+  "evidence_count": 18,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "train"
+}

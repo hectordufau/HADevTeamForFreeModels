@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TRAIN-014",
+  "task_class": "TRAIN-014",
+  "capabilities": [
+    "security_analysis",
+    "vulnerability_assessment",
+    "refactoring"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-014",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for JWT Token Security Review",
+    "steps": [
+      "security_analysis",
+      "vulnerability_assessment",
+      "refactoring"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.8421,
+    "success_rate": 0.5
+  },
+  "evidence_count": 24,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "train"
+}

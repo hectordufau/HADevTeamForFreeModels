@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_VAL-003",
+  "task_class": "VAL-003",
+  "capabilities": [
+    "security_analysis",
+    "api_design",
+    "backend_development"
+  ],
+  "conditions": {
+    "task_type": "VAL-003",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Authentication Middleware",
+    "steps": [
+      "security_analysis",
+      "api_design",
+      "backend_development"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.6527,
+    "success_rate": 0.5
+  },
+  "evidence_count": 33,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "validation"
+}

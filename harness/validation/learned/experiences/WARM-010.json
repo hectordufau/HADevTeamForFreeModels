@@ -1,0 +1,23 @@
+{
+  "task_id": "WARM-010",
+  "mode": "LEARNED",
+  "split": "warmup",
+  "task_objective": "Write a function that sorts a list of dictionaries by a given key",
+  "capabilities_used": [
+    "backend_development"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "FAILED",
+    "score": 0.3057,
+    "duration": 6.48
+  },
+  "lesson": "Failed: score 0.3057",
+  "confidence": 0.3057,
+  "evidence": [],
+  "category": "failure_lesson",
+  "timestamp": "2026-09-11T21:29:05.859767"
+}

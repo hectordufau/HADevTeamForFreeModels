@@ -4,3 +4,6 @@ __pycache__/
 artifacts/model_performance.db
 artifacts/executions/
 tasks/active/
+artifacts/v3.3/
+:memory:*
+artifacts/exploration_results/

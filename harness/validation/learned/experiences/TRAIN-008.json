@@ -1,0 +1,25 @@
+{
+  "task_id": "TRAIN-008",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_objective": "Configure a CI/CD pipeline with automated testing, linting, security scanning, and deployment to staging",
+  "capabilities_used": [
+    "ci_cd",
+    "deployment",
+    "testing"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.5809,
+    "duration": 4.84
+  },
+  "lesson": "Strategy worked for CI/CD Pipeline Setup",
+  "confidence": 0.5809,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.907229"
+}

@@ -1,0 +1,25 @@
+{
+  "task_id": "TRAIN-010",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_objective": "Design system architecture for a real-time notification system including event bus, push notifications, and in-app notification center",
+  "capabilities_used": [
+    "system_design",
+    "integration_design",
+    "domain_modeling"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.7295,
+    "duration": 7.0
+  },
+  "lesson": "Strategy worked for Notification System Architecture",
+  "confidence": 0.7295,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.914288"
+}

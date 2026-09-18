@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TRAIN-003",
+  "task_class": "TRAIN-003",
+  "capabilities": [
+    "frontend_development",
+    "ui_implementation",
+    "testing"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-003",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Reusable Data Table Component",
+    "steps": [
+      "frontend_development",
+      "ui_implementation",
+      "testing"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.8267,
+    "success_rate": 0.5
+  },
+  "evidence_count": 13,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "train"
+}

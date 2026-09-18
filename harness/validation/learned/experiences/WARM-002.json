@@ -1,0 +1,23 @@
+{
+  "task_id": "WARM-002",
+  "mode": "LEARNED",
+  "split": "warmup",
+  "task_objective": "Write a SQL query to fetch all active users",
+  "capabilities_used": [
+    "database_schema"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.6486,
+    "duration": 8.7
+  },
+  "lesson": "Strategy worked for Basic Database Query",
+  "confidence": 0.6486,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.855806"
+}

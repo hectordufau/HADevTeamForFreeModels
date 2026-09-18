@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TEST-006",
+  "task_class": "TEST-006",
+  "capabilities": [
+    "refactoring",
+    "code_review",
+    "backend_development"
+  ],
+  "conditions": {
+    "task_type": "TEST-006",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for AI-Powered Code Review Assistant",
+    "steps": [
+      "refactoring",
+      "code_review",
+      "backend_development"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.9415,
+    "success_rate": 0.5
+  },
+  "evidence_count": 46,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "test"
+}

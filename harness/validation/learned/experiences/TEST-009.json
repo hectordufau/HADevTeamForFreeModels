@@ -1,0 +1,25 @@
+{
+  "task_id": "TEST-009",
+  "mode": "LEARNED",
+  "split": "test",
+  "task_objective": "Implement a performance budget check in CI that measures bundle size, load time, and Lighthouse scores and fails if budgets exceeded",
+  "capabilities_used": [
+    "ci_cd",
+    "profiling",
+    "optimization"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.5858,
+    "duration": 7.0
+  },
+  "lesson": "Strategy worked for Performance Budget CI Gate",
+  "confidence": 0.5858,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:06.071955"
+}

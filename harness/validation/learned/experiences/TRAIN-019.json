@@ -1,0 +1,25 @@
+{
+  "task_id": "TRAIN-019",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_objective": "Find and fix race condition in the order processing system where duplicate orders are created under high concurrency",
+  "capabilities_used": [
+    "debugging",
+    "testing",
+    "refactoring"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.5671,
+    "duration": 7.4
+  },
+  "lesson": "Strategy worked for Race Condition Bug Fix",
+  "confidence": 0.5671,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.948631"
+}

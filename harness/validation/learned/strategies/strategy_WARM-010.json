@@ -1,0 +1,31 @@
+{
+  "strategy_id": "strategy_WARM-010",
+  "task_class": "WARM-010",
+  "capabilities": [
+    "backend_development"
+  ],
+  "conditions": {
+    "task_type": "WARM-010",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Data Sorting Function",
+    "steps": [
+      "backend_development"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.3057,
+    "success_rate": 0.5
+  },
+  "evidence_count": 10,
+  "confidence": 0.8,
+  "mode": "LEARNED",
+  "split": "warmup"
+}

@@ -1,0 +1,24 @@
+{
+  "task_id": "TRAIN-012",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_objective": "Design a MongoDB document schema for a blogging platform with users, posts, comments, and tags",
+  "capabilities_used": [
+    "database_schema",
+    "domain_modeling"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.6939,
+    "duration": 10.08
+  },
+  "lesson": "Strategy worked for NoSQL Schema Design",
+  "confidence": 0.6939,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.921477"
+}

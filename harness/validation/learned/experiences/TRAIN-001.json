@@ -1,0 +1,25 @@
+{
+  "task_id": "TRAIN-001",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_objective": "Implement a REST API endpoint for user management with full CRUD operations including create, read, update, and delete",
+  "capabilities_used": [
+    "api_design",
+    "backend_development",
+    "testing"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.5993,
+    "duration": 3.78
+  },
+  "lesson": "Strategy worked for REST API CRUD Implementation",
+  "confidence": 0.5993,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.886566"
+}

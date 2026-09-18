@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_VAL-010",
+  "task_class": "VAL-010",
+  "capabilities": [
+    "system_design",
+    "domain_modeling",
+    "technical_writing"
+  ],
+  "conditions": {
+    "task_type": "VAL-010",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Microservices Decomposition Plan",
+    "steps": [
+      "system_design",
+      "domain_modeling",
+      "technical_writing"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.7664,
+    "success_rate": 0.5
+  },
+  "evidence_count": 40,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "validation"
+}

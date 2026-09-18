@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TRAIN-009",
+  "task_class": "TRAIN-009",
+  "capabilities": [
+    "debugging",
+    "testing",
+    "refactoring"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-009",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Session Bug Fix with Tests",
+    "steps": [
+      "debugging",
+      "testing",
+      "refactoring"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.667,
+    "success_rate": 0.5
+  },
+  "evidence_count": 19,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "train"
+}

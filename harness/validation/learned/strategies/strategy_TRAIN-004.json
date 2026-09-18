@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TRAIN-004",
+  "task_class": "TRAIN-004",
+  "capabilities": [
+    "security_analysis",
+    "vulnerability_assessment",
+    "refactoring"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-004",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Authentication Security Audit",
+    "steps": [
+      "security_analysis",
+      "vulnerability_assessment",
+      "refactoring"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.7718,
+    "success_rate": 0.5
+  },
+  "evidence_count": 14,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "train"
+}

@@ -1,0 +1,12 @@
+{
+  "decision_id": "V3.1-FV-20260911-008_decision",
+  "context_id": "V3.1-FV-20260911-008",
+  "decision_type": "model",
+  "baseline_choice": "random",
+  "actual_choice": "model:free",
+  "influenced_by_learning": false,
+  "outcome_improved": null,
+  "score_delta": 0.0,
+  "mode": "COLD",
+  "timestamp": "2026-09-11T21:29:06.013969"
+}

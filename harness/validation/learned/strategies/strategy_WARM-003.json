@@ -1,0 +1,33 @@
+{
+  "strategy_id": "strategy_WARM-003",
+  "task_class": "WARM-003",
+  "capabilities": [
+    "frontend_development",
+    "ui_implementation"
+  ],
+  "conditions": {
+    "task_type": "WARM-003",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Simple UI Button Component",
+    "steps": [
+      "frontend_development",
+      "ui_implementation"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.4059,
+    "success_rate": 0.5
+  },
+  "evidence_count": 3,
+  "confidence": 0.45,
+  "mode": "LEARNED",
+  "split": "warmup"
+}

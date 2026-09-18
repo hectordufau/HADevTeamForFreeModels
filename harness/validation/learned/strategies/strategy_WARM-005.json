@@ -1,0 +1,33 @@
+{
+  "strategy_id": "strategy_WARM-005",
+  "task_class": "WARM-005",
+  "capabilities": [
+    "testing",
+    "backend_development"
+  ],
+  "conditions": {
+    "task_type": "WARM-005",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Basic Input Validation",
+    "steps": [
+      "testing",
+      "backend_development"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.3241,
+    "success_rate": 0.5
+  },
+  "evidence_count": 5,
+  "confidence": 0.55,
+  "mode": "LEARNED",
+  "split": "warmup"
+}

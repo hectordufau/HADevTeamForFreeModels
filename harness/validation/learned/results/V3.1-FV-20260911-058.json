@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-058",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_id": "TRAIN-020",
+  "seed": 364182477,
+  "status": "FAILED",
+  "score": 0.3582,
+  "duration_seconds": 6.5,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "system_design",
+    "integration_design",
+    "domain_modeling"
+  ],
+  "evidence_hash": "e929ffe59bd401bc",
+  "learning_applied": false,
+  "experiences_retrieved": 0,
+  "strategy_used": "",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:05.950116"
+}

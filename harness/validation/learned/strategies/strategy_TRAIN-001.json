@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TRAIN-001",
+  "task_class": "TRAIN-001",
+  "capabilities": [
+    "api_design",
+    "backend_development",
+    "testing"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-001",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for REST API CRUD Implementation",
+    "steps": [
+      "api_design",
+      "backend_development",
+      "testing"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.5993,
+    "success_rate": 0.5
+  },
+  "evidence_count": 11,
+  "confidence": 0.8500000000000001,
+  "mode": "LEARNED",
+  "split": "train"
+}

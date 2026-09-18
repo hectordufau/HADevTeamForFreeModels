@@ -1,0 +1,25 @@
+{
+  "task_id": "TRAIN-017",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_objective": "Analyze slow queries, add appropriate indexes, and rewrite N+1 queries in the reporting module",
+  "capabilities_used": [
+    "profiling",
+    "optimization",
+    "database_schema"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.8419,
+    "duration": 3.68
+  },
+  "lesson": "Strategy worked for Database Query Performance Tuning",
+  "confidence": 0.8419,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.941278"
+}

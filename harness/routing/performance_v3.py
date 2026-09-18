@@ -36,7 +36,7 @@ class PerformanceSample:
     timestamp: str = field(default_factory=lambda: datetime.utcnow().isoformat())
 
     def to_dict(self) -> dict:
-        return {
+        result = {
             "task_id": self.task_id,
             "model_id": self.model_id,
             "capability": self.capability,
@@ -44,10 +44,14 @@ class PerformanceSample:
             "score": self.score,
             "latency_ms": self.latency_ms,
             "iterations": self.iterations,
-            "validation_run_id": self.validation_run_id,
-            "mode": self.mode,
             "timestamp": self.timestamp,
         }
+        # Only include V3.2 ExperimentContext fields when non-empty (backward compatibility)
+        if self.validation_run_id:
+            result["validation_run_id"] = self.validation_run_id
+        if self.mode:
+            result["mode"] = self.mode
+        return result
 
 
 @dataclass
@@ -88,6 +92,7 @@ class PerformanceRegistryV3:
 
     def __init__(self, storage_path: str = "",
                  experiment_context: Optional[ExperimentContext] = None):
+        self._explicit_path = bool(storage_path)
         self.storage_path = storage_path or os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             "..", "..", "artifacts", "performance_v3", "registry.json"
@@ -228,11 +233,13 @@ class PerformanceRegistryV3:
                     for key, samples in self._samples.items()}
             with open(save_path, "w") as f:
                 json.dump(data, f, indent=2)
-        else:
+        elif self._explicit_path:
+            # Only write to historical registry.json when explicitly requested
             data = {key: [s.to_dict() for s in samples]
                     for key, samples in self._samples.items()}
             with open(self.storage_path, "w") as f:
                 json.dump(data, f, indent=2)
+        # else: no explicit path and no context — don't write to historical registry
 
     def _load(self):
         """Load samples from disk."""

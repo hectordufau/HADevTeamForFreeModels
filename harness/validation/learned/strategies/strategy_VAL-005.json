@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_VAL-005",
+  "task_class": "VAL-005",
+  "capabilities": [
+    "refactoring",
+    "code_review",
+    "ci_cd"
+  ],
+  "conditions": {
+    "task_type": "VAL-005",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Code Review Automation Script",
+    "steps": [
+      "refactoring",
+      "code_review",
+      "ci_cd"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.728,
+    "success_rate": 0.5
+  },
+  "evidence_count": 35,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "validation"
+}

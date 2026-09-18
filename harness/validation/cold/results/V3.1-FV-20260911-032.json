@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-032",
+  "mode": "COLD",
+  "split": "train",
+  "task_id": "TRAIN-011",
+  "seed": 135663206,
+  "status": "FAILED",
+  "score": 0.423,
+  "duration_seconds": 10.76,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "api_design",
+    "backend_development",
+    "testing"
+  ],
+  "evidence_hash": "f6a775b97f17ea3c",
+  "learning_applied": false,
+  "experiences_retrieved": 0,
+  "strategy_used": "",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:05.876364"
+}

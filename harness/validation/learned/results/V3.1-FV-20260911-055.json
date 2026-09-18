@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-055",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_id": "TRAIN-019",
+  "seed": 1910739687,
+  "status": "FAILED",
+  "score": 0.445,
+  "duration_seconds": 12.22,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "debugging",
+    "testing",
+    "refactoring"
+  ],
+  "evidence_hash": "19b26a3820666de0",
+  "learning_applied": false,
+  "experiences_retrieved": 0,
+  "strategy_used": "",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:05.946776"
+}

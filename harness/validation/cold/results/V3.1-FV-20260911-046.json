@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-046",
+  "mode": "COLD",
+  "split": "train",
+  "task_id": "TRAIN-016",
+  "seed": 1575949269,
+  "status": "FAILED",
+  "score": 0.3543,
+  "duration_seconds": 11.66,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "integration_design",
+    "api_implementation",
+    "testing"
+  ],
+  "evidence_hash": "60833fc0a8bf0c4e",
+  "learning_applied": false,
+  "experiences_retrieved": 0,
+  "strategy_used": "",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:05.879628"
+}
