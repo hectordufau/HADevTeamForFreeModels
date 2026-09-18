@@ -6,5 +6,13 @@
     "execution_id": "e1",
     "node_id": "legacy_pkg",
     "timestamp": "2026-09-18T08:16:22.145527"
+  },
+  {
+    "hash": "cfc528c4a460fa9e94319113f42cd416c4b0f125818543d34e76e92f9287fe59",
+    "previous_hash": "a88d31ff8d67f20127f1096211defe4b021973182e517cb9d5e6b69269ca7cca",
+    "task_id": "t1",
+    "execution_id": "e1",
+    "node_id": "legacy_pkg",
+    "timestamp": "2026-09-18T08:37:50.243493"
   }
 ]

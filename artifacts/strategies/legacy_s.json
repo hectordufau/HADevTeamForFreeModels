@@ -15,8 +15,8 @@
   "expected_outcome": {},
   "evidence_count": 0,
   "confidence": 0.5,
-  "created": "2026-09-18T08:16:22.142829",
-  "updated": "2026-09-18T08:16:22.142843",
+  "created": "2026-09-18T08:37:50.240569",
+  "updated": "2026-09-18T08:37:50.240578",
   "validation_run_id": "run_cold",
   "benchmark_id": "",
   "mode": "COLD"
