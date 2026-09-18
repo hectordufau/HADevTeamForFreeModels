@@ -1,0 +1,43 @@
+{
+  "schema_version": "v3.3-phase16-experiment-manifest",
+  "phase": "P16.7",
+  "status": "FROZEN_DESIGN",
+  "accepted_run_executed": false,
+  "freeze_commit": "PENDING_COMMIT_SHA",
+  "base_tag": "v3.3.0",
+  "base_commit": "edea273b47eba768518500dffe79239f06602457",
+  "accepted_config_path": "config/phase16/accepted.json",
+  "benchmark_path": "config/phase16/benchmark.json",
+  "knowledge_path": "config/phase16/knowledge.json",
+  "protocol": {
+    "repetitions": 10,
+    "task_clusters": 20,
+    "modes": ["CONTROL", "KNOWLEDGE_ONLY", "KNOWLEDGE_PLUS_LEARNING"],
+    "expected_executions": 600,
+    "split": "accepted",
+    "task_identity": "benchmark task id is the paired cluster key across modes and repetitions",
+    "repetition_semantics": "repeated observations within each task cluster; not independent N"
+  },
+  "statistics": {
+    "bootstrap_iterations": 10000,
+    "permutation_iterations": 10000,
+    "alpha": 0.05,
+    "practical_threshold": 0.05,
+    "unit": "task_level_paired",
+    "primary": {"control": "CONTROL", "comparison": "KNOWLEDGE_ONLY"},
+    "secondary": {"control": "KNOWLEDGE_ONLY", "comparison": "KNOWLEDGE_PLUS_LEARNING"},
+    "exploratory": {"control": "CONTROL", "comparison": "KNOWLEDGE_PLUS_LEARNING"}
+  },
+  "artifacts": {
+    "root_template": "artifacts/v3.3/phase16/<accepted_run_id>/",
+    "raw_results": "raw_results.jsonl",
+    "raw_digest": "raw_results.sha256",
+    "derived_analysis": "derived_analysis.json",
+    "ignored_by_git": true
+  },
+  "separation": {
+    "pilot_artifact": "artifacts/v3.3/phase16/pilot.json",
+    "pilot_status": "PILOT_ONLY",
+    "accepted_execution": "separate namespace and configuration; not executed in P16.7"
+  }
+}

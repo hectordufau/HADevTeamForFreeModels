@@ -1,0 +1,21 @@
+{
+  "schema_version": "v3.3-phase16-accepted-config",
+  "run_id_prefix": "V3.3-P16-ACCEPTED",
+  "seed": 20260918,
+  "repetitions": 10,
+  "task_clusters": 20,
+  "modes": ["CONTROL", "KNOWLEDGE_ONLY", "KNOWLEDGE_PLUS_LEARNING"],
+  "expected_executions": 600,
+  "split": "accepted",
+  "bootstrap_iterations": 10000,
+  "permutation_iterations": 10000,
+  "alpha": 0.05,
+  "practical_threshold": 0.05,
+  "statistical_unit": "task_level_paired",
+  "primary_comparison": ["CONTROL", "KNOWLEDGE_ONLY"],
+  "secondary_comparison": ["KNOWLEDGE_ONLY", "KNOWLEDGE_PLUS_LEARNING"],
+  "exploratory_comparison": ["CONTROL", "KNOWLEDGE_PLUS_LEARNING"],
+  "pilot_config_path": "artifacts/v3.3/phase16/pilot.json",
+  "accepted_artifact_template": "artifacts/v3.3/phase16/<accepted_run_id>/",
+  "accepted_run_execution": "not_executed"
+}
