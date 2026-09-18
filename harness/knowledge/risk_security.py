@@ -622,12 +622,15 @@ SEC_AUTHORITY_RANK = {
 
 # Knowledge precedence hierarchy (deterministic)
 # Governance > Security Authority > Authoritative Engineering Knowledge >
-# Accepted Engineering Knowledge > Task Requirements > Learned Knowledge > Exploration
-PRECEDENCE_GOVERNANCE = 6
-PRECEDENCE_SECURITY_AUTHORITY = 5
-PRECEDENCE_AUTHORITATIVE_ENG_KNOWLEDGE = 4
-PRECEDENCE_ACCEPTED_ENG_KNOWLEDGE = 3
-PRECEDENCE_TASK_REQUIREMENTS = 2
+# Accepted Engineering Knowledge > Task Requirements > Verified Evidence >
+# Learned Knowledge > Exploration
+# Canonical values from harness.policy.knowledge_policy (single source of truth)
+PRECEDENCE_GOVERNANCE = 7
+PRECEDENCE_SECURITY_AUTHORITY = 6
+PRECEDENCE_AUTHORITATIVE_ENG_KNOWLEDGE = 5
+PRECEDENCE_ACCEPTED_ENG_KNOWLEDGE = 4
+PRECEDENCE_TASK_REQUIREMENTS = 3
+PRECEDENCE_VERIFIED_EVIDENCE = 2
 PRECEDENCE_LEARNED_KNOWLEDGE = 1
 PRECEDENCE_EXPLORATION = 0
 
