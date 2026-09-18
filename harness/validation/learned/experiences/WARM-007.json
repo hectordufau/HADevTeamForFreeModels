@@ -1,0 +1,23 @@
+{
+  "task_id": "WARM-007",
+  "mode": "LEARNED",
+  "split": "warmup",
+  "task_objective": "Write a parser that reads .env files and returns a config dict",
+  "capabilities_used": [
+    "backend_development"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.6971,
+    "duration": 9.64
+  },
+  "lesson": "Strategy worked for Environment Config Parser",
+  "confidence": 0.6971,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.857624"
+}

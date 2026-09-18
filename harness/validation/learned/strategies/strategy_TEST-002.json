@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TEST-002",
+  "task_class": "TEST-002",
+  "capabilities": [
+    "frontend_development",
+    "ui_implementation",
+    "profiling"
+  ],
+  "conditions": {
+    "task_type": "TEST-002",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Real-Time Dashboard",
+    "steps": [
+      "frontend_development",
+      "ui_implementation",
+      "profiling"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.691,
+    "success_rate": 0.5
+  },
+  "evidence_count": 42,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "test"
+}

@@ -1,0 +1,25 @@
+{
+  "task_id": "VAL-009",
+  "mode": "LEARNED",
+  "split": "validation",
+  "task_objective": "Find and fix a memory leak in a Node.js background job processor that causes OOM after 24 hours",
+  "capabilities_used": [
+    "debugging",
+    "testing",
+    "profiling"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.8074,
+    "duration": 4.9
+  },
+  "lesson": "Strategy worked for Memory Leak Diagnosis",
+  "confidence": 0.8074,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:06.004052"
+}

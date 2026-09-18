@@ -1,0 +1,25 @@
+{
+  "task_id": "TRAIN-020",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_objective": "Design an event-driven architecture for order fulfillment including event sourcing, CQRS, and saga pattern for distributed transactions",
+  "capabilities_used": [
+    "system_design",
+    "integration_design",
+    "domain_modeling"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.685,
+    "duration": 8.05
+  },
+  "lesson": "Strategy worked for Event-Driven Architecture Design",
+  "confidence": 0.685,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.952965"
+}

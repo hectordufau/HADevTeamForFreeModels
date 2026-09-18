@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-030",
+  "mode": "LEARNED",
+  "split": "test",
+  "task_id": "TEST-010",
+  "seed": 334028743,
+  "status": "PASSED",
+  "score": 0.853,
+  "duration_seconds": 5.03,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "security_analysis",
+    "system_design",
+    "api_design"
+  ],
+  "evidence_hash": "4b3685848d46f16a",
+  "learning_applied": true,
+  "experiences_retrieved": 1,
+  "strategy_used": "strategy_TEST-010",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:06.077160"
+}

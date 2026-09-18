@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TEST-008",
+  "task_class": "TEST-008",
+  "capabilities": [
+    "database_schema",
+    "deployment",
+    "domain_modeling"
+  ],
+  "conditions": {
+    "task_type": "TEST-008",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Zero-Downtime Database Migration",
+    "steps": [
+      "database_schema",
+      "deployment",
+      "domain_modeling"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.8048,
+    "success_rate": 0.5
+  },
+  "evidence_count": 48,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "test"
+}

@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TRAIN-010",
+  "task_class": "TRAIN-010",
+  "capabilities": [
+    "system_design",
+    "integration_design",
+    "domain_modeling"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-010",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Notification System Architecture",
+    "steps": [
+      "system_design",
+      "integration_design",
+      "domain_modeling"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.7295,
+    "success_rate": 0.5
+  },
+  "evidence_count": 20,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "train"
+}

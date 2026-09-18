@@ -1,0 +1,24 @@
+{
+  "task_id": "TRAIN-013",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_objective": "Create a reusable modal dialog component with keyboard navigation, focus trapping, and animation",
+  "capabilities_used": [
+    "frontend_development",
+    "ui_implementation"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.6081,
+    "duration": 3.28
+  },
+  "lesson": "Strategy worked for Modal Dialog Component",
+  "confidence": 0.6081,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.925155"
+}

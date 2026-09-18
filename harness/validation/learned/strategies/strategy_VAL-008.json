@@ -1,0 +1,33 @@
+{
+  "strategy_id": "strategy_VAL-008",
+  "task_class": "VAL-008",
+  "capabilities": [
+    "deployment",
+    "ci_cd"
+  ],
+  "conditions": {
+    "task_type": "VAL-008",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Helm Chart for Kubernetes Deployment",
+    "steps": [
+      "deployment",
+      "ci_cd"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.7145,
+    "success_rate": 0.5
+  },
+  "evidence_count": 38,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "validation"
+}

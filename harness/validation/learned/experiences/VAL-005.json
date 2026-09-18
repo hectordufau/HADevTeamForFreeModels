@@ -1,0 +1,25 @@
+{
+  "task_id": "VAL-005",
+  "mode": "LEARNED",
+  "split": "validation",
+  "task_objective": "Create a script that performs automated code review checks: linting, type checking, security scan, and test coverage report",
+  "capabilities_used": [
+    "refactoring",
+    "code_review",
+    "ci_cd"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.728,
+    "duration": 3.92
+  },
+  "lesson": "Strategy worked for Code Review Automation Script",
+  "confidence": 0.728,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.984584"
+}

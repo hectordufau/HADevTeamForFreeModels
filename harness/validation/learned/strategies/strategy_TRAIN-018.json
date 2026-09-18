@@ -1,0 +1,33 @@
+{
+  "strategy_id": "strategy_TRAIN-018",
+  "task_class": "TRAIN-018",
+  "capabilities": [
+    "ci_cd",
+    "deployment"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-018",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Docker Compose Dev Environment",
+    "steps": [
+      "ci_cd",
+      "deployment"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.6783,
+    "success_rate": 0.5
+  },
+  "evidence_count": 28,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "train"
+}

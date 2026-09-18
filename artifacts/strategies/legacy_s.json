@@ -1,0 +1,23 @@
+{
+  "strategy_id": "legacy_s",
+  "task_class": "code_gen",
+  "capabilities": [
+    "code_gen"
+  ],
+  "conditions": {},
+  "workflow": {
+    "name": "default",
+    "steps": [],
+    "ordering": "sequential"
+  },
+  "preferred_models": [],
+  "preferred_agents": [],
+  "expected_outcome": {},
+  "evidence_count": 0,
+  "confidence": 0.5,
+  "created": "2026-09-18T08:16:22.142829",
+  "updated": "2026-09-18T08:16:22.142843",
+  "validation_run_id": "run_cold",
+  "benchmark_id": "",
+  "mode": "COLD"
+}

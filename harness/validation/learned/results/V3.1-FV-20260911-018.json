@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-018",
+  "mode": "LEARNED",
+  "split": "test",
+  "task_id": "TEST-006",
+  "seed": 1115010049,
+  "status": "PASSED",
+  "score": 0.9415,
+  "duration_seconds": 9.81,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "refactoring",
+    "code_review",
+    "backend_development"
+  ],
+  "evidence_hash": "45b7f26436382e5d",
+  "learning_applied": true,
+  "experiences_retrieved": 1,
+  "strategy_used": "strategy_TEST-006",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:06.053688"
+}

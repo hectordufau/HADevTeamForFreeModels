@@ -1,0 +1,25 @@
+{
+  "task_id": "TRAIN-004",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_objective": "Audit the authentication module for security vulnerabilities and fix any SQL injection, XSS, or CSRF issues found",
+  "capabilities_used": [
+    "security_analysis",
+    "vulnerability_assessment",
+    "refactoring"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.7718,
+    "duration": 6.52
+  },
+  "lesson": "Strategy worked for Authentication Security Audit",
+  "confidence": 0.7718,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.894064"
+}

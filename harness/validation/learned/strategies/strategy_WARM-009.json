@@ -1,0 +1,33 @@
+{
+  "strategy_id": "strategy_WARM-009",
+  "task_class": "WARM-009",
+  "capabilities": [
+    "backend_development",
+    "api_design"
+  ],
+  "conditions": {
+    "task_type": "WARM-009",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Simple Rate Limiter",
+    "steps": [
+      "backend_development",
+      "api_design"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.6064,
+    "success_rate": 0.5
+  },
+  "evidence_count": 9,
+  "confidence": 0.75,
+  "mode": "LEARNED",
+  "split": "warmup"
+}

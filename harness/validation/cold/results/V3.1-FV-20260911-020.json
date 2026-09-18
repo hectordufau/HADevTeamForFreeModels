@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-020",
+  "mode": "COLD",
+  "split": "test",
+  "task_id": "TEST-007",
+  "seed": 868029475,
+  "status": "FAILED",
+  "score": 0.3637,
+  "duration_seconds": 12.44,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "api_design",
+    "integration_design",
+    "system_design"
+  ],
+  "evidence_hash": "89e351574764725a",
+  "learning_applied": false,
+  "experiences_retrieved": 0,
+  "strategy_used": "",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:06.018151"
+}

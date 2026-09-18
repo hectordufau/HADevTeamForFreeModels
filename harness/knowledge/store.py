@@ -59,6 +59,9 @@ _TYPED_FIELD_MARKERS = {
     "NFR": ("category", "scope", "qualitative"),
     "DR": ("decision_type", "context", "rationale"),
     "ADR": ("architecture_domain", "pattern_selected", "trade_offs"),
+    "TDR": ("debt_type", "severity", "remediation"),
+    "RSK": ("risk_category", "likelihood", "mitigation"),
+    "SEC": ("category", "enforcement", "authority"),
 }
 
 
@@ -484,8 +487,20 @@ class KnowledgeStore:
             return [self._record_from_row(row) for row in rows]
 
     def _record_from_row(self, row: sqlite3.Row) -> EngineeringRecord:
-        """Reconstruct a record from a database row."""
-        return EngineeringRecord.from_dict(json.loads(row["record_json"]))
+        """Reconstruct a record from a database row with typed dispatch."""
+        record_data = json.loads(row["record_json"])
+        record_type = record_data.get("record_type", "")
+        # Dispatch to typed class if markers match
+        from .registry import TYPED_RECORD_CLASSES
+        target_cls = TYPED_RECORD_CLASSES.get(record_type)
+        if target_cls is not None:
+            markers = _TYPED_FIELD_MARKERS.get(record_type, ())
+            if any(m in record_data for m in markers):
+                try:
+                    return target_cls.from_dict(record_data)
+                except (RecordError, TypeError, ValueError, KeyError):
+                    pass
+        return EngineeringRecord.from_dict(record_data)
 
     # ──────────────────────────────────────────────────────────────────────
     # Listing and search

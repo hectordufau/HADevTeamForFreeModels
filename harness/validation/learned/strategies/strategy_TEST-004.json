@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TEST-004",
+  "task_class": "TEST-004",
+  "capabilities": [
+    "frontend_development",
+    "ui_implementation",
+    "security_analysis"
+  ],
+  "conditions": {
+    "task_type": "TEST-004",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Security-First UI Component Library",
+    "steps": [
+      "frontend_development",
+      "ui_implementation",
+      "security_analysis"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.777,
+    "success_rate": 0.5
+  },
+  "evidence_count": 44,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "test"
+}

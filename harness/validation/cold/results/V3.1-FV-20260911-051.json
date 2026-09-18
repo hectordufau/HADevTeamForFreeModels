@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-051",
+  "mode": "COLD",
+  "split": "train",
+  "task_id": "TRAIN-017",
+  "seed": 1341519953,
+  "status": "FAILED",
+  "score": 0.4467,
+  "duration_seconds": 7.48,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "profiling",
+    "optimization",
+    "database_schema"
+  ],
+  "evidence_hash": "3094b14de0421b6c",
+  "learning_applied": false,
+  "experiences_retrieved": 0,
+  "strategy_used": "",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:05.880763"
+}

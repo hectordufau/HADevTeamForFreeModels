@@ -1,0 +1,33 @@
+{
+  "strategy_id": "strategy_VAL-002",
+  "task_class": "VAL-002",
+  "capabilities": [
+    "database_schema",
+    "domain_modeling"
+  ],
+  "conditions": {
+    "task_type": "VAL-002",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Database Migration Script",
+    "steps": [
+      "database_schema",
+      "domain_modeling"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.663,
+    "success_rate": 0.5
+  },
+  "evidence_count": 32,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "validation"
+}

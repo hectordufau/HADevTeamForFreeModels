@@ -10,22 +10,23 @@ from typing import Dict, Type
 from .records import EngineeringRecord
 from .requirements import PRD, Requirement, NFR
 from .decisions import DecisionRecord, ArchitectureDecisionRecord
+from .risk_security import TechnicalDebtRecord, RiskRecord, SecurityRecord
 
-# Typed record classes (Phase 4: PRD, REQ, NFR; Phase 5: DR, ADR)
+# Typed record classes (Phase 4: PRD, REQ, NFR; Phase 5: DR, ADR; Phase 6: TDR, RSK, SEC)
 TYPED_RECORD_CLASSES: Dict[str, Type] = {
     "PRD": PRD,
     "REQ": Requirement,
     "NFR": NFR,
     "DR": DecisionRecord,
     "ADR": ArchitectureDecisionRecord,
-    # TDR, RSK, SEC, RCA deferred to Phase 6-7
+    "TDR": TechnicalDebtRecord,
+    "RSK": RiskRecord,
+    "SEC": SecurityRecord,
+    # RCA deferred to Phase 7
 }
 
 # Full registry including untyped (base class) entries
 RECORD_TYPE_CLASSES: Dict[str, Type] = {
     **TYPED_RECORD_CLASSES,
-    "TDR": EngineeringRecord,
-    "RSK": EngineeringRecord,
-    "SEC": EngineeringRecord,
     "RCA": EngineeringRecord,
 }

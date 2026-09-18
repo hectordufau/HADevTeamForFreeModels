@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-022",
+  "mode": "COLD",
+  "split": "test",
+  "task_id": "TEST-008",
+  "seed": 1736929249,
+  "status": "FAILED",
+  "score": 0.3952,
+  "duration_seconds": 11.02,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "database_schema",
+    "deployment",
+    "domain_modeling"
+  ],
+  "evidence_hash": "750bb5020f06142e",
+  "learning_applied": false,
+  "experiences_retrieved": 0,
+  "strategy_used": "",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:06.018759"
+}

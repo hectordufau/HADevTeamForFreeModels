@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TRAIN-005",
+  "task_class": "TRAIN-005",
+  "capabilities": [
+    "refactoring",
+    "testing",
+    "code_review"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-005",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Payment Module Refactoring",
+    "steps": [
+      "refactoring",
+      "testing",
+      "code_review"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.5344,
+    "success_rate": 0.5
+  },
+  "evidence_count": 15,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "train"
+}

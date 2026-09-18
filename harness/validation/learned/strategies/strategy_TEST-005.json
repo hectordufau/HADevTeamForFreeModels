@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TEST-005",
+  "task_class": "TEST-005",
+  "capabilities": [
+    "ci_cd",
+    "integration_design",
+    "testing"
+  ],
+  "conditions": {
+    "task_type": "TEST-005",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Chaos Engineering Integration",
+    "steps": [
+      "ci_cd",
+      "integration_design",
+      "testing"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.9338,
+    "success_rate": 0.5
+  },
+  "evidence_count": 45,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "test"
+}

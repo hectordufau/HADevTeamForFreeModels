@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-040",
+  "mode": "COLD",
+  "split": "train",
+  "task_id": "TRAIN-014",
+  "seed": 1575349956,
+  "status": "FAILED",
+  "score": 0.4809,
+  "duration_seconds": 7.03,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "security_analysis",
+    "vulnerability_assessment",
+    "refactoring"
+  ],
+  "evidence_hash": "6f42b0904560c876",
+  "learning_applied": false,
+  "experiences_retrieved": 0,
+  "strategy_used": "",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:05.878013"
+}

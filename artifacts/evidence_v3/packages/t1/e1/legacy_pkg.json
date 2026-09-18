@@ -1,0 +1,14 @@
+{
+  "node_id": "legacy_pkg",
+  "capability": "code_gen",
+  "agent": "agent_a",
+  "task_id": "t1",
+  "execution_id": "e1",
+  "data": {},
+  "validation_run_id": "run_cold",
+  "benchmark_id": "",
+  "mode": "COLD",
+  "content_hash": "a88d31ff8d67f20127f1096211defe4b021973182e517cb9d5e6b69269ca7cca",
+  "previous_hash": "",
+  "timestamp": "2026-09-18T08:16:22.145527"
+}

@@ -1,0 +1,31 @@
+{
+  "strategy_id": "strategy_WARM-007",
+  "task_class": "WARM-007",
+  "capabilities": [
+    "backend_development"
+  ],
+  "conditions": {
+    "task_type": "WARM-007",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Environment Config Parser",
+    "steps": [
+      "backend_development"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.6971,
+    "success_rate": 0.5
+  },
+  "evidence_count": 7,
+  "confidence": 0.65,
+  "mode": "LEARNED",
+  "split": "warmup"
+}

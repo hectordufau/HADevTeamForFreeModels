@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_VAL-001",
+  "task_class": "VAL-001",
+  "capabilities": [
+    "technical_writing",
+    "api_documentation",
+    "review"
+  ],
+  "conditions": {
+    "task_type": "VAL-001",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for API Documentation with OpenAPI",
+    "steps": [
+      "technical_writing",
+      "api_documentation",
+      "review"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.708,
+    "success_rate": 0.5
+  },
+  "evidence_count": 31,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "validation"
+}

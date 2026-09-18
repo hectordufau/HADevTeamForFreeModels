@@ -1,0 +1,24 @@
+{
+  "task_id": "TRAIN-018",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_objective": "Set up a Docker Compose development environment with hot-reload for frontend and backend services",
+  "capabilities_used": [
+    "ci_cd",
+    "deployment"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.6783,
+    "duration": 7.31
+  },
+  "lesson": "Strategy worked for Docker Compose Dev Environment",
+  "confidence": 0.6783,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.945435"
+}

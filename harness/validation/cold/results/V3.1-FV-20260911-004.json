@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-004",
+  "mode": "COLD",
+  "split": "test",
+  "task_id": "TEST-002",
+  "seed": 330501513,
+  "status": "FAILED",
+  "score": 0.3892,
+  "duration_seconds": 6.68,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "frontend_development",
+    "ui_implementation",
+    "profiling"
+  ],
+  "evidence_hash": "79778611340661ef",
+  "learning_applied": false,
+  "experiences_retrieved": 0,
+  "strategy_used": "",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:06.012454"
+}

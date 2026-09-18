@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-026",
+  "mode": "LEARNED",
+  "split": "test",
+  "task_id": "TEST-009",
+  "seed": 1693454348,
+  "status": "PASSED",
+  "score": 0.8853,
+  "duration_seconds": 8.49,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "ci_cd",
+    "profiling",
+    "optimization"
+  ],
+  "evidence_hash": "901d7f175c7313c9",
+  "learning_applied": true,
+  "experiences_retrieved": 1,
+  "strategy_used": "strategy_TEST-009",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:06.070122"
+}

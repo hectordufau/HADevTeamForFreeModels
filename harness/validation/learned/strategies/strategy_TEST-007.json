@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TEST-007",
+  "task_class": "TEST-007",
+  "capabilities": [
+    "api_design",
+    "integration_design",
+    "system_design"
+  ],
+  "conditions": {
+    "task_type": "TEST-007",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for GraphQL Federation Gateway",
+    "steps": [
+      "api_design",
+      "integration_design",
+      "system_design"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.9361,
+    "success_rate": 0.5
+  },
+  "evidence_count": 47,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "test"
+}

@@ -1,0 +1,25 @@
+{
+  "task_id": "TRAIN-016",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_objective": "Integrate a third-party payment gateway with refund, retry, and idempotency support",
+  "capabilities_used": [
+    "integration_design",
+    "api_implementation",
+    "testing"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.7007,
+    "duration": 6.5
+  },
+  "lesson": "Strategy worked for Payment Gateway Integration",
+  "confidence": 0.7007,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:05.936847"
+}

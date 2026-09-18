@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-018",
+  "mode": "COLD",
+  "split": "test",
+  "task_id": "TEST-006",
+  "seed": 1115010049,
+  "status": "FAILED",
+  "score": 0.3698,
+  "duration_seconds": 8.4,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "refactoring",
+    "code_review",
+    "backend_development"
+  ],
+  "evidence_hash": "09ce5432c4b76aed",
+  "learning_applied": false,
+  "experiences_retrieved": 0,
+  "strategy_used": "",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:06.017605"
+}

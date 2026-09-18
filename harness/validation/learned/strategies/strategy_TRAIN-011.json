@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TRAIN-011",
+  "task_class": "TRAIN-011",
+  "capabilities": [
+    "api_design",
+    "backend_development",
+    "testing"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-011",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for GraphQL API Implementation",
+    "steps": [
+      "api_design",
+      "backend_development",
+      "testing"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.5668,
+    "success_rate": 0.5
+  },
+  "evidence_count": 21,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "train"
+}

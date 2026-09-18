@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-032",
+  "mode": "LEARNED",
+  "split": "train",
+  "task_id": "TRAIN-011",
+  "seed": 135663206,
+  "status": "PASSED",
+  "score": 0.5015,
+  "duration_seconds": 9.37,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "api_design",
+    "backend_development",
+    "testing"
+  ],
+  "evidence_hash": "fbc75b7d56434121",
+  "learning_applied": true,
+  "experiences_retrieved": 1,
+  "strategy_used": "strategy_TRAIN-011",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:05.916278"
+}

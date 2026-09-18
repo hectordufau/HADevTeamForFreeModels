@@ -1,0 +1,25 @@
+{
+  "task_id": "TEST-001",
+  "mode": "LEARNED",
+  "split": "test",
+  "task_objective": "Create a CI/CD pipeline that integrates with HashiCorp Vault for secrets management and includes security scanning at every stage",
+  "capabilities_used": [
+    "ci_cd",
+    "security_analysis",
+    "deployment"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "PASSED",
+    "score": 0.8694,
+    "duration": 6.98
+  },
+  "lesson": "Strategy worked for Secure CI/CD Pipeline with Vault",
+  "confidence": 0.8694,
+  "evidence": [],
+  "category": "success_pattern",
+  "timestamp": "2026-09-11T21:29:06.027451"
+}

@@ -1,0 +1,33 @@
+{
+  "strategy_id": "strategy_WARM-008",
+  "task_class": "WARM-008",
+  "capabilities": [
+    "backend_development",
+    "testing"
+  ],
+  "conditions": {
+    "task_type": "WARM-008",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Basic Markdown to HTML",
+    "steps": [
+      "backend_development",
+      "testing"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.6148,
+    "success_rate": 0.5
+  },
+  "evidence_count": 8,
+  "confidence": 0.7,
+  "mode": "LEARNED",
+  "split": "warmup"
+}

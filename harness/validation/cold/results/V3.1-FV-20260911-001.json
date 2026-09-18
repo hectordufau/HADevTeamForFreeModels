@@ -1,0 +1,23 @@
+{
+  "run_id": "V3.1-FV-20260911-001",
+  "mode": "COLD",
+  "split": "test",
+  "task_id": "TEST-001",
+  "seed": 983839514,
+  "status": "FAILED",
+  "score": 0.4402,
+  "duration_seconds": 8.57,
+  "model_used": "model:free",
+  "agent_used": "coder",
+  "capabilities_used": [
+    "ci_cd",
+    "security_analysis",
+    "deployment"
+  ],
+  "evidence_hash": "8d970fa8ee581150",
+  "learning_applied": false,
+  "experiences_retrieved": 0,
+  "strategy_used": "",
+  "exploration_occurred": false,
+  "timestamp": "2026-09-11T21:29:06.011538"
+}

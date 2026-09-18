@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TRAIN-002",
+  "task_class": "TRAIN-002",
+  "capabilities": [
+    "database_schema",
+    "domain_modeling",
+    "api_implementation"
+  ],
+  "conditions": {
+    "task_type": "TRAIN-002",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Database Schema with Relationships",
+    "steps": [
+      "database_schema",
+      "domain_modeling",
+      "api_implementation"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.7249,
+    "success_rate": 0.5
+  },
+  "evidence_count": 12,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "train"
+}

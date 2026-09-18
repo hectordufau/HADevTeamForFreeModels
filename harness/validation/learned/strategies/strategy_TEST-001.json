@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TEST-001",
+  "task_class": "TEST-001",
+  "capabilities": [
+    "ci_cd",
+    "security_analysis",
+    "deployment"
+  ],
+  "conditions": {
+    "task_type": "TEST-001",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Secure CI/CD Pipeline with Vault",
+    "steps": [
+      "ci_cd",
+      "security_analysis",
+      "deployment"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.8694,
+    "success_rate": 0.5
+  },
+  "evidence_count": 41,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "test"
+}

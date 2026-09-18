@@ -1,0 +1,35 @@
+{
+  "strategy_id": "strategy_TEST-003",
+  "task_class": "TEST-003",
+  "capabilities": [
+    "database_schema",
+    "system_design",
+    "domain_modeling"
+  ],
+  "conditions": {
+    "task_type": "TEST-003",
+    "complexity_range": "medium"
+  },
+  "workflow": {
+    "name": "Strategy for Database Replication Architecture",
+    "steps": [
+      "database_schema",
+      "system_design",
+      "domain_modeling"
+    ]
+  },
+  "preferred_models": [
+    "model:free"
+  ],
+  "preferred_agents": [
+    "coder"
+  ],
+  "expected_outcome": {
+    "score": 0.5721,
+    "success_rate": 0.5
+  },
+  "evidence_count": 43,
+  "confidence": 0.9,
+  "mode": "LEARNED",
+  "split": "test"
+}

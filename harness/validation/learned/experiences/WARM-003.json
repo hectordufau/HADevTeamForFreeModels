@@ -1,0 +1,24 @@
+{
+  "task_id": "WARM-003",
+  "mode": "LEARNED",
+  "split": "warmup",
+  "task_objective": "Create a reusable button component with hover effect",
+  "capabilities_used": [
+    "frontend_development",
+    "ui_implementation"
+  ],
+  "strategy": {
+    "model_id": "model:free",
+    "agent_id": "coder"
+  },
+  "outcome": {
+    "status": "FAILED",
+    "score": 0.4059,
+    "duration": 5.45
+  },
+  "lesson": "Failed: score 0.4059",
+  "confidence": 0.4059,
+  "evidence": [],
+  "category": "failure_lesson",
+  "timestamp": "2026-09-11T21:29:05.856034"
+}
