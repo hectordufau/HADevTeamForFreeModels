@@ -248,6 +248,25 @@ from .contradiction import (
     CONFLICT_TYPE_STATUS_CONFLICT,
     VALID_CONFLICT_TYPES,
 )
+from .retrieval import (
+    KnowledgeRetriever,
+    KnowledgeQuery,
+    RetrievalResult,
+    RetrievalItem,
+    RetrievalMetrics,
+    RetrievalError,
+    ContextOverflowError,
+    KnowledgeConflictError,
+)
+from .context import (
+    KnowledgeContextManager,
+    EngineeringKnowledgeContext,
+    LearningContext,
+    EvidenceContext,
+    ContextItem,
+    ContextConflictMetadata,
+    KnowledgeContextError,
+)
 
 __all__ = [
     # Records
@@ -354,6 +373,23 @@ __all__ = [
     "CONFLICT_TYPE_EXPLICIT_CONTRADICTION",
     "CONFLICT_TYPE_STATUS_CONFLICT",
     "VALID_CONFLICT_TYPES",
+    # Retrieval (Phase 8)
+    "KnowledgeRetriever",
+    "KnowledgeQuery",
+    "RetrievalResult",
+    "RetrievalItem",
+    "RetrievalMetrics",
+    "RetrievalError",
+    "ContextOverflowError",
+    "KnowledgeConflictError",
+    # Context (Phase 8)
+    "KnowledgeContextManager",
+    "EngineeringKnowledgeContext",
+    "LearningContext",
+    "EvidenceContext",
+    "ContextItem",
+    "ContextConflictMetadata",
+    "KnowledgeContextError",
     # Decisions (DR/ADR)
     "DecisionRecord",
     "ArchitectureDecisionRecord",
