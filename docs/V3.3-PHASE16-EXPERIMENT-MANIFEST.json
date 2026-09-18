@@ -3,7 +3,7 @@
   "phase": "P16.7",
   "status": "FROZEN_DESIGN",
   "accepted_run_executed": false,
-  "freeze_commit": "PENDING_COMMIT_SHA",
+  "freeze_commit": "393f7610e39dec9facfc612a44b12a26e8b838c6",
   "base_tag": "v3.3.0",
   "base_commit": "edea273b47eba768518500dffe79239f06602457",
   "accepted_config_path": "config/phase16/accepted.json",
