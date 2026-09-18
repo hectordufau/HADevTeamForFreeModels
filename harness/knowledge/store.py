@@ -62,6 +62,7 @@ _TYPED_FIELD_MARKERS = {
     "TDR": ("debt_type", "severity", "remediation"),
     "RSK": ("risk_category", "likelihood", "mitigation"),
     "SEC": ("category", "enforcement", "authority"),
+    "RCA": ("failure_ref", "root_causes", "corrective_actions"),
 }
 
 

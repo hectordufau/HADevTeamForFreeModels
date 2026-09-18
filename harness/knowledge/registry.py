@@ -11,8 +11,9 @@ from .records import EngineeringRecord
 from .requirements import PRD, Requirement, NFR
 from .decisions import DecisionRecord, ArchitectureDecisionRecord
 from .risk_security import TechnicalDebtRecord, RiskRecord, SecurityRecord
+from .rca import RootCauseAnalysisRecord
 
-# Typed record classes (Phase 4: PRD, REQ, NFR; Phase 5: DR, ADR; Phase 6: TDR, RSK, SEC)
+# Typed record classes (Phase 4: PRD, REQ, NFR; Phase 5: DR, ADR; Phase 6: TDR, RSK, SEC; Phase 7: RCA)
 TYPED_RECORD_CLASSES: Dict[str, Type] = {
     "PRD": PRD,
     "REQ": Requirement,
@@ -22,7 +23,7 @@ TYPED_RECORD_CLASSES: Dict[str, Type] = {
     "TDR": TechnicalDebtRecord,
     "RSK": RiskRecord,
     "SEC": SecurityRecord,
-    # RCA deferred to Phase 7
+    "RCA": RootCauseAnalysisRecord,
 }
 
 # Full registry including untyped (base class) entries
