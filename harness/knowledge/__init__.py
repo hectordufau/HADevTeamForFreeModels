@@ -267,6 +267,25 @@ from .context import (
     ContextConflictMetadata,
     KnowledgeContextError,
 )
+from .traceability import (
+    TraceabilityService,
+    TraceabilityChain,
+    TraceabilityEdge,
+    TraceabilityMetrics,
+    TraceabilityError,
+    BrokenTraceError,
+)
+from .reviewer import (
+    KnowledgeReviewer,
+    ReviewContext,
+    ReviewResult,
+    ReviewFinding,
+    RequirementResult,
+    KnowledgeResult,
+    ReviewerError,
+    EvidenceFabricationError,
+    AuthorityChangeError,
+)
 
 __all__ = [
     # Records
@@ -390,6 +409,23 @@ __all__ = [
     "ContextItem",
     "ContextConflictMetadata",
     "KnowledgeContextError",
+    # Traceability (Phase 10)
+    "TraceabilityService",
+    "TraceabilityChain",
+    "TraceabilityEdge",
+    "TraceabilityMetrics",
+    "TraceabilityError",
+    "BrokenTraceError",
+    # Reviewer (Phase 10)
+    "KnowledgeReviewer",
+    "ReviewContext",
+    "ReviewResult",
+    "ReviewFinding",
+    "RequirementResult",
+    "KnowledgeResult",
+    "ReviewerError",
+    "EvidenceFabricationError",
+    "AuthorityChangeError",
     # Decisions (DR/ADR)
     "DecisionRecord",
     "ArchitectureDecisionRecord",
