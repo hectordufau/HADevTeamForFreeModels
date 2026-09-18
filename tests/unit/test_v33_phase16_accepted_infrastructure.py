@@ -43,3 +43,35 @@ def test_accepted_runner_has_artifact_writer_but_no_artifact_is_created():
     runner = AcceptedRunRunner()
     assert callable(runner.run)
     assert runner.config.run_id == "V3.3-P16-ACCEPTED"
+
+
+def test_mode_treatments_are_isolated_and_knowledge_retrieval_respects_none():
+    runner = AcceptedRunRunner()
+    tasks = [
+        {"id": "NONE", "knowledge_level": "NONE"},
+        {"id": "LOW", "knowledge_level": "LOW"},
+    ]
+    rows = {
+        (mode, task["knowledge_level"]): runner._observation(task, mode, 1)
+        for mode in ("CONTROL", "KNOWLEDGE_ONLY", "KNOWLEDGE_PLUS_LEARNING")
+        for task in tasks
+    }
+    assert all(rows[("CONTROL", level)]["learning_applied"] is False for level in ("NONE", "LOW"))
+    assert all(rows[("KNOWLEDGE_ONLY", level)]["learning_applied"] is False for level in ("NONE", "LOW"))
+    assert all(rows[("KNOWLEDGE_PLUS_LEARNING", level)]["learning_applied"] is True for level in ("NONE", "LOW"))
+    assert all(row["knowledge_retrieved"] == 0 for (mode, level), row in rows.items() if level == "NONE")
+    assert all(row["knowledge_retrieved"] == (0 if mode == "CONTROL" else 1)
+               for (mode, level), row in rows.items() if level == "LOW")
+
+
+def test_learning_effect_is_predeclared_and_deterministic():
+    runner = AcceptedRunRunner()
+    task = {"id": "P16-001", "knowledge_level": "HIGH"}
+    control = runner._observation(task, "CONTROL", 1)
+    plus = runner._observation(task, "KNOWLEDGE_PLUS_LEARNING", 1)
+    plus_again = runner._observation(task, "KNOWLEDGE_PLUS_LEARNING", 1)
+    control_again = runner._observation(task, "CONTROL", 1)
+    assert plus["learning_score_effect"] == 0.01
+    assert control["learning_score_effect"] == 0.0
+    assert plus == plus_again
+    assert control == control_again

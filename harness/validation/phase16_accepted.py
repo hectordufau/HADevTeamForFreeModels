@@ -18,6 +18,7 @@ from .phase16_preexperiment import CONFIG_DIR, MODES, load_benchmark, load_knowl
 
 ROOT = Path(__file__).resolve().parents[2]
 ACCEPTED_CONFIG_PATH = CONFIG_DIR / "accepted.json"
+CORRECTED_CONFIG_PATH = CONFIG_DIR / "accepted-r2.json"
 ARTIFACT_ROOT = ROOT / "artifacts" / "v3.3" / "phase16"
 
 
@@ -34,7 +35,15 @@ class AcceptedRunConfig:
 
     @classmethod
     def frozen(cls) -> "AcceptedRunConfig":
-        with ACCEPTED_CONFIG_PATH.open(encoding="utf-8") as handle:
+        return cls._from_path(ACCEPTED_CONFIG_PATH)
+
+    @classmethod
+    def corrected(cls) -> "AcceptedRunConfig":
+        return cls._from_path(CORRECTED_CONFIG_PATH)
+
+    @classmethod
+    def _from_path(cls, path: Path) -> "AcceptedRunConfig":
+        with path.open(encoding="utf-8") as handle:
             raw = json.load(handle)
         return cls(
             run_id=raw["run_id_prefix"], seed=raw["seed"], repetitions=raw["repetitions"],
@@ -74,9 +83,11 @@ class AcceptedRunRunner:
         seed_material = f"{self.config.seed}|{self.config.run_id}|{task_id}|{mode}|{repetition}"
         seed = int(hashlib.sha256(seed_material.encode()).hexdigest()[:16], 16)
         rng = random.Random(seed)
-        knowledge_on = mode != "CONTROL"
-        influencing = knowledge_on and task["knowledge_level"] in ("HIGH", "MEDIUM")
-        score = max(0.0, min(1.0, 0.45 + rng.uniform(-0.12, 0.12) + (0.03 if influencing else 0.0)))
+        knowledge_retrieved = mode != "CONTROL" and task["knowledge_level"] != "NONE"
+        influencing = knowledge_retrieved and task["knowledge_level"] in ("HIGH", "MEDIUM")
+        learning_applied = mode == "KNOWLEDGE_PLUS_LEARNING"
+        learning_score_effect = 0.01 if learning_applied else 0.0
+        score = max(0.0, min(1.0, 0.45 + rng.uniform(-0.12, 0.12) + (0.03 if influencing else 0.0) + learning_score_effect))
         return {
             "run_id": self.config.run_id,
             "task_cluster_id": task_id,
@@ -87,9 +98,10 @@ class AcceptedRunRunner:
             "derived_seed": seed,
             "score": score,
             "success": score >= 0.5,
-            "knowledge_retrieved": int(knowledge_on),
+            "knowledge_retrieved": int(knowledge_retrieved),
             "knowledge_influencing": int(influencing),
-            "learning_applied": False,
+            "learning_applied": learning_applied,
+            "learning_score_effect": learning_score_effect,
         }
 
     def run(self, accepted_run_id: str | None = None) -> Path:

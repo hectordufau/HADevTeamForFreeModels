@@ -13,7 +13,7 @@ from .phase16_accepted import AcceptedRunConfig, AcceptedRunRunner, MODES, clust
 from .phase16_preexperiment import digest, load_benchmark, load_knowledge
 
 ROOT = Path(__file__).resolve().parents[2]
-RUN_ID = "V3.3-P16-FV-20260918"
+RUN_ID = "V3.3-P16-FV-20260918-R2"
 RUN_DIR = ROOT / "artifacts" / "v3.3" / "phase16" / RUN_ID
 
 
@@ -75,7 +75,9 @@ def contamination_purity(rows: Sequence[Mapping[str, Any]], benchmark: Sequence[
     checks = {
         "control_knowledge_retrieved_zero": all(row["knowledge_retrieved"] == 0 for row in rows if row["mode"] == "CONTROL"),
         "control_knowledge_influencing_zero": all(row["knowledge_influencing"] == 0 for row in rows if row["mode"] == "CONTROL"),
-        "learning_application_zero": all(row["learning_applied"] is False for row in rows),
+        "learning_only_plus": all(row["learning_applied"] is (row["mode"] == "KNOWLEDGE_PLUS_LEARNING") for row in rows),
+        "learning_effect_only_plus": all(row["learning_score_effect"] == (0.01 if row["mode"] == "KNOWLEDGE_PLUS_LEARNING" else 0.0) for row in rows),
+        "none_tasks_not_retrieved": all(row["knowledge_retrieved"] == 0 for row in rows if row["task_id"] in {"P16-004", "P16-008", "P16-012", "P16-016", "P16-020"}),
         "accepted_split_only": all(row["split"] == "accepted" for row in rows),
         "benchmark_ids_exact": row_ids == expected_ids,
         "modes_exact": modes == set(MODES),
@@ -110,7 +112,7 @@ def reproducibility(rows: Sequence[Mapping[str, Any]], config: AcceptedRunConfig
 def _fresh_process_equal(config: AcceptedRunConfig, benchmark: Sequence[Mapping[str, Any]], knowledge: Sequence[Mapping[str, Any]], rows: Sequence[Mapping[str, Any]]) -> bool:
     code = (
         "import json; from harness.validation.phase16_accepted import AcceptedRunRunner, MODES; "
-        "r=AcceptedRunRunner(); b=r.benchmark; "
+        "r=AcceptedRunRunner(__import__('harness.validation.phase16_accepted', fromlist=['AcceptedRunConfig']).AcceptedRunConfig.corrected()); b=r.benchmark; "
         "x=[r._observation(t,m,n) for m in MODES for t in b for n in range(1,r.config.repetitions+1)]; "
         "print(json.dumps(x,sort_keys=True,separators=(',',':')))")
     result = subprocess.run([sys.executable, "-c", code], cwd=ROOT, check=True, capture_output=True, text=True)
@@ -118,7 +120,7 @@ def _fresh_process_equal(config: AcceptedRunConfig, benchmark: Sequence[Mapping[
 
 
 def build_artifacts(run_dir: Path = RUN_DIR) -> Dict[str, Any]:
-    config = AcceptedRunConfig.frozen()
+    config = AcceptedRunConfig.corrected()
     benchmark, knowledge = load_benchmark(), load_knowledge()
     rows = load_rows(run_dir / "raw_results.jsonl")
     raw_bytes = (run_dir / "raw_results.jsonl").read_bytes()
@@ -133,7 +135,7 @@ def build_artifacts(run_dir: Path = RUN_DIR) -> Dict[str, Any]:
         "task_cluster_count": len({row["task_cluster_id"] for row in rows}),
         "repetitions": config.repetitions,
         "independent_tasks": len(benchmark),
-        "config_identity": {"path": "config/phase16/accepted.json", "sha256": hashlib.sha256((ROOT / "config/phase16/accepted.json").read_bytes()).hexdigest(), "canonical_digest": digest(json.loads((ROOT / "config/phase16/accepted.json").read_text()))},
+        "config_identity": {"path": "config/phase16/accepted-r2.json", "sha256": hashlib.sha256((ROOT / "config/phase16/accepted-r2.json").read_bytes()).hexdigest(), "canonical_digest": digest(json.loads((ROOT / "config/phase16/accepted-r2.json").read_text()))},
         "benchmark_identity": {"path": "config/phase16/benchmark.json", "sha256": hashlib.sha256((ROOT / "config/phase16/benchmark.json").read_bytes()).hexdigest(), "canonical_digest": digest(benchmark)},
         "knowledge_identity": {"path": "config/phase16/knowledge.json", "sha256": hashlib.sha256((ROOT / "config/phase16/knowledge.json").read_bytes()).hexdigest(), "canonical_digest": digest(knowledge)},
         "raw_sha256": hashlib.sha256(raw_bytes).hexdigest(),
