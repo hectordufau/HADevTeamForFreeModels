@@ -1,0 +1,22 @@
+[
+  {"id":"P16-001","category":"functional","knowledge_level":"HIGH","prompt":"Implement an idempotent import endpoint and define observable acceptance checks.","difficulty":"medium"},
+  {"id":"P16-002","category":"functional","knowledge_level":"MEDIUM","prompt":"Extend a report filter while preserving pagination and existing interfaces.","difficulty":"medium"},
+  {"id":"P16-003","category":"architecture","knowledge_level":"LOW","prompt":"Compare two service-boundary options for a notification component.","difficulty":"high"},
+  {"id":"P16-004","category":"architecture","knowledge_level":"NONE","prompt":"Decompose a monolithic workflow into independently deployable units.","difficulty":"high"},
+  {"id":"P16-005","category":"security","knowledge_level":"HIGH","prompt":"Review an authentication change for trust-boundary and authorization risks.","difficulty":"high"},
+  {"id":"P16-006","category":"security","knowledge_level":"MEDIUM","prompt":"Specify abuse cases and verification checks for a token refresh endpoint.","difficulty":"high"},
+  {"id":"P16-007","category":"requirements","knowledge_level":"LOW","prompt":"Turn a stakeholder request into testable requirements and traceability links.","difficulty":"medium"},
+  {"id":"P16-008","category":"requirements","knowledge_level":"NONE","prompt":"Identify ambiguities in a short feature request without adding new scope.","difficulty":"medium"},
+  {"id":"P16-009","category":"NFR","knowledge_level":"HIGH","prompt":"Define measurable latency and availability objectives for a read path.","difficulty":"high"},
+  {"id":"P16-010","category":"NFR","knowledge_level":"MEDIUM","prompt":"Assess capacity constraints and propose non-functional verification.","difficulty":"high"},
+  {"id":"P16-011","category":"TDR","knowledge_level":"LOW","prompt":"Record a technical decision with alternatives, constraints, and consequences.","difficulty":"medium"},
+  {"id":"P16-012","category":"TDR","knowledge_level":"NONE","prompt":"Evaluate whether a proposed implementation choice needs a decision record.","difficulty":"medium"},
+  {"id":"P16-013","category":"risk","knowledge_level":"HIGH","prompt":"Create a risk register entry with likelihood, impact, and mitigation ownership.","difficulty":"high"},
+  {"id":"P16-014","category":"risk","knowledge_level":"MEDIUM","prompt":"Prioritize delivery risks and identify missing evidence for the highest item.","difficulty":"high"},
+  {"id":"P16-015","category":"RCA","knowledge_level":"LOW","prompt":"Separate symptoms, contributing factors, and root causes in an incident summary.","difficulty":"medium"},
+  {"id":"P16-016","category":"RCA","knowledge_level":"NONE","prompt":"Propose evidence collection for a reproducible production failure.","difficulty":"medium"},
+  {"id":"P16-017","category":"maintenance","knowledge_level":"HIGH","prompt":"Plan a backward-compatible dependency upgrade and regression checks.","difficulty":"medium"},
+  {"id":"P16-018","category":"maintenance","knowledge_level":"MEDIUM","prompt":"Reduce maintenance cost in a legacy module while preserving behavior.","difficulty":"high"},
+  {"id":"P16-019","category":"irrelevant","knowledge_level":"LOW","prompt":"Classify unrelated project context and explain why it should not affect a change.","difficulty":"low"},
+  {"id":"P16-020","category":"irrelevant","knowledge_level":"NONE","prompt":"Reject distracting context when selecting evidence for a narrowly scoped task.","difficulty":"low"}
+]
