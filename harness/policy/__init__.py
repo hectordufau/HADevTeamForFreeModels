@@ -97,12 +97,26 @@ class ExecutionPolicy:
 
 
 class PolicyEngine:
-    """Composable policy evaluation: runs all policies and collects violations."""
+    """Composable policy evaluation: runs all policies and collects violations.
+
+    Phase 12: Now includes KnowledgePolicyEngine as a subordinate domain
+    component. The canonical hierarchy is:
+        PolicyEngine
+        ├── Execution Policy
+        ├── Tool Policy
+        ├── Autonomy Policy
+        └── Knowledge Policy (subordinate/domain component)
+    """
 
     def __init__(self):
         self.autonomy = AutonomyPolicy()
         self.tool_policy = ToolPolicy()
         self.execution = ExecutionPolicy()
+        # Phase 12: Knowledge policy as subordinate domain component
+        from .knowledge_policy import KnowledgePolicyEngine
+        from .knowledge_bridge import KnowledgePolicyBridge
+        self.knowledge_policy = KnowledgePolicyEngine()
+        self.knowledge_bridge = KnowledgePolicyBridge(self, self.knowledge_policy)
 
     def evaluate_all(self, **kwargs) -> PolicyResult:
         """Evaluate all applicable policies and return combined result."""
@@ -137,4 +151,18 @@ class PolicyEngine:
                 for v in exec_result.violations:
                     result.add_violation(v["policy"], v["reason"])
 
+        return result
+
+    def evaluate_knowledge_operation(self, operation: str, subject: str, **kwargs) -> PolicyResult:
+        """Evaluate a knowledge operation through KnowledgePolicyEngine.
+
+        Phase 12: Convenience method for knowledge-specific policy evaluation.
+        """
+        auth = kwargs.pop("authorization", None)
+        decision = self.knowledge_policy.evaluate_operation(
+            operation=operation, subject=subject, authorization=auth, **kwargs
+        )
+        result = PolicyResult(allowed=decision.allowed)
+        if not decision.allowed:
+            result.add_violation(f"knowledge:{decision.policy}", decision.reason)
         return result
