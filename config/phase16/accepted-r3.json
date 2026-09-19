@@ -1,0 +1,25 @@
+{
+  "schema_version": "v3.3-phase16-corrected-accepted-config",
+  "run_id_prefix": "V3.3-P16-FV-20260918-R3",
+  "seed": 20260918,
+  "repetitions": 10,
+  "task_clusters": 20,
+  "modes": ["CONTROL", "KNOWLEDGE_ONLY", "KNOWLEDGE_PLUS_LEARNING"],
+  "expected_executions": 600,
+  "split": "accepted",
+  "bootstrap_iterations": 10000,
+  "permutation_iterations": 10000,
+  "alpha": 0.05,
+  "practical_threshold": 0.05,
+  "statistical_unit": "task_level_paired",
+  "primary_comparison": ["CONTROL", "KNOWLEDGE_ONLY"],
+  "secondary_comparison": ["KNOWLEDGE_ONLY", "KNOWLEDGE_PLUS_LEARNING"],
+  "exploratory_comparison": ["CONTROL", "KNOWLEDGE_PLUS_LEARNING"],
+  "learning_treatment": {
+    "applies_only_to": "KNOWLEDGE_PLUS_LEARNING",
+    "learning_applied": "true only for KNOWLEDGE_PLUS_LEARNING",
+    "score_effect": 0.01,
+    "effect_application": "deterministic additive synthetic score term"
+  },
+  "knowledge_retrieval": "only when mode != CONTROL and task knowledge_level != NONE"
+}

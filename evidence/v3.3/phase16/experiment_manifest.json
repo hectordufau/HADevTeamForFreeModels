@@ -34,11 +34,53 @@
       "reason": "primary raw evidence lost before final integration"
     },
     "V3.3-P16-FV-20260918-R3": {
-      "status": "PENDING",
-      "raw_evidence": "PENDING",
-      "historical_result": "PENDING",
-      "accepted_evidence_status": "PENDING",
-      "reason": "replacement run; evidence preservation pending"
+      "status": "ACCEPTED_EVIDENCE",
+      "raw_evidence": "PRESERVED",
+      "historical_result": "PRESERVED",
+      "accepted_evidence_status": "CURRENT",
+      "reason": "replacement run with durable evidence preservation",
+      "run_id": "V3.3-P16-FV-20260918-R3",
+      "seed": 20260918,
+      "repetitions": 10,
+      "expected_execution_count": 600,
+      "actual_execution_count": 600,
+      "modes": ["CONTROL", "KNOWLEDGE_ONLY", "KNOWLEDGE_PLUS_LEARNING"],
+      "statistical_unit": "task_level_paired",
+      "bootstrap_count": 10000,
+      "permutation_count": 10000,
+      "alpha": 0.05,
+      "practical_threshold": 0.05,
+      "config_digest": "f97dcea910b6df12dc63f8a6d308c1a5dde2b5f4b64b001620c3de5f94499a6a",
+      "benchmark_digest": "b8831c2716d0fa57a4af673ba73916fc7681d4314fe13c8fd566b48d3f4bce34",
+      "knowledge_digest": "e10ea4b6206d9b980e642d70eea2d4456596e2e1ec67b77f53dea9902074c0c2",
+      "raw_results_digest": "fbd735df7444bcd5e7e6388d5608fd1a9c28eb655f7932fe1753b2d721c51c23",
+      "analysis_digest": "d01c3fff6e8e723ac708f8b260ef6865735b22cf85aacf31a28f344a79c30279",
+      "raw_results_path": "evidence/v3.3/phase16/R3/raw_results.jsonl",
+      "analysis_results_path": "evidence/v3.3/phase16/R3/analysis_results.json",
+      "primary_comparison": {
+        "control": "CONTROL",
+        "comparison": "KNOWLEDGE_ONLY",
+        "mean_paired_delta": 0.014842739185,
+        "bootstrap_ci_95": [0.004106757313, 0.025186416037],
+        "permutation_p": 0.014,
+        "verdict": "NEUTRAL"
+      },
+      "secondary_comparison": {
+        "control": "KNOWLEDGE_ONLY",
+        "comparison": "KNOWLEDGE_PLUS_LEARNING",
+        "mean_paired_delta": -0.002506614094,
+        "bootstrap_ci_95": [-0.017178328425, 0.012847951613],
+        "permutation_p": 0.7381,
+        "verdict": "NEUTRAL"
+      },
+      "exploratory_comparison": {
+        "control": "CONTROL",
+        "comparison": "KNOWLEDGE_PLUS_LEARNING",
+        "mean_paired_delta": 0.012336125091,
+        "bootstrap_ci_95": [-0.001309076643, 0.026321432249],
+        "permutation_p": 0.0953,
+        "verdict": "NEUTRAL"
+      }
     }
   },
   "evidence_retention": {

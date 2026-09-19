@@ -1,7 +1,7 @@
 {
   "schema_version": "v3.3-phase16-experiment-manifest-corrected",
   "phase": "P16.7-P16.10",
-  "status": "CORRECTED_ACCEPTED_RUN_COMPLETE",
+  "status": "ACCEPTED_RUN_COMPLETE_WITH_DURABLE_EVIDENCE",
   "accepted_run_executed": true,
   "freeze_commit": "393f7610e39dec9facfc612a44b12a26e8b838c6",
   "base_tag": "v3.3.0",
@@ -39,7 +39,7 @@
       "reproducibility": "R-A_FULLY_REPRODUCIBLE"
     }
   },
-  "accepted_config_path": "config/phase16/accepted-r2.json",
+  "accepted_config_path": "config/phase16/accepted-r3.json",
   "benchmark_path": "config/phase16/benchmark.json",
   "knowledge_path": "config/phase16/knowledge.json",
   "protocol": {
@@ -93,6 +93,20 @@
         "historical_result": "PRESERVED",
         "accepted_evidence_status": "SUPERSEDED",
         "reason": "primary raw evidence lost before final integration"
+      },
+      "V3.3-P16-FV-20260918-R3": {
+        "status": "ACCEPTED_EVIDENCE",
+        "raw_evidence": "PRESERVED",
+        "historical_result": "PRESERVED",
+        "accepted_evidence_status": "CURRENT",
+        "reason": "replacement run with durable evidence preservation",
+        "raw_results_path": "evidence/v3.3/phase16/R3/raw_results.jsonl",
+        "raw_results_sha256": "fbd735df7444bcd5e7e6388d5608fd1a9c28eb655f7932fe1753b2d721c51c23",
+        "analysis_results_path": "evidence/v3.3/phase16/R3/analysis_results.json",
+        "analysis_results_sha256": "d01c3fff6e8e723ac708f8b260ef6865735b22cf85aacf31a28f344a79c30279",
+        "executions": 600,
+        "task_clusters": 20,
+        "repetitions": 10
       }
     },
     "digests": {
