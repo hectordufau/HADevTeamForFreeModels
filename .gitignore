@@ -5,5 +5,7 @@ artifacts/model_performance.db
 artifacts/executions/
 tasks/active/
 artifacts/v3.3/
+!evidence/v3.3/phase16/
+!evidence/v3.3/phase16/**
 :memory:*
 artifacts/exploration_results/

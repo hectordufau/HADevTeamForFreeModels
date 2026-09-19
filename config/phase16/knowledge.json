@@ -1,0 +1,22 @@
+[
+  {"id":"K16-001","category":"functional","knowledge_level":"HIGH","title":"Idempotency boundary","context":"A request identity must be retained long enough to prevent duplicate side effects."},
+  {"id":"K16-002","category":"functional","knowledge_level":"MEDIUM","title":"Pagination contract","context":"Existing consumers depend on stable ordering and continuation behavior."},
+  {"id":"K16-003","category":"architecture","knowledge_level":"LOW","title":"Boundary ownership","context":"A component boundary should have one explicit owner for state transitions."},
+  {"id":"K16-004","category":"architecture","knowledge_level":"NONE","title":"Independent deployment","context":"Deployment independence introduces compatibility and observability obligations."},
+  {"id":"K16-005","category":"security","knowledge_level":"HIGH","title":"Authorization trust boundary","context":"Authentication establishes identity; authorization must check resource and action scope."},
+  {"id":"K16-006","category":"security","knowledge_level":"MEDIUM","title":"Refresh token handling","context":"Rotation and revocation reduce replay exposure and require auditable state."},
+  {"id":"K16-007","category":"requirements","knowledge_level":"LOW","title":"Traceable acceptance","context":"Each requirement should map to an observable verification statement."},
+  {"id":"K16-008","category":"requirements","knowledge_level":"NONE","title":"Scope ambiguity","context":"Unresolved ambiguity should be recorded rather than silently interpreted."},
+  {"id":"K16-009","category":"NFR","knowledge_level":"HIGH","title":"Service objectives","context":"Objectives need a population, measurement window, and threshold."},
+  {"id":"K16-010","category":"NFR","knowledge_level":"MEDIUM","title":"Capacity evidence","context":"Capacity claims require workload assumptions and repeatable measurements."},
+  {"id":"K16-011","category":"TDR","knowledge_level":"LOW","title":"Decision alternatives","context":"A decision record preserves rejected alternatives and decision constraints."},
+  {"id":"K16-012","category":"TDR","knowledge_level":"NONE","title":"Decision scope","context":"Implementation details do not always require an architectural decision record."},
+  {"id":"K16-013","category":"risk","knowledge_level":"HIGH","title":"Risk ownership","context":"A risk is actionable when impact, likelihood, mitigation, and owner are explicit."},
+  {"id":"K16-014","category":"risk","knowledge_level":"MEDIUM","title":"Evidence priority","context":"High-priority risks should identify the evidence needed to reduce uncertainty."},
+  {"id":"K16-015","category":"RCA","knowledge_level":"LOW","title":"Causal distinction","context":"A symptom is an observed effect and is not itself a root cause."},
+  {"id":"K16-016","category":"RCA","knowledge_level":"NONE","title":"Incident evidence","context":"Reproduction steps and timestamps support causal analysis without asserting a cause."},
+  {"id":"K16-017","category":"maintenance","knowledge_level":"HIGH","title":"Compatibility window","context":"Upgrades should preserve supported interfaces or declare migration steps."},
+  {"id":"K16-018","category":"maintenance","knowledge_level":"MEDIUM","title":"Regression boundary","context":"Maintenance changes need checks around preserved behavior and failure modes."},
+  {"id":"K16-019","category":"irrelevant","knowledge_level":"LOW","title":"Unrelated context","context":"Context without a traceable relationship to the task is not decision evidence."},
+  {"id":"K16-020","category":"irrelevant","knowledge_level":"NONE","title":"Distraction control","context":"Irrelevant material should remain available for audit but excluded from task influence."}
+]
