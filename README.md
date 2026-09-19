@@ -75,22 +75,13 @@ Knowledge → Retrieval → Planning → Policy → Execution → Verification �
 
 V3.3.0 passed **1960/1960 tests** at release. Phase 13's historical controlled validation result was **NEUTRAL**; release correctness and empirical effectiveness are separate claims.
 
-## Phase 16 field validation
+## Phase 16 field validation (merged into `master`)
 
 Phase 16 is a post-release experiment. It does not modify or re-release V3.3.0.
 
-The accepted run used a frozen synthetic benchmark with:
+Accepted run R3 (`V3.3-P16-FV-20260918-R3`) used the frozen protocol: 20 independent tasks, 3 modes, 10 repetitions, 600 executions. Primary (CONTROL vs KNOWLEDGE_ONLY) delta +0.0148, bootstrap 95% CI [0.0041, 0.0252], permutation p=0.014 — statistically detectable but below the 0.05 practical threshold. Quality, Knowledge, and Learning Incremental effects are **NEUTRAL**. Safety/Efficiency remain **INCONCLUSIVE** (not instrumented). Durable R3 evidence is committed under `evidence/v3.3/phase16/R3/`.
 
-- 20 independent task clusters
-- 5 tasks in each knowledge-sensitivity stratum: HIGH, MEDIUM, LOW, NONE
-- 3 modes: `CONTROL`, `KNOWLEDGE_ONLY`, `KNOWLEDGE_PLUS_LEARNING`
-- 10 repeated observations per task and mode
-- 600 total executions; repetitions were not treated as independent tasks
-- Task-level paired analysis with 10,000 bootstrap and 10,000 permutation iterations
-
-The first accepted run was invalidated because of two harness defects. Its raw evidence remains preserved. Corrected run `V3.3-P16-FV-20260918-R2` passed the purity and reproducibility checks and produced a **NEUTRAL** result for the instrumented synthetic score. Latency, cost, safety, and governance outcomes were not instrumented and are reported as unavailable rather than zero. The result is scoped to this benchmark and configuration; it is not a production-effectiveness claim.
-
-Phase 16 does not authorize a merge to `master`, a new release, or a product version bump.
+Results are scoped to the frozen synthetic benchmark and instrumented score. Phase 13 and Phase 16 are not pooled with V3.2.
 
 ## Documentation
 
