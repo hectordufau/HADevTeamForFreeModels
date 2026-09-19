@@ -52,7 +52,7 @@ Use [`docs/TASK-SPECIFICATION.md`](./docs/TASK-SPECIFICATION.md) as the template
 | Complexity | Input |
 |---|---|
 | Simple | `/devteamfree fix error X in Y` (plain text, no template) |
-| Medium | Short spec: Objective + Requirements + Acceptance Criteria + Scope (selected sections of `docs/TASK-SPECIFICATION.md`) |
+| Medium | Short spec: Objective + Functional Requirements + Scope (selected sections of `docs/TASK-SPECIFICATION.md`) |
 | Complex | Full template (`docs/TASK-SPECIFICATION.md`) |
 
 ## Current release: V3.3.0
