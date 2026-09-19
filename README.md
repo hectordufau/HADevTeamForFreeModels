@@ -45,6 +45,16 @@ Configure Hermes with the Nous Portal free-model provider, then run from Hermes 
 - `hermes setup --portal`
 - Python 3 for the setup and test tooling
 
+## How to send demands
+
+Use [`docs/TASK-SPECIFICATION.md`](./docs/TASK-SPECIFICATION.md) as the template, with the level of detail matching the demand complexity:
+
+| Complexity | Input |
+|---|---|
+| Simple | `/devteamfree fix error X in Y` (plain text, no template) |
+| Medium | Short spec: Objective + Requirements + Acceptance Criteria + Scope (selected sections of `docs/TASK-SPECIFICATION.md`) |
+| Complex | Full template (`docs/TASK-SPECIFICATION.md`) |
+
 ## Current release: V3.3.0
 
 V3.3.0 adds **Engineering Knowledge & Decision Intelligence** to the engineering lifecycle. It is released and immutable at tag `v3.3.0`.
