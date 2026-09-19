@@ -1,0 +1,54 @@
+{
+  "schema_version": "v3.3-phase16-evidence-manifest-v1",
+  "phase": "P16",
+  "experiment_version": "v3.3-phase16-field-validation",
+  "created_at": "2026-09-19",
+  "frozen_protocol": {
+    "repetitions": 10,
+    "task_clusters": 20,
+    "modes": ["CONTROL", "KNOWLEDGE_ONLY", "KNOWLEDGE_PLUS_LEARNING"],
+    "expected_executions": 600,
+    "statistical_unit": "task_level_paired",
+    "bootstrap_iterations": 10000,
+    "permutation_iterations": 10000,
+    "alpha": 0.05,
+    "practical_threshold": 0.05
+  },
+  "base_release": "v3.3.0",
+  "base_commit": "edea273b47eba768518500dffe79239f06602457",
+  "feature_commit": "fadf4cb508992770b81e614241c9ae4b10f4a40c",
+  "freeze_commit": "393f7610e39dec9facfc612a44b12a26e8b838c6",
+  "runs": {
+    "V3.3-P16-FV-20260918": {
+      "status": "INVALIDATED",
+      "raw_evidence": "LOST",
+      "historical_result": "PRESERVED",
+      "accepted_evidence_status": "SUPERSEDED",
+      "reason": "primary raw evidence lost before final integration"
+    },
+    "V3.3-P16-FV-20260918-R2": {
+      "status": "SUPERSEDED",
+      "raw_evidence": "LOST",
+      "historical_result": "PRESERVED",
+      "accepted_evidence_status": "SUPERSEDED",
+      "reason": "primary raw evidence lost before final integration"
+    },
+    "V3.3-P16-FV-20260918-R3": {
+      "status": "PENDING",
+      "raw_evidence": "PENDING",
+      "historical_result": "PENDING",
+      "accepted_evidence_status": "PENDING",
+      "reason": "replacement run; evidence preservation pending"
+    }
+  },
+  "evidence_retention": {
+    "status": "ACTIVE",
+    "durable_evidence_dir": "evidence/v3.3/phase16/",
+    "policy": "committed evidence survives artifacts/ cleanup"
+  },
+  "digests": {
+    "policy": "NOT_INSTRUMENTED",
+    "model": "NOT_INSTRUMENTED",
+    "learning_state": "NOT_INSTRUMENTED"
+  }
+}
